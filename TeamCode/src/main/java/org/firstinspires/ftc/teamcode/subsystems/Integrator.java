@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode;
+package org.firstinspires.ftc.teamcode.subsystems;
 
 public class Integrator {
 
@@ -6,7 +6,13 @@ public class Integrator {
     private double positionX, positionY;
     private double lastAccelerationX, lastAccelerationY;
     private double lastHeading;
-    private double alpha = 0.8; // Smoothing factor for low-pass filter (0 < alpha < 1)
+    private double alpha = 0.8; // smoothing factor for low-pass filter (0 < alpha < 1)
+    // lower value is more aggressive smoothing, so if i say anywhere "more filtering" i really mean lower alpha value
+    // more noise needs more filtering
+    // when slow filter more
+    // when fast filter less
+    // quicker we can get values the more we can filter out, so make the loop as tight as possible without killing the cpu or sensors
+    // ToDo: adaptive filtering, also plot data and engineering notebook the hell out of judges with a graph
 
     public Integrator() {
         this.velocityX = 0.0;
@@ -30,9 +36,6 @@ public class Integrator {
         // apply low pass filter to increase accuracy
         accelerationX = applyLowPassFilter(accelerationX, lastAccelerationX);
         accelerationY = applyLowPassFilter(accelerationY, lastAccelerationY);
-
-        // get change in heading
-        double deltaHeading = heading - lastHeading;
 
         // average acceleration to simulate trapezoidal rule integration approximation
         double avgAccelerationX = (lastAccelerationX + accelerationX) / 2.0;
