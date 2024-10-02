@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode.samples;
+package org.firstinspires.ftc.teamcode.backend.samples;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.subsystems.actuators.base.Motor;
-import org.firstinspires.ftc.teamcode.subsystems.actuators.drivetrains.Mecanum;
-import org.firstinspires.ftc.teamcode.subsystems.sensors.RGBSensor;
+import org.firstinspires.ftc.teamcode.backend.subsystems.actuators.base.Motor;
+import org.firstinspires.ftc.teamcode.backend.subsystems.actuators.drivetrains.Mecanum;
+import org.firstinspires.ftc.teamcode.backend.subsystems.sensors.RGBSensor;
 
 /**
  * TeleOp code to test sensors, will be updated as more sensors get added, uses mecanum drive

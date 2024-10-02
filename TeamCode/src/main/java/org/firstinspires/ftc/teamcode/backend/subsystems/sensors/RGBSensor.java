@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode.subsystems.sensors;
+package org.firstinspires.ftc.teamcode.backend.subsystems.sensors;
 
 import androidx.annotation.NonNull;
 
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.firstinspires.ftc.teamcode.libraries.subsystem;
+import org.firstinspires.ftc.teamcode.backend.libraries.subsystem;
 
 /**
  * Methods to streamline the usage of ColorSensors

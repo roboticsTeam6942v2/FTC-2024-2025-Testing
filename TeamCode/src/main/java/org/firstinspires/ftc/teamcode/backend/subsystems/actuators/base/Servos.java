@@ -1,11 +1,11 @@
-package org.firstinspires.ftc.teamcode.subsystems.actuators.base;
+package org.firstinspires.ftc.teamcode.backend.subsystems.actuators.base;
 
 import androidx.annotation.NonNull;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.firstinspires.ftc.teamcode.libraries.subsystem;
+import org.firstinspires.ftc.teamcode.backend.libraries.subsystem;
 
 // creating this as a base for the future, i can't think of any methods that would need to be added
 // but at least having something to work with in the future is useful

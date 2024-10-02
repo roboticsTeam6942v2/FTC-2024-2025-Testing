@@ -1,10 +1,10 @@
-package org.firstinspires.ftc.teamcode.samples;
+package org.firstinspires.ftc.teamcode.backend.samples;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
-import org.firstinspires.ftc.teamcode.subsystems.actuators.base.Motor;
-import org.firstinspires.ftc.teamcode.subsystems.actuators.drivetrains.TankDrive;
+import org.firstinspires.ftc.teamcode.backend.subsystems.actuators.base.Motor;
+import org.firstinspires.ftc.teamcode.backend.subsystems.actuators.drivetrains.TankDrive;
 
 /**
  * TeleOp code to test hdrive

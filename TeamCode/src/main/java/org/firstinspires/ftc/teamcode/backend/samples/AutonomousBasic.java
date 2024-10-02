@@ -1,10 +1,10 @@
-package org.firstinspires.ftc.teamcode.samples;
+package org.firstinspires.ftc.teamcode.backend.samples;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.firstinspires.ftc.teamcode.subsystems.actuators.base.Motor;
-import org.firstinspires.ftc.teamcode.subsystems.actuators.drivetrains.Mecanum;
+import org.firstinspires.ftc.teamcode.backend.subsystems.actuators.base.Motor;
+import org.firstinspires.ftc.teamcode.backend.subsystems.actuators.drivetrains.Mecanum;
 
 @Autonomous
 public class AutonomousBasic extends LinearOpMode {

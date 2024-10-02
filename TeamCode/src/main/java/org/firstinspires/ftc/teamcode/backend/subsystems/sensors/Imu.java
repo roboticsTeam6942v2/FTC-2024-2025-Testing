@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.subsystems.sensors;
+package org.firstinspires.ftc.teamcode.backend.subsystems.sensors;
 
 import androidx.annotation.NonNull;
 
@@ -10,7 +10,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
-import org.firstinspires.ftc.teamcode.libraries.subsystem;
+import org.firstinspires.ftc.teamcode.backend.libraries.subsystem;
 
 /**
  * Methods to streamline the usage of the IMU

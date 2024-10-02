@@ -1,31 +1,30 @@
-package org.firstinspires.ftc.teamcode.subsystems.actuators.drivetrains;
+package org.firstinspires.ftc.teamcode.backend.subsystems.actuators.drivetrains;
 
 import androidx.annotation.NonNull;
 
-import org.firstinspires.ftc.teamcode.libraries.subsystem;
-import org.firstinspires.ftc.teamcode.subsystems.EaseCommands;
-import org.firstinspires.ftc.teamcode.subsystems.actuators.base.Motor;
-import org.firstinspires.ftc.teamcode.subsystems.interfaces.DrivetrainMotorControls;
+import org.firstinspires.ftc.teamcode.backend.subsystems.actuators.base.Motor;
+import org.firstinspires.ftc.teamcode.backend.subsystems.interfaces.DrivetrainHolonomic;
+import org.firstinspires.ftc.teamcode.backend.libraries.subsystem;
 
 import java.util.Arrays;
 
-/**
- * Object in order to create tank drive for autonomous and teleop
- */
-public class TankDrive extends subsystem implements DrivetrainMotorControls {
-    private Motor frontLeft, frontRight, backLeft, backRight;
+public class HDrive extends subsystem implements DrivetrainHolonomic {
+    private Motor frontLeft, frontRight, backLeft, backRight, midShift;
 
     /**
-     * Creates a TankDrive drive Object by putting motors into a sorted array
+     * Creates a HDrive drive Object by putting motors into a sorted array, and declaring the odd motor out seperate
      *
-     * @param motors Four motor Objects in an array
+     * @param motors Four base motor Objects in an array
+     * @param midshift The rotated motor Object
      */
-    public TankDrive(Motor[] motors) {
+    public HDrive(Motor[] motors, Motor midshift) {
         Arrays.sort(motors); // allows us to ensure motors are in the right order no matter what order the motor array is sent in
         this.backLeft = motors[0];
         this.backRight = motors[1];
         this.frontLeft = motors[2];
         this.frontRight = motors[3];
+        this.midShift = midshift;
+        midshift.close();
         // close because java is pass by value not pass by reference, if we can come up with a way to pass by referance or object we can change the function to be also able to control indiviual motors using the motor class
         for (Motor motor : motors) {
             motor.close();
@@ -33,21 +32,50 @@ public class TankDrive extends subsystem implements DrivetrainMotorControls {
     }
 
     /**
-     * Put power to motors for the left and right sides
-     * @param left Left joystick
-     * @param right Right joystick
+     * Set power to motors for teleOp driving
+     *
+     * @param y  Driving
+     * @param rx Rotation
+     * @param x  Strafing
      */
-    public void teleOpDrive(double left, double right){
-        RWE("dt");
-        frontLeft.SP(left);
-        frontRight.SP(right);
+    @Override
+    public void teleOpDrive(double y, double rx, double x) {
+        RWE("all");
+        frontLeft.SP(((y + rx)));
+        backLeft.SP(((y + rx)));
+        frontRight.SP(((y - rx)));
+        backRight.SP(((y + -rx)));
+        midShift.SP(x * 1.5);
     }
 
     /**
-     * Set power to motors using a case switch
-     * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
-     * @param p Power (between -1 and 1)
+     * Set power to motors for teleOp driving, allows for adjustment to speed
+     *
+     * @param y     Driving
+     * @param rx    Rotation
+     * @param x     Strafing
+     * @param speed Speed reduction, higher reduction means slower speed
      */
+    @Override
+    public void teleOpDrive(double y, double rx, double x, double speed) {
+        RWE("all");
+        frontLeft.SP(((y + rx)) / speed);
+        backLeft.SP(((y + rx)) / speed);
+        frontRight.SP(((y - rx)) / speed);
+        backRight.SP(((y + -rx)) / speed);
+        midShift.SP(x * 1.5 / speed);
+    }
+
+    @Override
+    public void drive(@NonNull String direction, double inches, double speed) {
+        
+    }
+
+    @Override
+    public boolean isBusy() {
+        return frontLeft.isBusy()&&frontRight.isBusy()&&backRight.isBusy()&&backLeft.isBusy()&&midShift.isBusy();
+    }
+
     @Override
     public void SP(@NonNull String m, double p) {
         switch (m) {
@@ -63,6 +91,9 @@ public class TankDrive extends subsystem implements DrivetrainMotorControls {
             case "br":
                 backRight.SP(p);
                 break;
+            case "m":
+                midShift.SP(p);
+                break;
             case "f":
                 frontLeft.SP(p);
                 frontRight.SP(p);
@@ -85,57 +116,20 @@ public class TankDrive extends subsystem implements DrivetrainMotorControls {
                 backLeft.SP(p);
                 backRight.SP(p);
                 break;
-        }
-    }
-
-    /**
-     * Set the target position of the motors using a case switch
-     * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
-     * @param tp Target Position in ticks
-     */
-    @Override
-    public void STP(@NonNull String m, int tp) {
-        switch (m) {
-            case "fl":
-                frontLeft.STP(tp);
-                break;
-            case "fr":
-                frontRight.STP(tp);
-                break;
-            case "bl":
-                backLeft.STP(tp);
-                break;
-            case "br":
-                backRight.STP(tp);
-                break;
-            case "f":
-                frontLeft.STP(tp);
-                frontRight.STP(tp);
-                break;
-            case "b":
-                backLeft.STP(tp);
-                backRight.STP(tp);
-                break;
-            case "l":
-                frontLeft.STP(tp);
-                backLeft.STP(tp);
-                break;
-            case "r":
-                frontRight.STP(tp);
-                backRight.STP(tp);
-                break;
-            case "dt":
-                frontLeft.STP(tp);
-                frontRight.STP(tp);
-                backLeft.STP(tp);
-                backRight.STP(tp);
+            case "all":
+                frontLeft.SP(p);
+                frontRight.SP(p);
+                backLeft.SP(p);
+                backRight.SP(p);
+                midShift.SP(p);
                 break;
         }
     }
 
     /**
      * Sets the mode of the motor to RUN_TO_POSITION using case switch
-     * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
+     *
+     * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt, all)
      */
     @Override
     public void RTP(@NonNull String m) {
@@ -152,6 +146,9 @@ public class TankDrive extends subsystem implements DrivetrainMotorControls {
             case "br":
                 backRight.RTP();
                 break;
+            case "m":
+                midShift.RTP();
+                break;
             case "f":
                 frontLeft.RTP();
                 frontRight.RTP();
@@ -174,13 +171,72 @@ public class TankDrive extends subsystem implements DrivetrainMotorControls {
                 backLeft.RTP();
                 backRight.RTP();
                 break;
+            case "all":
+                frontLeft.RTP();
+                frontRight.RTP();
+                backLeft.RTP();
+                backRight.RTP();
+                midShift.RTP();
+                break;
         }
     }
 
     /**
-     * Sets the mode of the motor to STOP_AND_RESET_ENCODERS using case switch
-     * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
+     * Set the target position of the motors using a case switch
+     *
+     * @param m  Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt, all)
+     * @param tp Target Position in ticks
      */
+    @Override
+    public void STP(@NonNull String m, int tp) {
+        switch (m) {
+            case "fl":
+                frontLeft.STP(tp);
+                break;
+            case "m":
+                midShift.STP(tp);
+                break;
+            case "fr":
+                frontRight.STP(tp);
+                break;
+            case "bl":
+                backLeft.STP(tp);
+                break;
+            case "br":
+                backRight.STP(tp);
+                break;
+            case "f":
+                frontLeft.STP(tp);
+                frontRight.STP(tp);
+                break;
+            case "b":
+                backLeft.STP(tp);
+                backRight.STP(tp);
+                break;
+            case "l":
+                frontLeft.STP(tp);
+                backLeft.STP(tp);
+                break;
+            case "r":
+                frontRight.STP(tp);
+                backRight.STP(tp);
+                break;
+            case "dt":
+                frontLeft.STP(tp);
+                frontRight.STP(tp);
+                backLeft.STP(tp);
+                backRight.STP(tp);
+                break;
+            case "all":
+                frontLeft.STP(tp);
+                frontRight.STP(tp);
+                backLeft.STP(tp);
+                backRight.STP(tp);
+                midShift.STP(tp);
+                break;
+        }
+    }
+
     @Override
     public void SAR(@NonNull String m) {
         switch (m) {
@@ -196,6 +252,9 @@ public class TankDrive extends subsystem implements DrivetrainMotorControls {
             case "br":
                 backRight.SAR();
                 break;
+            case "m":
+                midShift.SAR();
+                break;
             case "f":
                 frontLeft.SAR();
                 frontRight.SAR();
@@ -218,13 +277,16 @@ public class TankDrive extends subsystem implements DrivetrainMotorControls {
                 backLeft.SAR();
                 backRight.SAR();
                 break;
+            case "all":
+                frontLeft.SAR();
+                frontRight.SAR();
+                backLeft.SAR();
+                backRight.SAR();
+                midShift.SAR();
+                break;
         }
     }
 
-    /**
-     * Sets the mode of the motor to RUN_WITHOUT_ENCODERS using case switch
-     * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
-     */
     @Override
     public void RWE(@NonNull String m) {
         switch (m) {
@@ -240,6 +302,9 @@ public class TankDrive extends subsystem implements DrivetrainMotorControls {
             case "br":
                 backRight.RWE();
                 break;
+            case "m":
+                midShift.RWE();
+                break;
             case "f":
                 frontLeft.RWE();
                 frontRight.RWE();
@@ -262,13 +327,16 @@ public class TankDrive extends subsystem implements DrivetrainMotorControls {
                 backLeft.RWE();
                 backRight.RWE();
                 break;
+            case "all":
+                frontLeft.RWE();
+                frontRight.RWE();
+                backLeft.RWE();
+                backRight.RWE();
+                midShift.RWE();
+                break;
         }
     }
 
-    /**
-     * Sets the mode of the motor to RUN_USING_ENCODERS using case switch
-     * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
-     */
     @Override
     public void RUE(@NonNull String m) {
         switch (m) {
@@ -284,6 +352,9 @@ public class TankDrive extends subsystem implements DrivetrainMotorControls {
             case "br":
                 backRight.RUE();
                 break;
+            case "m":
+                midShift.RUE();
+                break;
             case "f":
                 frontLeft.RUE();
                 frontRight.RUE();
@@ -306,75 +377,12 @@ public class TankDrive extends subsystem implements DrivetrainMotorControls {
                 backLeft.RUE();
                 backRight.RUE();
                 break;
-        }
-    }
-
-    /**
-     * N/A - Fill in later
-     * @param i N/A - Fill in later
-     */
-    public void ST(int i) {
-        frontLeft.ST(i);
-        backLeft.ST(i);
-        backRight.ST(i);
-        frontRight.ST(i);
-    }
-
-    /**
-     * Returns whether or not the drivetrain is busy
-     * @return isBusy (true or false)
-     */
-    public boolean isBusy() {
-        return frontLeft.isBusy() && backLeft.isBusy() && backRight.isBusy() && frontRight.isBusy();
-    }
-
-    /**
-     * Driving method used for autonomous using case switch, distance, and power
-     * @param direction Direction to drive
-     * @param inches Distance using inches
-     * @param speed Power (between -1 and 1)
-     */
-    public void drive(@NonNull String direction, double inches, double speed) {
-        SAR("dt");
-        RUE("dt");
-        switch (direction) {
-            case "f":
-                STP("dt", EaseCommands.inTT_dt(inches));
-                SP("dt", speed);
-                RTP("dt");
-                while (frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) {
-                }
-                SP("dt", 0);
-            case "b":
-                STP("dt", EaseCommands.inTT_dt(-inches));
-                SP("dt", speed);
-                RTP("dt");
-                while (frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) {
-                }
-                SP("dt", 0);
-            case "l":
-                //STP("fl", EaseCommands.inTT_dt(-inches));
-               //STP("fr", EaseCommands.inTT_dt(inches));
-                //STP("bl", EaseCommands.inTT_dt(inches));
-                //STP("br", EaseCommands.inTT_dt(-inches));
-                //SP("dt", speed);
-                //RTP("dt");
-                SP("fl", speed);
-                while (isBusy()) {
-                }
-                SP("dt", 0);
-            case "r":
-                //STP("fl", EaseCommands.inTT_dt(inches));
-                //STP("fr", EaseCommands.inTT_dt(-inches));
-               // STP("bl", EaseCommands.inTT_dt(-inches));
-                //STP("br", EaseCommands.inTT_dt(inches));
-               // SP("dt", speed);
-               // RTP("dt");
-                SP("fr", speed);
-                while (isBusy()) {
-                }
-                SP("dt", 0);
-            default:
+            case "all":
+                frontLeft.RUE();
+                frontRight.RUE();
+                backLeft.RUE();
+                backRight.RUE();
+                midShift.RUE();
                 break;
         }
     }

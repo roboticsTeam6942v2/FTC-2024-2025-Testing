@@ -1,13 +1,13 @@
-package org.firstinspires.ftc.teamcode.samples;
+package org.firstinspires.ftc.teamcode.backend.samples;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.teamcode.subsystems.actuators.base.Motor;
-import org.firstinspires.ftc.teamcode.subsystems.actuators.drivetrains.Mecanum;
-import org.firstinspires.ftc.teamcode.subsystems.sensors.Imu;
+import org.firstinspires.ftc.teamcode.backend.subsystems.actuators.base.Motor;
+import org.firstinspires.ftc.teamcode.backend.subsystems.actuators.drivetrains.Mecanum;
+import org.firstinspires.ftc.teamcode.backend.subsystems.sensors.Imu;
 
 /**
  * TeleOp code to test mecanum drive
