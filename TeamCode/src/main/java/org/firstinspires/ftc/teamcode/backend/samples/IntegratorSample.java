@@ -1,35 +1,21 @@
 package org.firstinspires.ftc.teamcode.backend.samples;
 
-import com.qualcomm.hardware.bosch.BNO055IMU;
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
-import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
-import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
-import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.firstinspires.ftc.teamcode.backend.subsystems.Integrator;
+import org.firstinspires.ftc.teamcode.backend.subsystems.sensors.UpdatedIMU;
 
-@Autonomous
-public class SampleOpModeWithIntegrator extends LinearOpMode {
-    private BNO055IMU imu;
-    BNO055IMU.Parameters parameters = new BNO055IMU.Parameters();
+public class IntegratorSample extends LinearOpMode {
+    UpdatedIMU imu;
     private Integrator integrator = new Integrator();
     private Thread integratorThread;
-    private volatile boolean running = true; // Use volatile to ensure visibility across threads
+    private volatile boolean running = true; // use volatile to ensure visibility across threads
 
+    @Override
     public void runOpMode() {
-        // hardware map
-        imu = hardwareMap.get(BNO055IMU.class, "imu");
-        // setup imu parameters
-        parameters.angleUnit = BNO055IMU.AngleUnit.DEGREES;
-        parameters.accelUnit = BNO055IMU.AccelUnit.METERS_PERSEC_PERSEC;
-        parameters.loggingEnabled = false;
-//        parameters.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
-
-        imu.initialize(parameters);
+        imu = new UpdatedIMU("imu", hardwareMap);
 
         integratorThread = new Thread(new Runnable() {
             @Override
@@ -38,11 +24,10 @@ public class SampleOpModeWithIntegrator extends LinearOpMode {
                 double lastTime = 0;
                 while (running) {
                     // get current data
-                    Acceleration acceleration = imu.getLinearAcceleration();
-                    Orientation angles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+                    Acceleration acceleration = imu.getAcceleration();
                     double xA = acceleration.xAccel;
                     double yA = acceleration.yAccel;
-                    double heading = AngleUnit.DEGREES.normalizeDegrees(angles.firstAngle);
+                    double heading = imu.getAngle();
 
                     double currentTime = timer.seconds();
                     double timeDelta = currentTime - lastTime; // less taxing then a timer.reset();
