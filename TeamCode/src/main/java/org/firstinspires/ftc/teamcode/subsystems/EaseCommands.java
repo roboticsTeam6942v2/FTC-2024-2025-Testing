@@ -35,7 +35,6 @@ public class EaseCommands {
         if (!iterator.hasNext()) {
             throw new IllegalArgumentException("Iterable is empty");
         }
-
         T o = iterator.next();
         for (T value : i) {
             if (value.compareTo(o) < 0) {
