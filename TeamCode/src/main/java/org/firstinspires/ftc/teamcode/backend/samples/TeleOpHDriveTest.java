@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.backend.samples;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -9,6 +10,7 @@ import org.firstinspires.ftc.teamcode.backend.subsystems.actuators.drivetrains.H
 /**
  * TeleOp code to test hdrive
  */
+@Disabled
 @TeleOp
 public class TeleOpHDriveTest extends LinearOpMode {
     public static Motor frontLeft, frontRight, backLeft, backRight, midshift;

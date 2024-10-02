@@ -1,6 +1,7 @@
 package org.firstinspires.ftc.teamcode.backend.samples;
 
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
@@ -12,6 +13,7 @@ import org.firstinspires.ftc.teamcode.backend.subsystems.sensors.Imu;
 /**
  * TeleOp code to test mecanum drive
  */
+@Disabled
 @TeleOp
 public class TeleOpMecanum extends LinearOpMode {
     private static Motor frontLeft, frontRight, backLeft, backRight;
