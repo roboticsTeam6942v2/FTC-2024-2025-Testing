@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.subsystems;
 
 import static java.lang.Math.round;
 import java.util.Iterator;
+import java.util.Optional;
 
 /**
  * EaseCommands Object, Group of methods that are fundamental and may be useful in making programming easier
@@ -62,39 +63,21 @@ public class EaseCommands {
         }
         return o;
     }
-    // array based functions
-    // findInArr assumes there is only once entry with that value
-    /**
-     * Returns the first index of a given value in an array
-     * @param flag What we want to find the index of
-     * @param arr Array containing numbers
-     * @return Index of the value in the array
-     */
-    public double findInArr(double flag, double[] arr) {
-        int i = 0;
-        for (double x : arr) {
-            if (x == flag) {
-                break;
-            }
-            i++;
-        }
-        return i;
-    }
     /**
      * Returns the first index of a given value in a list
-     * @param flag  What we want to find the index of, must be comparable
-     * @param arr   Iterable list containing elements
-     * @return      Index of the value in the list, or -1 if not found
+     * @param flag What we want to find the index of, must be comparable
+     * @param arr Iterable list containing elements
+     * @return Index of the value in the list, or -1 if not found
      */
-    public static <T extends Comparable<T>> int findInArr(T flag, Iterable<T> arr) {
+    public static <T extends Comparable<T>> Optional<Integer> findInArr(T flag, Iterable<T> arr) {
         int i = 0;
         for (T x : arr) {
             if (x.compareTo(flag) == 0) {
-                return i;
+                return Optional.of(i);
             }
             i++;
         }
-        throw new IllegalArgumentException("Value not found in array");
+        return Optional.ofNullable(null);
     }
     /**
      * Returns a unit of measure converted to inches

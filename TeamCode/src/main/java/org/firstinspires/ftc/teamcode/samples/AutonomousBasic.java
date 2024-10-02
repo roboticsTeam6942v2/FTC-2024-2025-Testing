@@ -18,10 +18,10 @@ public class AutonomousBasic extends LinearOpMode {
         backRight = new Motor("backRight", hardwareMap);
 
         // accessing motors in drivetrain any other way but through the mecanum class after this line will lead to an error
-        Mecanum robot = new Mecanum(new Motor[]{frontLeft, frontRight, backLeft, backRight});
+        Mecanum drivetrain = new Mecanum(new Motor[]{frontLeft, frontRight, backLeft, backRight});
         while (opModeIsActive()) {
             // drive forward 12 inches at a speed of 1 (full speed)
-            robot.drive("f", 12, 1);
+            drivetrain.drive("f", 12, 1);
         }
     }
 }

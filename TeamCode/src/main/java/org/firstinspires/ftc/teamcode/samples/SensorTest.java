@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.subsystems.actuators.base.Motor;
 import org.firstinspires.ftc.teamcode.subsystems.actuators.drivetrains.Mecanum;
+import org.firstinspires.ftc.teamcode.subsystems.sensors.RGBSensor;
 
 /**
  * TeleOp code to test sensors, will be updated as more sensors get added, uses mecanum drive
@@ -12,7 +13,7 @@ import org.firstinspires.ftc.teamcode.subsystems.actuators.drivetrains.Mecanum;
 @TeleOp
 public class SensorTest extends LinearOpMode {
     public static Motor frontLeft, frontRight, backLeft, backRight;
-    public static colorSensor color;
+    public static RGBSensor color;
 
     public void runOpMode(){
         // declare motors
@@ -23,31 +24,31 @@ public class SensorTest extends LinearOpMode {
         color = new RGBSensor("color", hardwareMap);
 
         // accessing motors in drivetrain any other way but through the mecanum class after this line will lead to an error
-        Mecanum robot = new Mecanum(new Motor[]{frontLeft, frontRight, backLeft, backRight});
+        Mecanum drivetrain = new Mecanum(new Motor[]{frontLeft, frontRight, backLeft, backRight});
         while (opModeIsActive()){
             // can change these if needed
             double drive = gamepad1.left_stick_y;
             double strafe = gamepad1.left_stick_x;
             double turn = gamepad1.right_stick_x;
 
-            teleOpDrive(drive, turn, strafe);
+            drivetrain.teleOpDrive(drive, turn, strafe);
 
-            telemetry.add("Red: ", color.getRed());
-            telemetry.add("Blue: ", color.getBlue());
-            telemetry.add("Green: ", color.getGreen());
+            telemetry.addData("Red: ", color.getRed());
+            telemetry.addData("Blue: ", color.getBlue());
+            telemetry.addData("Green: ", color.getGreen());
             telemetry.update();
 
             if(color.redBoundary(100, 300)){
-                telemetry.add("Red Boundary");
+                telemetry.addData("Red Boundary","");
                 telemetry.update();
             } else if (color.blueBoundary(100, 300)){
-                telemetry.add("Blue Boundary");
+                telemetry.addData("Blue Boundary","");
                 telemetry.update();
             } else if (color.greenBoundary(100, 300)){
-                telemetry.add("Green Boundary");
+                telemetry.addData("Green Boundary","");
                 telemetry.update();
             } else {
-                telemetry.add("No Boundary");
+                telemetry.addData("No Boundary","");
                 telemetry.update();
             }
         }

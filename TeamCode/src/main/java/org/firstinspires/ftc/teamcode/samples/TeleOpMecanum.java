@@ -27,7 +27,7 @@ public class TeleOpMecanum extends LinearOpMode {
 
         imu = new Imu("imu", hardwareMap, RevHubOrientationOnRobot.LogoFacingDirection.UP, RevHubOrientationOnRobot.UsbFacingDirection.FORWARD);
 
-        Mecanum robot = new Mecanum(new Motor[]{frontLeft, frontRight, backLeft, backRight});
+        Mecanum drivetrain = new Mecanum(new Motor[]{frontLeft, frontRight, backLeft, backRight});
         while (opModeIsActive()) {
             // can change these if needed
             double drive = -gamepad1.left_stick_y;
@@ -42,14 +42,14 @@ public class TeleOpMecanum extends LinearOpMode {
                 rotX = rotX * 1.1;
 
                 if (fast) {
-                    robot.teleOpDrive(rotY, turn, rotX);
+                    drivetrain.teleOpDrive(rotY, turn, rotX);
                 } else {
-                    robot.teleOpDrive(rotY, turn, rotX, 3);
+                    drivetrain.teleOpDrive(rotY, turn, rotX, 3);
                 }
             } else if (fast) {
-                robot.teleOpDrive(drive, turn, strafe);
+                drivetrain.teleOpDrive(drive, turn, strafe);
             } else {
-                robot.teleOpDrive(drive, turn, strafe, 3);
+                drivetrain.teleOpDrive(drive, turn, strafe, 3);
             }
 
             if (gamepad1.start && fast) {
