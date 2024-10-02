@@ -16,8 +16,8 @@ import org.firstinspires.ftc.teamcode.backend.libraries.subsystem;
  * Methods to streamline the usage of the IMU
  */
 public class Imu extends subsystem {
-    private Orientation lastAngles = new Orientation();
-    private double globalAngle;
+    private Orientation globalAngles = new Orientation();
+    private double referenceAngle;
     private IMU imu;
 
     /**
@@ -31,33 +31,33 @@ public class Imu extends subsystem {
         imu = hwMap.get(IMU.class, name);
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
         imu.initialize(new IMU.Parameters(orientationOnRobot));
-        globalAngle = 0;
+        referenceAngle = 0;
     }
 
     /**
      * Resets the global angle of the IMU
      */
     public void resetAngle() {
-        lastAngles = imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
-        globalAngle = 0;
+        globalAngles = imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
+        referenceAngle = 0;
     }
 
     /**
      * Returns the current angle of the robot
-     * @return globalAngle Current angle
+     * @return referenceAngle Current angle
      */
     public double getAngle(AngleUnit angleunit) {
         // imu works in eulear angles so we have to detect when it rolls across the backwards 180 threshold
         Orientation angles = imu.getRobotOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, angleunit);
-        double change = angles.firstAngle - lastAngles.firstAngle;
+        double change = angles.firstAngle - globalAngles.firstAngle;
 
         if (change < -180) {
             change += 360;
         } else if (change > 180) {
             change -= 360;
         }
-        globalAngle += change;
-        lastAngles = angles;
-        return globalAngle;
+        referenceAngle += change;
+        globalAngles = angles;
+        return referenceAngle;
     }
 }
