@@ -31,4 +31,12 @@ public class Servos extends subsystem{
     public void zero(){
         servo.setPosition(0);
     }
+
+    /**
+     * Sets the servo's position to zero
+     * @param position Integer of target position
+     */
+    public void setPosition(int position){
+        servo.setPosition(position);
+    }
 }
