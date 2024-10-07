@@ -58,7 +58,7 @@ public class DistanceSensor extends subsystem {
      * @param delta Amount min amount of distance we expect the object to be from the background, higher value can reduce false readings and means we dont expect to be near a wall
      * @param distanceUnit Unit of distance, ex. Inches, meters, mm, cm
      */
-    public void untilassObject(double distance, double delta, DistanceUnit distanceUnit) {
+    public void untilPassObject(double distance, double delta, DistanceUnit distanceUnit) {
         double old = distanceSensor.getDistance(distanceUnit);
         while (true) {
             double current = distanceSensor.getDistance(distanceUnit);
