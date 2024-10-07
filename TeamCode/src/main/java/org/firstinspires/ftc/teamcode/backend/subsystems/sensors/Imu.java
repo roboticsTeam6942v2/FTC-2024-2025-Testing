@@ -22,8 +22,8 @@ public class Imu extends subsystem {
 
     /**
      * IMU Object
-     * @param name Name of the IMU in the code
-     * @param hwMap Name of the IMU in the phone
+     * @param name Name of the IMU in the phone
+     * @param hwMap HardwareMap object from OpMode
      * @param logoDirection Logo Direction
      * @param usbDirection USB Direction
      */

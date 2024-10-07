@@ -24,8 +24,8 @@ public class Motor extends subsystem implements Closeable, Comparable<Motor> {
 
     /**
      * Sets the variables for the motor Object without direction
-     * @param name Name of the motor in the code
-     * @param hwMap Name of the motor within the phones
+     * @param name Name of the motor in the phone
+     * @param hwMap HardwareMap object from OpMode
      */
     public Motor(@NonNull String name, @NonNull HardwareMap hwMap) {
         this(name, hwMap, "forward");

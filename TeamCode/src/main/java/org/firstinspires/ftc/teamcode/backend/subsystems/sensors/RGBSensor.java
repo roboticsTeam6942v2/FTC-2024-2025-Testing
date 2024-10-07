@@ -15,8 +15,8 @@ public class RGBSensor extends subsystem {
 
     /**
      * ColorSensor Object
-     * @param name Name of the ColorSensor in the code
-     * @param hwMap Name of the ColorSensor in the phone
+     * @param name Name of the ColorSensor in the phone
+     * @param hwMap HardwareMap object from OpMode
      */
     public RGBSensor(String name, @NonNull HardwareMap hwMap){
         colorSensor = hwMap.get(ColorSensor.class, name);
