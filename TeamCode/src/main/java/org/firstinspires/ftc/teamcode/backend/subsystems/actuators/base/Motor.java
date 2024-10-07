@@ -70,7 +70,7 @@ public class Motor extends subsystem implements Closeable, Comparable<Motor> {
      */
     public void STP(int tp) {
         ensureOpen();
-        motor.setTargetPosition(+globalTicks);
+        motor.setTargetPosition(tp+globalTicks);
     }
 
     /**
@@ -133,9 +133,7 @@ public class Motor extends subsystem implements Closeable, Comparable<Motor> {
      */
     public void changePIDF(double p, double i, double d, double f) {
         ensureOpen();
-        PIDFCoefficients oldPIDF = motor.getPIDFCoefficients(DcMotorEx.RunMode.RUN_TO_POSITION);
-        PIDFCoefficients newPIDF = new PIDFCoefficients(p + oldPIDF.p, i + oldPIDF.i, d + oldPIDF.p, f + oldPIDF.f, MotorControlAlgorithm.PIDF);
-        motor.setPIDFCoefficients(DcMotorEx.RunMode.RUN_TO_POSITION, new PIDFCoefficients());
+        motor.setPIDFCoefficients(DcMotorEx.RunMode.RUN_TO_POSITION, new PIDFCoefficients(p,i,d,f, MotorControlAlgorithm.PIDF));
     }
 
     /**
