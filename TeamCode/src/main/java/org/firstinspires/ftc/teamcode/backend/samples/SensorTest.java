@@ -19,14 +19,14 @@ public class SensorTest extends LinearOpMode {
 
     public void runOpMode(){
         // declare motors
-        frontLeft = new Motor("frontLeft", hardwareMap, "reverse");
-        frontRight = new Motor("frontRight", hardwareMap);
-        backLeft = new Motor("backLeft", hardwareMap, "reverse");
-        backRight = new Motor("backRight", hardwareMap);
-        color = new RGBSensor("color", hardwareMap);
+        frontLeft = new Motor("frontLeft", hardwareMap, "reverse", telemetry);
+        frontRight = new Motor("frontRight", hardwareMap, telemetry);
+        backLeft = new Motor("backLeft", hardwareMap, "reverse", telemetry);
+        backRight = new Motor("backRight", hardwareMap, telemetry);
+        color = new RGBSensor("color", hardwareMap, telemetry);
 
         // accessing motors in drivetrain any other way but through the mecanum class after this line will lead to an error
-        Mecanum drivetrain = new Mecanum(new Motor[]{frontLeft, frontRight, backLeft, backRight});
+        Mecanum drivetrain = new Mecanum(new Motor[]{frontLeft, frontRight, backLeft, backRight}, telemetry);
         while (opModeIsActive()){
             // can change these if needed
             double drive = gamepad1.left_stick_y;

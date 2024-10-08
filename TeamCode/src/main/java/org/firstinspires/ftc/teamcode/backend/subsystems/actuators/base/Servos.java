@@ -5,16 +5,15 @@ import androidx.annotation.NonNull;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.backend.libraries.subsystem;
-
-// creating this as a base for the future, i can't think of any methods that would need to be added
-// but at least having something to work with in the future is useful
 
 /**
  * Methods to streamline the usage of Servos
  */
 public class Servos extends subsystem{
     private Servo servo;
+    private Telemetry telemetry;
 
     /**
      * Servo object
@@ -23,6 +22,7 @@ public class Servos extends subsystem{
      */
     public Servos(String name, @NonNull HardwareMap hwMap){
         servo = hwMap.get(Servo.class, name);
+        this.telemetry = telemetry;
     }
 
     /**

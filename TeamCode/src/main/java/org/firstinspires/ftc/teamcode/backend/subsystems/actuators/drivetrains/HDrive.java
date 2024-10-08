@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.backend.subsystems.actuators.drivetrains;
 
 import androidx.annotation.NonNull;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.backend.subsystems.actuators.base.Motor;
 import org.firstinspires.ftc.teamcode.backend.subsystems.interfaces.DrivetrainHolonomic;
 import org.firstinspires.ftc.teamcode.backend.libraries.subsystem;
@@ -10,6 +11,7 @@ import java.util.Arrays;
 
 public class HDrive extends subsystem implements DrivetrainHolonomic {
     private Motor frontLeft, frontRight, backLeft, backRight, midShift;
+    private Telemetry telemetry;
 
     /**
      * Creates a HDrive drive Object by putting motors into a sorted array, and declaring the odd motor out seperate
@@ -17,7 +19,7 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
      * @param motors Four base motor Objects in an array
      * @param midshift The rotated motor Object
      */
-    public HDrive(Motor[] motors, Motor midshift) {
+    public HDrive(Motor[] motors, Motor midshift, Telemetry telemetry) {
         Arrays.sort(motors); // allows us to ensure motors are in the right order no matter what order the motor array is sent in
         this.backLeft = motors[0];
         this.backRight = motors[1];
@@ -29,6 +31,7 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
         for (Motor motor : motors) {
             motor.close();
         }
+        this.telemetry = telemetry;
     }
 
     /**
@@ -133,6 +136,8 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
      */
     @Override
     public void RTP(@NonNull String m) {
+        telemetry.addData("HDrive moving", "");
+        telemetry.update();
         switch (m) {
             case "fl":
                 frontLeft.RTP();
@@ -179,6 +184,7 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
                 midShift.RTP();
                 break;
         }
+        telemetry.clear();
     }
 
     /**

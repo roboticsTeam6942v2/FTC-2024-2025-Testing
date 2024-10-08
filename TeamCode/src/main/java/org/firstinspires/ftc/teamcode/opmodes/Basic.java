@@ -6,7 +6,7 @@ import org.firstinspires.ftc.teamcode.backend.subsystems.actuators.drivetrains.M
 public class Basic extends LinearOpMode {
     @Override
     public void runOpMode() {
-        Mecanum drivetrain = new Mecanum(new Motor[]{new Motor("backLeft", hardwareMap, "reverse"), new Motor("backRight", hardwareMap), new Motor("frontLeft", hardwareMap, "reverse"), new Motor("frontRight", hardwareMap)});
+        Mecanum drivetrain = new Mecanum(new Motor[]{new Motor("backLeft", hardwareMap, "reverse", telemetry), new Motor("backRight", hardwareMap, telemetry), new Motor("frontLeft", hardwareMap, "reverse", telemetry), new Motor("frontRight", hardwareMap, telemetry)}, telemetry);
 
         waitForStart();
         while (opModeIsActive()) {

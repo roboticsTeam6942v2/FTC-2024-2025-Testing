@@ -5,24 +5,28 @@ import androidx.annotation.NonNull;
 import com.qualcomm.robotcore.hardware.ColorSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.backend.libraries.subsystem;
+import org.firstinspires.ftc.teamcode.backend.subsystems.EaseCommands;
+
+// add a while not at color, also make color an enum
 
 /**
  * Methods to streamline the usage of ColorSensors
  */
 public class RGBSensor extends subsystem {
     private ColorSensor colorSensor;
+    private Telemetry telemetry;
 
     /**
      * ColorSensor Object
      * @param name Name of the ColorSensor in the phone
      * @param hwMap HardwareMap object from OpMode
      */
-    public RGBSensor(String name, @NonNull HardwareMap hwMap){
+    public RGBSensor(String name, @NonNull HardwareMap hwMap, Telemetry telemetry){
         colorSensor = hwMap.get(ColorSensor.class, name);
+        this.telemetry = telemetry;
     }
-
-    // may or may not need the get methods, can get rid of those if unnecessary
 
     /**
      * Returns red value
@@ -49,11 +53,19 @@ public class RGBSensor extends subsystem {
     }
 
     /**
+     * Returns color as string
+     * @return Color
+     */
+    public String getColor() {
+        return EaseCommands.findClosestColor(colorSensor.red(), colorSensor.green(), colorSensor.blue());
+    }
+
+    /**
      * Returns whether or not the red value falls within a set boundary
      * @param num1 Smaller value
      * @param num2 Larger value
      * @return Whether or not the value is in the boundary (true or false)
-     */
+     */ // basically deprecated with new getColor method
     public boolean redBoundary(int num1, int num2){
         if (colorSensor.red() > num1 && colorSensor.red() < num2){
             return true;
@@ -67,7 +79,7 @@ public class RGBSensor extends subsystem {
      * @param num1 Smaller value
      * @param num2 Larger value
      * @return Whether or not the value is in the boundary (true or false)
-     */
+     */ // basically deprecated with new getColor method
     public boolean blueBoundary(int num1, int num2) {
         if (colorSensor.blue() > num1 && colorSensor.blue() < num2){
             return true;
@@ -81,7 +93,7 @@ public class RGBSensor extends subsystem {
      * @param num1 Smaller value
      * @param num2 Larger value
      * @return Whether or not the value is in the boundary (true or false)
-     */
+     */ // basically deprecated with new getColor method
     public boolean greenBoundary(int num1, int num2){
         if (colorSensor.green() > num1 && colorSensor.green() < num2){
             return true;

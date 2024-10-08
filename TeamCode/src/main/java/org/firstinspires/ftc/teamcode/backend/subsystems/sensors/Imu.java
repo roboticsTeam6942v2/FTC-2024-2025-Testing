@@ -6,6 +6,7 @@ import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
@@ -19,6 +20,7 @@ public class Imu extends subsystem {
     private Orientation globalAngles = new Orientation();
     private double referenceAngle;
     private IMU imu;
+    private Telemetry telemetry;
 
     /**
      * IMU Object
@@ -27,11 +29,12 @@ public class Imu extends subsystem {
      * @param logoDirection Logo Direction
      * @param usbDirection USB Direction
      */
-    public Imu(String name, @NonNull HardwareMap hwMap, RevHubOrientationOnRobot.LogoFacingDirection logoDirection, RevHubOrientationOnRobot.UsbFacingDirection usbDirection) {
+    public Imu(String name, @NonNull HardwareMap hwMap, RevHubOrientationOnRobot.LogoFacingDirection logoDirection, RevHubOrientationOnRobot.UsbFacingDirection usbDirection, Telemetry telemetry) {
         imu = hwMap.get(IMU.class, name);
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
         imu.initialize(new IMU.Parameters(orientationOnRobot));
         referenceAngle = 0;
+        this.telemetry = telemetry;
     }
 
     /**

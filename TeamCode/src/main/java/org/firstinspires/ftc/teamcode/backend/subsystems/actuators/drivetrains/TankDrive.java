@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.backend.subsystems.actuators.drivetrains;
 
 import androidx.annotation.NonNull;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.backend.subsystems.actuators.base.Motor;
 import org.firstinspires.ftc.teamcode.backend.libraries.subsystem;
 import org.firstinspires.ftc.teamcode.backend.subsystems.EaseCommands;
@@ -14,13 +15,14 @@ import java.util.Arrays;
  */
 public class TankDrive extends subsystem implements DrivetrainMotorControls {
     private Motor frontLeft, frontRight, backLeft, backRight;
+    private Telemetry telemetry;
 
     /**
      * Creates a TankDrive drive Object by putting motors into a sorted array
      *
      * @param motors Four motor Objects in an array
      */
-    public TankDrive(Motor[] motors) {
+    public TankDrive(Motor[] motors, Telemetry telemetry) {
         Arrays.sort(motors); // allows us to ensure motors are in the right order no matter what order the motor array is sent in
         this.backLeft = motors[0];
         this.backRight = motors[1];
@@ -30,14 +32,16 @@ public class TankDrive extends subsystem implements DrivetrainMotorControls {
         for (Motor motor : motors) {
             motor.close();
         }
+        this.telemetry = telemetry;
     }
 
     /**
      * Put power to motors for the left and right sides
-     * @param left Left joystick
+     *
+     * @param left  Left joystick
      * @param right Right joystick
      */
-    public void teleOpDrive(double left, double right){
+    public void teleOpDrive(double left, double right) {
         RWE("dt");
         frontLeft.SP(left);
         frontRight.SP(right);
@@ -45,6 +49,7 @@ public class TankDrive extends subsystem implements DrivetrainMotorControls {
 
     /**
      * Set power to motors using a case switch
+     *
      * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
      * @param p Power (between -1 and 1)
      */
@@ -90,7 +95,8 @@ public class TankDrive extends subsystem implements DrivetrainMotorControls {
 
     /**
      * Set the target position of the motors using a case switch
-     * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
+     *
+     * @param m  Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
      * @param tp Target Position in ticks
      */
     @Override
@@ -135,10 +141,13 @@ public class TankDrive extends subsystem implements DrivetrainMotorControls {
 
     /**
      * Sets the mode of the motor to RUN_TO_POSITION using case switch
+     *
      * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
      */
     @Override
     public void RTP(@NonNull String m) {
+        telemetry.addData("TankDrive moving", "");
+        telemetry.update();
         switch (m) {
             case "fl":
                 frontLeft.RTP();
@@ -175,10 +184,12 @@ public class TankDrive extends subsystem implements DrivetrainMotorControls {
                 backRight.RTP();
                 break;
         }
+        telemetry.clear();
     }
 
     /**
      * Sets the mode of the motor to STOP_AND_RESET_ENCODERS using case switch
+     *
      * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
      */
     @Override
@@ -223,6 +234,7 @@ public class TankDrive extends subsystem implements DrivetrainMotorControls {
 
     /**
      * Sets the mode of the motor to RUN_WITHOUT_ENCODERS using case switch
+     *
      * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
      */
     @Override
@@ -267,6 +279,7 @@ public class TankDrive extends subsystem implements DrivetrainMotorControls {
 
     /**
      * Sets the mode of the motor to RUN_USING_ENCODERS using case switch
+     *
      * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
      */
     @Override
@@ -311,6 +324,7 @@ public class TankDrive extends subsystem implements DrivetrainMotorControls {
 
     /**
      * N/A - Fill in later
+     *
      * @param i N/A - Fill in later
      */
     public void ST(int i) {
@@ -322,6 +336,7 @@ public class TankDrive extends subsystem implements DrivetrainMotorControls {
 
     /**
      * Returns whether or not the drivetrain is busy
+     *
      * @return isBusy (true or false)
      */
     public boolean isBusy() {
@@ -330,9 +345,10 @@ public class TankDrive extends subsystem implements DrivetrainMotorControls {
 
     /**
      * Driving method used for autonomous using case switch, distance, and power
+     *
      * @param direction Direction to drive
-     * @param inches Distance using inches
-     * @param speed Power (between -1 and 1)
+     * @param inches    Distance using inches
+     * @param speed     Power (between -1 and 1)
      */
     public void drive(@NonNull String direction, double inches, double speed) {
         SAR("dt");
@@ -354,7 +370,7 @@ public class TankDrive extends subsystem implements DrivetrainMotorControls {
                 SP("dt", 0);
             case "l":
                 //STP("fl", EaseCommands.inTT_dt(-inches));
-               //STP("fr", EaseCommands.inTT_dt(inches));
+                //STP("fr", EaseCommands.inTT_dt(inches));
                 //STP("bl", EaseCommands.inTT_dt(inches));
                 //STP("br", EaseCommands.inTT_dt(-inches));
                 //SP("dt", speed);
@@ -366,10 +382,10 @@ public class TankDrive extends subsystem implements DrivetrainMotorControls {
             case "r":
                 //STP("fl", EaseCommands.inTT_dt(inches));
                 //STP("fr", EaseCommands.inTT_dt(-inches));
-               // STP("bl", EaseCommands.inTT_dt(-inches));
+                // STP("bl", EaseCommands.inTT_dt(-inches));
                 //STP("br", EaseCommands.inTT_dt(inches));
-               // SP("dt", speed);
-               // RTP("dt");
+                // SP("dt", speed);
+                // RTP("dt");
                 SP("fr", speed);
                 while (isBusy()) {
                 }

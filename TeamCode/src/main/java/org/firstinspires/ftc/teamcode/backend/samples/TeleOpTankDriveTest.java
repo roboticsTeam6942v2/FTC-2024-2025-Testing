@@ -17,12 +17,12 @@ public class TeleOpTankDriveTest extends LinearOpMode {
 
     public void runOpMode() {
         // declare motors
-        frontLeft = new Motor("frontLeft", hardwareMap, "reverse");
-        frontRight = new Motor("frontRight", hardwareMap);
-        backLeft = new Motor("backLeft", hardwareMap, "reverse");
-        backRight = new Motor("backRight", hardwareMap);
+        frontLeft = new Motor("frontLeft", hardwareMap, "reverse", telemetry);
+        frontRight = new Motor("frontRight", hardwareMap, telemetry);
+        backLeft = new Motor("backLeft", hardwareMap, "reverse", telemetry);
+        backRight = new Motor("backRight", hardwareMap, telemetry);
 
-        TankDrive drivetrain = new TankDrive(new Motor[]{frontLeft, frontRight, backLeft, backRight});
+        TankDrive drivetrain = new TankDrive(new Motor[]{frontLeft, frontRight, backLeft, backRight}, telemetry);
         while (opModeIsActive()) {
             double left = gamepad1.left_stick_y;
             double right = gamepad1.right_stick_y;

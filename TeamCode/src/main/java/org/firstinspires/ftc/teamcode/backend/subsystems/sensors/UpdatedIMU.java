@@ -4,8 +4,8 @@ import androidx.annotation.NonNull;
 
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.IMU;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
 import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
@@ -18,11 +18,12 @@ public class UpdatedIMU extends subsystem {
     private double referenceAngle;
     private BNO055IMU imu;
     private BNO055IMU.Parameters parameters;
+    private Telemetry telemetry;
 
-    public UpdatedIMU(String name, @NonNull HardwareMap hwMap) {
-        this(name, hwMap, null);
+    public UpdatedIMU(String name, @NonNull HardwareMap hwMap, Telemetry telemetry) {
+        this(name, hwMap, null, telemetry);
     }
-    public UpdatedIMU(String name, @NonNull HardwareMap hwMap, BNO055IMU.Parameters parameters) {
+    public UpdatedIMU(String name, @NonNull HardwareMap hwMap, BNO055IMU.Parameters parameters, Telemetry telemetry) {
         imu = hwMap.get(BNO055IMU.class, name);
         if (parameters!=null) {
             this.parameters = parameters;
@@ -35,6 +36,7 @@ public class UpdatedIMU extends subsystem {
             imu.initialize(this.parameters);
         }
         referenceAngle = 0;
+        this.telemetry = telemetry;
     }
 
     /**

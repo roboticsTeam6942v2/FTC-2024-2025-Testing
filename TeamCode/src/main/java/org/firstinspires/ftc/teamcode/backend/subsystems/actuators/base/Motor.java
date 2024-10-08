@@ -9,6 +9,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.MotorControlAlgorithm;
 import com.qualcomm.robotcore.hardware.PIDFCoefficients;
 
+import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.backend.libraries.subsystem;
 
 import java.io.Closeable;
@@ -21,14 +22,15 @@ public class Motor extends subsystem implements Closeable, Comparable<Motor> {
     private String name;
     private int globalTicks;
     private boolean closed;
+    private Telemetry telemetry;
 
     /**
      * Sets the variables for the motor Object without direction
      * @param name Name of the motor in the phone
      * @param hwMap HardwareMap object from OpMode
      */
-    public Motor(@NonNull String name, @NonNull HardwareMap hwMap) {
-        this(name, hwMap, "");
+    public Motor(@NonNull String name, @NonNull HardwareMap hwMap, Telemetry telemetry) {
+        this(name, hwMap, "", telemetry);
     }
 
     /**
@@ -37,7 +39,7 @@ public class Motor extends subsystem implements Closeable, Comparable<Motor> {
      * @param hwMap Name of the motor within the phones
      * @param direction Direction of the motor (f or r)
      */
-    public Motor(@NonNull String name, @NonNull HardwareMap hwMap, @NonNull String direction) {
+    public Motor(@NonNull String name, @NonNull HardwareMap hwMap, @NonNull String direction, Telemetry telemetry) {
         motor = hwMap.get(DcMotorEx.class, name);
         motor.setDirection(direction.toLowerCase().charAt(0) == 'r' ? DcMotorSimple.Direction.REVERSE : DcMotorSimple.Direction.FORWARD);
         motor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
@@ -45,6 +47,7 @@ public class Motor extends subsystem implements Closeable, Comparable<Motor> {
         motor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         this.name = name;
         closed = false;
+        this.telemetry = telemetry;
     }
 
     /**
@@ -78,7 +81,10 @@ public class Motor extends subsystem implements Closeable, Comparable<Motor> {
      */
     public void RTP() throws TargetPositionNotSetException {
         ensureOpen();
+        telemetry.addData(this.name, " is running to position");
+        telemetry.update();
         motor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
+        telemetry.clear();
     }
 
     /**
@@ -179,9 +185,9 @@ public class Motor extends subsystem implements Closeable, Comparable<Motor> {
     }
 
     /**
-     * Compares this motor to another motor, Fill in details later.
-     * @param otherMotor N/A - Fill in later
-     * @return N/A - Fill in later
+     * Compares this motor to another motor by name
+     * @param otherMotor Motor object
+     * @return Alphabetical order sorting math
      */
     @Override
     public int compareTo(Motor otherMotor) {

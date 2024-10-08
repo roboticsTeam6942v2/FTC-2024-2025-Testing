@@ -17,13 +17,13 @@ public class TeleOpHDriveTest extends LinearOpMode {
 
     public void runOpMode() {
         // declare motors
-        frontLeft = new Motor("frontLeft", hardwareMap, "reverse");
-        frontRight = new Motor("frontRight", hardwareMap);
-        backLeft = new Motor("backLeft", hardwareMap, "reverse");
-        backRight = new Motor("backRight", hardwareMap);
-        midshift = new Motor("midshift", hardwareMap);
+        frontLeft = new Motor("frontLeft", hardwareMap, "reverse", telemetry);
+        frontRight = new Motor("frontRight", hardwareMap, telemetry);
+        backLeft = new Motor("backLeft", hardwareMap, "reverse", telemetry);
+        backRight = new Motor("backRight", hardwareMap, telemetry);
+        midshift = new Motor("midshift", hardwareMap, telemetry);
 
-        HDrive robot = new HDrive(new Motor[]{frontLeft, frontRight, backLeft, backRight}, midshift);
+        HDrive robot = new HDrive(new Motor[]{frontLeft, frontRight, backLeft, backRight}, midshift, telemetry);
         while (opModeIsActive()) {
             double drive = gamepad1.left_stick_y;
             double strafe = gamepad1.left_stick_x;

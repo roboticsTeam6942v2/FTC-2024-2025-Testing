@@ -19,7 +19,7 @@ public class IntegratorSample extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        imu = new UpdatedIMU("imu", hardwareMap);
+        imu = new UpdatedIMU("imu", hardwareMap, telemetry);
 
         integratorThread = new Thread(new Runnable() {
             @Override

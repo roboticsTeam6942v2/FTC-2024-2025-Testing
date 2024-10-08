@@ -19,9 +19,9 @@ public class TestTeleOp extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        Mecanum drivetrain = new Mecanum(new Motor[]{new Motor("backLeft", hardwareMap, "reverse"), new Motor("backRight", hardwareMap), new Motor("frontLeft", hardwareMap, "reverse"), new Motor("frontRight", hardwareMap)});
+        Mecanum drivetrain = new Mecanum(new Motor[]{new Motor("backLeft", hardwareMap, "reverse", telemetry), new Motor("backRight", hardwareMap, telemetry), new Motor("frontLeft", hardwareMap, "reverse", telemetry), new Motor("frontRight", hardwareMap, telemetry)}, telemetry);
 
-        imu = new UpdatedIMU("imu", hardwareMap);
+        imu = new UpdatedIMU("imu", hardwareMap, telemetry);
 
         integratorThread = new Thread(new Runnable() {
             @Override
