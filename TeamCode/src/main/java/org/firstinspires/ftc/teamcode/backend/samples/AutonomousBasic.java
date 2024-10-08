@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.firstinspires.ftc.teamcode.backend.subsystems.actuators.base.Motor;
 import org.firstinspires.ftc.teamcode.backend.subsystems.actuators.drivetrains.Mecanum;
+import org.firstinspires.ftc.teamcode.backend.subsystems.interfaces.DrivetrainHolonomic;
 
 @Disabled
 @Autonomous
@@ -23,7 +24,7 @@ public class AutonomousBasic extends LinearOpMode {
         Mecanum drivetrain = new Mecanum(new Motor[]{frontLeft, frontRight, backLeft, backRight}, telemetry);
         while (opModeIsActive()) {
             // drive forward 12 inches at a speed of 1 (full speed)
-            drivetrain.drive("f", 12, 1);
+            drivetrain.drive(DrivetrainHolonomic.Directions.FORWARD, 12, 1);
         }
     }
 }

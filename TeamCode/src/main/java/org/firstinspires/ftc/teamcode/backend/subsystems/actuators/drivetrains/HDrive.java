@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.backend.subsystems.actuators.drivetrains;
 import androidx.annotation.NonNull;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.teamcode.backend.subsystems.EaseCommands;
 import org.firstinspires.ftc.teamcode.backend.subsystems.actuators.base.Motor;
 import org.firstinspires.ftc.teamcode.backend.subsystems.interfaces.DrivetrainHolonomic;
 import org.firstinspires.ftc.teamcode.backend.libraries.subsystem;
@@ -16,7 +17,7 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
     /**
      * Creates a HDrive drive Object by putting motors into a sorted array, and declaring the odd motor out seperate
      *
-     * @param motors Four base motor Objects in an array
+     * @param motors   Four base motor Objects in an array
      * @param midshift The rotated motor Object
      */
     public HDrive(Motor[] motors, Motor midshift, Telemetry telemetry) {
@@ -43,11 +44,11 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
      */
     @Override
     public void teleOpDrive(double y, double rx, double x) {
-        RWE("all");
+        RWE(DTMotors.all);
         frontLeft.SP(((y + rx)));
         backLeft.SP(((y + rx)));
         frontRight.SP(((y - rx)));
-        backRight.SP(((y + -rx)));
+        backRight.SP(((y - rx)));
         midShift.SP(x * 1.5);
     }
 
@@ -61,7 +62,7 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
      */
     @Override
     public void teleOpDrive(double y, double rx, double x, double speed) {
-        RWE("all");
+        RWE(DTMotors.all);
         frontLeft.SP(((y + rx)) / speed);
         backLeft.SP(((y + rx)) / speed);
         frontRight.SP(((y - rx)) / speed);
@@ -70,56 +71,137 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
     }
 
     @Override
-    public void drive(@NonNull String direction, double inches, double speed) {
-        
+    public void drive(@NonNull Directions direction, double inches, double speed) {
+        SAR(DTMotors.all);
+        RUE(DTMotors.all);
+        int val;
+
+        switch (direction) {
+            case FORWARD:
+                STP(DTMotors.dt, EaseCommands.inTT_dt(inches));
+                SP(DTMotors.dt, speed);
+                RTP(DTMotors.dt);
+                while (frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) {
+                }
+                SP(DTMotors.dt, 0);
+                break;
+            case BACKWARDS:
+                STP(DTMotors.dt, EaseCommands.inTT_dt(-inches));
+                SP(DTMotors.dt, speed);
+                RTP(DTMotors.dt);
+                while (frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) {
+                }
+                SP(DTMotors.dt, 0);
+                break;
+            case LEFT:
+                STP(DTMotors.m, EaseCommands.inTT_dt(-inches));
+                STP(DTMotors.dt, 0);
+                SP(DTMotors.all, speed);
+                RTP(DTMotors.all);
+                while (isBusy()) {
+                }
+                SP(DTMotors.all, 0);
+                break;
+            case RIGHT:
+                STP(DTMotors.m, EaseCommands.inTT_dt(inches));
+                STP(DTMotors.dt, 0);
+                SP(DTMotors.all, speed);
+                RTP(DTMotors.all);
+                while (isBusy()) {
+                }
+                SP(DTMotors.all, 0);
+                break;
+            case DIAGONAL_FORWARDS_RIGHT:
+                val = EaseCommands.inTT_dt(inches / (Math.sqrt(2)));
+                STP(DTMotors.m, val);
+                STP(DTMotors.dt, val);
+                SP(DTMotors.all, speed);
+                RTP(DTMotors.all);
+                while (isBusy()) {
+                }
+                SP(DTMotors.all, 0);
+                break;
+            case DIAGONAL_BACKWARDS_LEFT:
+                val = -EaseCommands.inTT_dt(inches / (Math.sqrt(2)));
+                STP(DTMotors.m, val);
+                STP(DTMotors.dt, val);
+                SP(DTMotors.all, speed);
+                RTP(DTMotors.all);
+                while (isBusy()) {
+                }
+                SP(DTMotors.all, 0);
+                break;
+            case DIAGONAL_FORWARDS_LEFT:
+                val = EaseCommands.inTT_dt(inches / (Math.sqrt(2)));
+                STP(DTMotors.m, -val);
+                STP(DTMotors.dt, val);
+                SP(DTMotors.all, speed);
+                RTP(DTMotors.all);
+                while (isBusy()) {
+                }
+                SP(DTMotors.all, 0);
+                break;
+            case DIAGONAL_BACKWARDS_RIGHT:
+                val = -EaseCommands.inTT_dt(inches / (Math.sqrt(2)));
+                STP(DTMotors.m, -val);
+                STP(DTMotors.dt, val);
+                SP(DTMotors.all, speed);
+                RTP(DTMotors.all);
+                while (isBusy()) {
+                }
+                SP(DTMotors.all, 0);
+                break;
+            default:
+                break;
+        }
     }
 
     @Override
     public boolean isBusy() {
-        return frontLeft.isBusy()&&frontRight.isBusy()&&backRight.isBusy()&&backLeft.isBusy()&&midShift.isBusy();
+        return frontLeft.isBusy() && frontRight.isBusy() && backRight.isBusy() && backLeft.isBusy() && midShift.isBusy();
     }
 
     @Override
-    public void SP(@NonNull String m, double p) {
+    public void SP(@NonNull DTMotors m, double p) {
         switch (m) {
-            case "fl":
+            case fl:
                 frontLeft.SP(p);
                 break;
-            case "fr":
+            case fr:
                 frontRight.SP(p);
                 break;
-            case "bl":
+            case bl:
                 backLeft.SP(p);
                 break;
-            case "br":
+            case br:
                 backRight.SP(p);
                 break;
-            case "m":
+            case m:
                 midShift.SP(p);
                 break;
-            case "f":
+            case f:
                 frontLeft.SP(p);
                 frontRight.SP(p);
                 break;
-            case "b":
+            case b:
                 backLeft.SP(p);
                 backRight.SP(p);
                 break;
-            case "l":
+            case l:
                 frontLeft.SP(p);
                 backLeft.SP(p);
                 break;
-            case "r":
+            case r:
                 frontRight.SP(p);
                 backRight.SP(p);
                 break;
-            case "dt":
+            case dt:
                 frontLeft.SP(p);
                 frontRight.SP(p);
                 backLeft.SP(p);
                 backRight.SP(p);
                 break;
-            case "all":
+            case all:
                 frontLeft.SP(p);
                 frontRight.SP(p);
                 backLeft.SP(p);
@@ -135,48 +217,48 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
      * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt, all)
      */
     @Override
-    public void RTP(@NonNull String m) {
+    public void RTP(@NonNull DTMotors m) {
         telemetry.addData("HDrive moving", "");
         telemetry.update();
         switch (m) {
-            case "fl":
+            case fl:
                 frontLeft.RTP();
                 break;
-            case "fr":
+            case fr:
                 frontRight.RTP();
                 break;
-            case "bl":
+            case bl:
                 backLeft.RTP();
                 break;
-            case "br":
+            case br:
                 backRight.RTP();
                 break;
-            case "m":
+            case m:
                 midShift.RTP();
                 break;
-            case "f":
+            case f:
                 frontLeft.RTP();
                 frontRight.RTP();
                 break;
-            case "b":
+            case b:
                 backLeft.RTP();
                 backRight.RTP();
                 break;
-            case "l":
+            case l:
                 frontLeft.RTP();
                 backLeft.RTP();
                 break;
-            case "r":
+            case r:
                 frontRight.RTP();
                 backRight.RTP();
                 break;
-            case "dt":
+            case dt:
                 frontLeft.RTP();
                 frontRight.RTP();
                 backLeft.RTP();
                 backRight.RTP();
                 break;
-            case "all":
+            case all:
                 frontLeft.RTP();
                 frontRight.RTP();
                 backLeft.RTP();
@@ -194,46 +276,46 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
      * @param tp Target Position in ticks
      */
     @Override
-    public void STP(@NonNull String m, int tp) {
+    public void STP(@NonNull DTMotors m, int tp) {
         switch (m) {
-            case "fl":
+            case fl:
                 frontLeft.STP(tp);
                 break;
-            case "m":
+            case m:
                 midShift.STP(tp);
                 break;
-            case "fr":
+            case fr:
                 frontRight.STP(tp);
                 break;
-            case "bl":
+            case bl:
                 backLeft.STP(tp);
                 break;
-            case "br":
+            case br:
                 backRight.STP(tp);
                 break;
-            case "f":
+            case f:
                 frontLeft.STP(tp);
                 frontRight.STP(tp);
                 break;
-            case "b":
+            case b:
                 backLeft.STP(tp);
                 backRight.STP(tp);
                 break;
-            case "l":
+            case l:
                 frontLeft.STP(tp);
                 backLeft.STP(tp);
                 break;
-            case "r":
+            case r:
                 frontRight.STP(tp);
                 backRight.STP(tp);
                 break;
-            case "dt":
+            case dt:
                 frontLeft.STP(tp);
                 frontRight.STP(tp);
                 backLeft.STP(tp);
                 backRight.STP(tp);
                 break;
-            case "all":
+            case all:
                 frontLeft.STP(tp);
                 frontRight.STP(tp);
                 backLeft.STP(tp);
@@ -244,46 +326,46 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
     }
 
     @Override
-    public void SAR(@NonNull String m) {
+    public void SAR(@NonNull DTMotors m) {
         switch (m) {
-            case "fl":
+            case fl:
                 frontLeft.SAR();
                 break;
-            case "fr":
+            case fr:
                 frontRight.SAR();
                 break;
-            case "bl":
+            case bl:
                 backLeft.SAR();
                 break;
-            case "br":
+            case br:
                 backRight.SAR();
                 break;
-            case "m":
+            case m:
                 midShift.SAR();
                 break;
-            case "f":
+            case f:
                 frontLeft.SAR();
                 frontRight.SAR();
                 break;
-            case "b":
+            case b:
                 backLeft.SAR();
                 backRight.SAR();
                 break;
-            case "l":
+            case l:
                 frontLeft.SAR();
                 backLeft.SAR();
                 break;
-            case "r":
+            case r:
                 frontRight.SAR();
                 backRight.SAR();
                 break;
-            case "dt":
+            case dt:
                 frontLeft.SAR();
                 frontRight.SAR();
                 backLeft.SAR();
                 backRight.SAR();
                 break;
-            case "all":
+            case all:
                 frontLeft.SAR();
                 frontRight.SAR();
                 backLeft.SAR();
@@ -294,46 +376,46 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
     }
 
     @Override
-    public void RWE(@NonNull String m) {
+    public void RWE(@NonNull DTMotors m) {
         switch (m) {
-            case "fl":
+            case fl:
                 frontLeft.RWE();
                 break;
-            case "fr":
+            case fr:
                 frontRight.RWE();
                 break;
-            case "bl":
+            case bl:
                 backLeft.RWE();
                 break;
-            case "br":
+            case br:
                 backRight.RWE();
                 break;
-            case "m":
+            case m:
                 midShift.RWE();
                 break;
-            case "f":
+            case f:
                 frontLeft.RWE();
                 frontRight.RWE();
                 break;
-            case "b":
+            case b:
                 backLeft.RWE();
                 backRight.RWE();
                 break;
-            case "l":
+            case l:
                 frontLeft.RWE();
                 backLeft.RWE();
                 break;
-            case "r":
+            case r:
                 frontRight.RWE();
                 backRight.RWE();
                 break;
-            case "dt":
+            case dt:
                 frontLeft.RWE();
                 frontRight.RWE();
                 backLeft.RWE();
                 backRight.RWE();
                 break;
-            case "all":
+            case all:
                 frontLeft.RWE();
                 frontRight.RWE();
                 backLeft.RWE();
@@ -344,46 +426,46 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
     }
 
     @Override
-    public void RUE(@NonNull String m) {
+    public void RUE(@NonNull DTMotors m) {
         switch (m) {
-            case "fl":
+            case fl:
                 frontLeft.RUE();
                 break;
-            case "fr":
+            case fr:
                 frontRight.RUE();
                 break;
-            case "bl":
+            case bl:
                 backLeft.RUE();
                 break;
-            case "br":
+            case br:
                 backRight.RUE();
                 break;
-            case "m":
+            case m:
                 midShift.RUE();
                 break;
-            case "f":
+            case f:
                 frontLeft.RUE();
                 frontRight.RUE();
                 break;
-            case "b":
+            case b:
                 backLeft.RUE();
                 backRight.RUE();
                 break;
-            case "l":
+            case l:
                 frontLeft.RUE();
                 backLeft.RUE();
                 break;
-            case "r":
+            case r:
                 frontRight.RUE();
                 backRight.RUE();
                 break;
-            case "dt":
+            case dt:
                 frontLeft.RUE();
                 frontRight.RUE();
                 backLeft.RUE();
                 backRight.RUE();
                 break;
-            case "all":
+            case all:
                 frontLeft.RUE();
                 frontRight.RUE();
                 backLeft.RUE();
