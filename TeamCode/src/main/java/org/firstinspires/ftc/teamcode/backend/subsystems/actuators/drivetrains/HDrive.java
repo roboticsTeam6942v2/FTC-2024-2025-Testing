@@ -474,4 +474,44 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
                 break;
         }
     }
+
+    public void moveInDirection(double inches, int directionDeg) {
+        double directionRad = Math.toRadians(directionDeg);
+
+        // Calculate the directional components
+        double xComponent = Math.cos(directionRad); // strafing
+        double yComponent = Math.sin(directionRad); // driving
+
+        double frontLeftPower = yComponent + xComponent;
+        double frontRightPower = yComponent - xComponent;
+        double backLeftPower = yComponent - xComponent;
+        double backRightPower = yComponent + xComponent;
+
+        double midShiftPower = xComponent * 1.5;
+
+        double maxPower = Math.max(Math.max(Math.abs(frontLeftPower), Math.abs(frontRightPower)),
+                Math.max(Math.abs(backLeftPower), Math.abs(backRightPower)));
+
+        if (maxPower > 1.0) {
+            frontLeftPower /= maxPower;
+            frontRightPower /= maxPower;
+            backLeftPower /= maxPower;
+            backRightPower /= maxPower;
+        }
+
+        STP(DTMotors.dt, EaseCommands.inTT_dt(inches));
+        frontLeft.SP(frontLeftPower);
+        frontRight.SP(frontRightPower);
+        backLeft.SP(backLeftPower);
+        backRight.SP(backRightPower);
+        midShift.SP(midShiftPower);
+
+        RTP(DTMotors.all);
+
+        while (isBusy()) {
+        }
+
+        SP(DTMotors.all, 0);
+    }
+
 }

@@ -135,7 +135,7 @@ public class Motor extends subsystem implements Closeable, Comparable<Motor> {
      * @param p Speed according to the distance from the target
      * @param i Increase power over time
      * @param d Slow down to prevent overshoot
-     * @param f N/A - Fill in later
+     * @param f Feedforward to predict future
      */
     public void changePIDF(double p, double i, double d, double f) {
         ensureOpen();
@@ -164,6 +164,14 @@ public class Motor extends subsystem implements Closeable, Comparable<Motor> {
      */
     public double GTP() {
         return motor.getTargetPosition();
+    }
+
+    /**
+     * Returns the power of the motor Object, Ex frontLeft.GP();
+     * @return The motor's power as a double
+     */
+    public double GP() {
+        return motor.getPower();
     }
 
     /**

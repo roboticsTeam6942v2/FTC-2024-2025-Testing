@@ -507,4 +507,57 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
                 throw new IllegalArgumentException(direction + " is an invalid direction for Mecanum");
         }
     }
+
+    public void moveInDirection(double inches, int directionDeg) {
+        double directionRad = Math.toRadians(directionDeg);
+
+        double xComponent = Math.cos(directionRad);
+        double yComponent = Math.sin(directionRad);
+
+        double frontLeftPower = yComponent + xComponent;
+        double frontRightPower = yComponent - xComponent;
+        double backLeftPower = yComponent - xComponent;
+        double backRightPower = yComponent + xComponent;
+
+        double maxPower = Math.max(Math.max(Math.abs(frontLeftPower), Math.abs(frontRightPower)),
+                Math.max(Math.abs(backLeftPower), Math.abs(backRightPower)));
+
+        if (maxPower > 1.0) {
+            frontLeftPower /= maxPower;
+            frontRightPower /= maxPower;
+            backLeftPower /= maxPower;
+            backRightPower /= maxPower;
+        }
+
+        STP(DTMotors.dt, EaseCommands.inTT_dt(inches));
+        frontLeft.SP(frontLeftPower);
+        frontRight.SP(frontRightPower);
+        backLeft.SP(backLeftPower);
+        backRight.SP(backRightPower);
+
+        RTP(DTMotors.dt);
+
+        while (isBusy()) {
+        }
+        SP(DTMotors.dt, 0);
+    }
+
+    // need to find a way to stop roadrunnering
+    private void rampUpPower(Motor motor, double targetPower, long durationMillis) {
+        double currentPower = motor.GP();
+        double steps = 50; // number of ramp steps
+        double stepDuration = durationMillis / steps;
+        double powerIncrement = (targetPower - currentPower) / steps;
+
+        for (int i = 0; i < steps; i++) {
+            double newPower = currentPower + powerIncrement * i;
+            motor.SP(newPower);
+            try {
+                Thread.sleep((long) stepDuration);
+            } catch (InterruptedException e) {
+                Thread.currentThread().interrupt();
+            }
+        }
+        motor.SP(targetPower);
+    }
 }
