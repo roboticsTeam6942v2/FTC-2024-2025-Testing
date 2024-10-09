@@ -2,6 +2,10 @@ package org.firstinspires.ftc.teamcode.backend.subsystems;
 
 import static java.lang.Math.round;
 
+import android.provider.CalendarContract;
+
+import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
+
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -16,34 +20,43 @@ public class EaseCommands {
     // if imported static you can just use it in your code
     // just call import static org.firstinspires.ftc.teamcode.subsystems.ease_commands.*;
 
-    public static final HashMap<String, int[]> basicColors = new HashMap<>();
-    // i have this loaded so that the unneeded ones can be commented out
+    enum Colors {
+        RED, GREEN, BLUE, 
+        YELLOW, CYAN, MAGENTA, ORANGE, PURPLE, 
+        BLACK, WHITE, GRAY, LIGHT_GRAY, DARK_GRAY, SILVER,
+        PINK, BROWN, MAROON, OLIVE, ARMY_GREEN, TEAL, NAVY
+    }
+
+    /**
+     * Colors to use for color detection code
+     */
+    public static final HashMap<Colors, int[]> basicColors = new HashMap<>();
     static {
         // primary Colors
-        basicColors.put("Red", new int[]{255, 0, 0});
-        basicColors.put("Green", new int[]{0, 255, 0});
-        basicColors.put("Blue", new int[]{0, 0, 255});
+        basicColors.put(Colors.RED, new int[]{255, 0, 0});
+        basicColors.put(Colors.GREEN, new int[]{0, 255, 0});
+        basicColors.put(Colors.BLUE, new int[]{0, 0, 255});
         // secondary Colors
-        basicColors.put("Yellow", new int[]{255, 255, 0});
-        basicColors.put("Cyan", new int[]{0, 255, 255});
-        basicColors.put("Magenta", new int[]{255, 0, 255});
-        basicColors.put("Orange", new int[]{255, 165, 0});
-        basicColors.put("Purple", new int[]{128, 0, 128});
+        basicColors.put(Colors.YELLOW, new int[]{255, 255, 0});
+        basicColors.put(Colors.CYAN, new int[]{0, 255, 255});
+        basicColors.put(Colors.MAGENTA, new int[]{255, 0, 255});
+        basicColors.put(Colors.ORANGE, new int[]{255, 165, 0});
+        basicColors.put(Colors.PURPLE, new int[]{128, 0, 128});
         // neutrals
-        basicColors.put("Black", new int[]{0, 0, 0});
-        basicColors.put("White", new int[]{255, 255, 255});
-        basicColors.put("Gray", new int[]{128, 128, 128});
-        basicColors.put("Light Gray", new int[]{211, 211, 211});
-        basicColors.put("Dark Gray", new int[]{169, 169, 169});
-        basicColors.put("Silver", new int[]{192, 192, 192});
+        basicColors.put(Colors.BLACK, new int[]{0, 0, 0});
+        basicColors.put(Colors.WHITE, new int[]{255, 255, 255});
+        basicColors.put(Colors.GRAY, new int[]{128, 128, 128});
+        basicColors.put(Colors.LIGHT_GRAY, new int[]{211, 211, 211});
+        basicColors.put(Colors.DARK_GRAY, new int[]{169, 169, 169});
+        basicColors.put(Colors.SILVER, new int[]{192, 192, 192});
         // other Colors
-        basicColors.put("Pink", new int[]{255, 192, 203});
-        basicColors.put("Brown", new int[]{165, 42, 42});
-        basicColors.put("Maroon", new int[]{128, 0, 0});
-        basicColors.put("Olive", new int[]{128, 128, 0});
-        basicColors.put("Army Green", new int[]{0, 128, 0});
-        basicColors.put("Teal", new int[]{0, 128, 128});
-        basicColors.put("Navy", new int[]{0, 0, 128});
+        basicColors.put(Colors.PINK, new int[]{255, 192, 203});
+        basicColors.put(Colors.BROWN, new int[]{165, 42, 42});
+        basicColors.put(Colors.MAROON, new int[]{128, 0, 0});
+        basicColors.put(Colors.OLIVE, new int[]{128, 128, 0});
+        basicColors.put(Colors.ARMY_GREEN, new int[]{0, 128, 0});
+        basicColors.put(Colors.TEAL, new int[]{0, 128, 128});
+        basicColors.put(Colors.NAVY, new int[]{0, 0, 128});
     }
 
     // math based functions
@@ -129,11 +142,11 @@ public class EaseCommands {
      * @param b Blue component (0-255)
      * @return The name of the closest basic color
      */
-    public static String findClosestColor(int r, int g, int b) {
+    public static Colors findClosestColor(int r, int g, int b) {
         double minDistance = Double.MAX_VALUE;
-        String closestColor = "";
+        Colors closestColor = null;
 
-        for (Map.Entry<String, int[]> entry : basicColors.entrySet()) {
+        for (Map.Entry<Colors, int[]> entry : basicColors.entrySet()) {
             int[] color = entry.getValue();
             double distance = Math.sqrt( // euclidean distance
                     Math.pow(r - color[0], 2) +
@@ -150,20 +163,29 @@ public class EaseCommands {
         return closestColor;
     }
 
+    /**
+     * Tells you how close to a given color RGB values are
+     *
+     * @param targetRGB Given color values, insert own or use the basicColors HashMap
+     * @param r         The value of red [0-255]
+     * @param b         The value of blue [0-255]
+     * @param g         The value of green [0-255]
+     * @return Similarity
+     */
     public static double calculateColorSimilarity(int[] targetRGB, int r, int g, int b) {
         return Math.sqrt(Math.pow(r - targetRGB[0], 2) + Math.pow(g - targetRGB[1], 2) + Math.pow(b - targetRGB[2], 2));
     }
 
-    /**
-     * Returns a unit of measure converted to inches
-     *
-     * @param i The number you want to convert
-     * @param u The unit the number is, "in", "cm", or "mm"
-     * @return Index of the value in the array
-     */
-    public static double toIN(double i, String u) {
-        return u.equals("in") ? i : u.equals("cm") ? i / 2.54 : u.equals("mm") ? i / 25.4 : 0;
-    }
+//    /**
+//     * Returns a unit of measure converted to inches
+//     *
+//     * @param i The number you want to convert
+//     * @param u The unit the number is, "in", "cm", or "mm"
+//     * @return The value of the given value converted to another unit
+//     */
+//    public static double toIN(double i, String u) {
+//        return u.equals("in") ? i : u.equals("cm") ? i / 2.54 : u.equals("mm") ? i / 25.4 : 0;
+//    } Just use DistanceUnit objects
 
     /**
      * Returns a value of ticks to travel based of the conversion factor defined in Constants class

@@ -70,6 +70,12 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
         midShift.SP(x * 1.5 / speed);
     }
 
+    /**
+     * Tell the drivetrain to drive a given direction x amount of inches at a given speed
+     * @param direction Direction to travel
+     * @param inches Distance to travel in inches
+     * @param speed Speed from 0-1 for the drivetrain to travel
+     */
     @Override
     public void drive(@NonNull Directions direction, double inches, double speed) {
         SAR(DTMotors.all);
@@ -156,11 +162,22 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
         }
     }
 
+    /**
+     * If the drivetrain is running
+     *
+     * @return Boolean, rue if motors are running
+     */
     @Override
     public boolean isBusy() {
         return frontLeft.isBusy() && frontRight.isBusy() && backRight.isBusy() && backLeft.isBusy() && midShift.isBusy();
     }
 
+    /**
+     * Sets power to drivetrain motors
+     *
+     * @param m Motor you want to set power to
+     * @param p Power you want the motor to travel at, 0-1
+     */
     @Override
     public void SP(@NonNull DTMotors m, double p) {
         switch (m) {
@@ -325,6 +342,11 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
         }
     }
 
+    /**
+     * Sets given motors relative ticks to 0, STOP_AND_RESET_ENCODERS
+     *
+     * @param m  Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt, all)
+     */
     @Override
     public void SAR(@NonNull DTMotors m) {
         switch (m) {
@@ -375,6 +397,11 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
         }
     }
 
+    /**
+     * Sets given motors to RunMode.RUN_WITHOUT_ENCODER
+     *
+     * @param m  Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt, all)
+     */
     @Override
     public void RWE(@NonNull DTMotors m) {
         switch (m) {
@@ -425,6 +452,11 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
         }
     }
 
+    /**
+     * Sets given motors to RunMode.RUN_USING_ENCODER
+     *
+     * @param m  Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt, all)
+     */
     @Override
     public void RUE(@NonNull DTMotors m) {
         switch (m) {
@@ -475,6 +507,12 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
         }
     }
 
+    /**
+     * Takes advantage of holonomic drivetrain to travel at abnormal angles
+     *
+     * @param inches Inches to travel
+     * @param directionDeg Direction in degrees
+     */
     public void moveInDirection(double inches, int directionDeg) {
         double directionRad = Math.toRadians(directionDeg);
 
