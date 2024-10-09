@@ -184,9 +184,6 @@ public class Motor extends subsystem implements Closeable, Comparable<Motor> {
         closed = true;
     }
 
-    /**
-     * Throws an IllegalStateException if the motor is closed when it should be open
-     */
     private void ensureOpen() {
         if (closed)
             throw new IllegalStateException("Motor closed");
