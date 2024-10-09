@@ -23,9 +23,10 @@ public class UpdatedIMU extends subsystem {
     public UpdatedIMU(String name, @NonNull HardwareMap hwMap, Telemetry telemetry) {
         this(name, hwMap, null, telemetry);
     }
+
     public UpdatedIMU(String name, @NonNull HardwareMap hwMap, BNO055IMU.Parameters parameters, Telemetry telemetry) {
         imu = hwMap.get(BNO055IMU.class, name);
-        if (parameters!=null) {
+        if (parameters != null) {
             this.parameters = parameters;
         } else {
             this.parameters = new BNO055IMU.Parameters();
@@ -46,15 +47,19 @@ public class UpdatedIMU extends subsystem {
         globalAngles = imu.getAngularOrientation(AxesReference.INTRINSIC, AxesOrder.ZYX, AngleUnit.DEGREES);
         referenceAngle = 0;
     }
+
     /**
      * Returns the current angle of the robot
+     *
      * @return referenceAngle Current angle
      */
     public double getAngle() {
         return this.getAngle(AngleUnit.DEGREES);
     }
+
     /**
      * Returns the current angle of the robot
+     *
      * @param angleunit Unit you want angle to be in
      * @return referenceAngle Current angle
      */
@@ -64,14 +69,17 @@ public class UpdatedIMU extends subsystem {
         globalAngles = angles;
         return referenceAngle;
     }
+
     /**
      * Returns the global angle of the robot
+     *
      * @return globalAngle the global angle
      */
     public double getGlobalAngle(AngleUnit angleunit) {
         return globalAngles.firstAngle;
     }
-    public Acceleration getAcceleration () {
+
+    public Acceleration getAcceleration() {
         return imu.getLinearAcceleration();
     }
 }

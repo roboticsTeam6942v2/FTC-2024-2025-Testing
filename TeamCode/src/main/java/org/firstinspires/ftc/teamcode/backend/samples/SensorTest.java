@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.teamcode.backend.subsystems.actuators.base.Motor;
 import org.firstinspires.ftc.teamcode.backend.subsystems.actuators.drivetrains.Mecanum;
-import org.firstinspires.ftc.teamcode.backend.subsystems.sensors.RGBSensor;
+import org.firstinspires.ftc.teamcode.backend.subsystems.sensors.ColorSensor;
 
 /**
  * TeleOp code to test sensors, will be updated as more sensors get added, uses mecanum drive
@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.backend.subsystems.sensors.RGBSensor;
 @TeleOp
 public class SensorTest extends LinearOpMode {
     public static Motor frontLeft, frontRight, backLeft, backRight;
-    public static RGBSensor color;
+    public static ColorSensor color;
 
     public void runOpMode(){
         // declare motors
@@ -23,7 +23,7 @@ public class SensorTest extends LinearOpMode {
         frontRight = new Motor("frontRight", hardwareMap, telemetry);
         backLeft = new Motor("backLeft", hardwareMap, "reverse", telemetry);
         backRight = new Motor("backRight", hardwareMap, telemetry);
-        color = new RGBSensor("color", hardwareMap, telemetry);
+        color = new ColorSensor("color", hardwareMap, telemetry);
 
         // accessing motors in drivetrain any other way but through the mecanum class after this line will lead to an error
         Mecanum drivetrain = new Mecanum(new Motor[]{frontLeft, frontRight, backLeft, backRight}, telemetry);

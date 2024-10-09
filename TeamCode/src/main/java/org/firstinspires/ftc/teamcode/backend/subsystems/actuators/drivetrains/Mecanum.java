@@ -511,7 +511,7 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
     /**
      * Takes advantage of holonomic drivetrain to travel at abnormal angles
      *
-     * @param inches Inches to travel
+     * @param inches       Inches to travel
      * @param directionDeg Direction in degrees
      */
     public void moveInDirection(double inches, int directionDeg) {

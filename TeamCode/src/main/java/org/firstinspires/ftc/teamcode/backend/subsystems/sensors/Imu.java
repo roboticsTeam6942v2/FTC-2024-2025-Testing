@@ -24,10 +24,11 @@ public class Imu extends subsystem {
 
     /**
      * IMU Object
-     * @param name Name of the IMU in the phone
-     * @param hwMap HardwareMap object from OpMode
+     *
+     * @param name          Name of the IMU in the phone
+     * @param hwMap         HardwareMap object from OpMode
      * @param logoDirection Logo Direction
-     * @param usbDirection USB Direction
+     * @param usbDirection  USB Direction
      */
     public Imu(String name, @NonNull HardwareMap hwMap, RevHubOrientationOnRobot.LogoFacingDirection logoDirection, RevHubOrientationOnRobot.UsbFacingDirection usbDirection, Telemetry telemetry) {
         imu = hwMap.get(IMU.class, name);
@@ -47,6 +48,7 @@ public class Imu extends subsystem {
 
     /**
      * Returns the current angle of the robot
+     *
      * @return referenceAngle Current angle
      */
     public double getAngle(AngleUnit angleunit) {

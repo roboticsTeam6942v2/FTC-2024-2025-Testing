@@ -72,9 +72,10 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
 
     /**
      * Tell the drivetrain to drive a given direction x amount of inches at a given speed
+     *
      * @param direction Direction to travel
-     * @param inches Distance to travel in inches
-     * @param speed Speed from 0-1 for the drivetrain to travel
+     * @param inches    Distance to travel in inches
+     * @param speed     Speed from 0-1 for the drivetrain to travel
      */
     @Override
     public void drive(@NonNull Directions direction, double inches, double speed) {
@@ -345,7 +346,7 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
     /**
      * Sets given motors relative ticks to 0, STOP_AND_RESET_ENCODERS
      *
-     * @param m  Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt, all)
+     * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt, all)
      */
     @Override
     public void SAR(@NonNull DTMotors m) {
@@ -400,7 +401,7 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
     /**
      * Sets given motors to RunMode.RUN_WITHOUT_ENCODER
      *
-     * @param m  Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt, all)
+     * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt, all)
      */
     @Override
     public void RWE(@NonNull DTMotors m) {
@@ -455,7 +456,7 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
     /**
      * Sets given motors to RunMode.RUN_USING_ENCODER
      *
-     * @param m  Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt, all)
+     * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt, all)
      */
     @Override
     public void RUE(@NonNull DTMotors m) {
@@ -510,7 +511,7 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
     /**
      * Takes advantage of holonomic drivetrain to travel at abnormal angles
      *
-     * @param inches Inches to travel
+     * @param inches       Inches to travel
      * @param directionDeg Direction in degrees
      */
     public void moveInDirection(double inches, int directionDeg) {

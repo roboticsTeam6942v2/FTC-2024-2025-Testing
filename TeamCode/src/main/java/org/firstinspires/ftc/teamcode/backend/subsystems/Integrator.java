@@ -26,10 +26,11 @@ public class Integrator {
 
     /**
      * Updates the integrated values based on the current acceleration, heading, and timestamp.
+     *
      * @param accelerationX The current acceleration value in x direction in meters per second squared (m/s^2).
      * @param accelerationY The current acceleration value in y direction in meters per second squared (m/s^2).
-     * @param heading The current heading in degrees.
-     * @param seconds The time elapsed in seconds since the last update.
+     * @param heading       The current heading in degrees.
+     * @param seconds       The time elapsed in seconds since the last update.
      */
     public synchronized void update(double accelerationX, double accelerationY, double heading, double seconds) {
 
@@ -82,10 +83,10 @@ public class Integrator {
     }
 
     public synchronized double getPositionX() {
-        return positionX*39.3701;
+        return positionX * 39.3701;
     }
 
     public synchronized double getPositionY() {
-        return positionY*39.3701;
+        return positionY * 39.3701;
     }
 }

@@ -34,7 +34,7 @@ public class TeleOpHDriveTest extends LinearOpMode {
             /**
              * speed reduction
              */
-            if(gamepad1.start){
+            if (gamepad1.start) {
                 robot.teleOpDrive(drive, turn, strafe, 3);
             }
         }

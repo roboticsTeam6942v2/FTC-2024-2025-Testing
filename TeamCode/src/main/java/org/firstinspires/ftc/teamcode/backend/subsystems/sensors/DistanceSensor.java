@@ -74,9 +74,8 @@ public class DistanceSensor extends subsystem {
         double old = distanceSensor.getDistance(distanceUnit);
         while (true) {
             double current = distanceSensor.getDistance(distanceUnit);
-            if (old - current > delta && old < distance) {
+            if (old - current > delta && old < distance)
                 break;
-            }
         }
         telemetry.clear();
     }
@@ -113,9 +112,8 @@ public class DistanceSensor extends subsystem {
         double old = distanceSensor.getDistance(distanceUnit);
         while (true) {
             double current = distanceSensor.getDistance(distanceUnit);
-            if (current - old > delta && current < distance) {
+            if (current - old > delta && current < distance)
                 break;
-            }
         }
         telemetry.clear();
     }

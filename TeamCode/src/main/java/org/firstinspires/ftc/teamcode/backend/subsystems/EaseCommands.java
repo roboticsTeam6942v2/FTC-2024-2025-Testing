@@ -2,10 +2,6 @@ package org.firstinspires.ftc.teamcode.backend.subsystems;
 
 import static java.lang.Math.round;
 
-import android.provider.CalendarContract;
-
-import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
-
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -20,9 +16,9 @@ public class EaseCommands {
     // if imported static you can just use it in your code
     // just call import static org.firstinspires.ftc.teamcode.subsystems.ease_commands.*;
 
-    enum Colors {
-        RED, GREEN, BLUE, 
-        YELLOW, CYAN, MAGENTA, ORANGE, PURPLE, 
+    public enum Colors {
+        RED, GREEN, BLUE,
+        YELLOW, CYAN, MAGENTA, ORANGE, PURPLE,
         BLACK, WHITE, GRAY, LIGHT_GRAY, DARK_GRAY, SILVER,
         PINK, BROWN, MAROON, OLIVE, ARMY_GREEN, TEAL, NAVY
     }
@@ -31,6 +27,7 @@ public class EaseCommands {
      * Colors to use for color detection code
      */
     public static final HashMap<Colors, int[]> basicColors = new HashMap<>();
+
     static {
         // primary Colors
         basicColors.put(Colors.RED, new int[]{255, 0, 0});
