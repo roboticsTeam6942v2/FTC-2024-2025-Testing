@@ -39,15 +39,4 @@ public class Constants {
             return (motor_ratio_dt * 28) / (diameter_dt * PI);
         }
     }
-
-    /*
-    public double getConversionFactorLinearSlide() {
-        double stringperrotation=spool_diameter!=0?spool_diameter:toIN(spool_displacement, displacement_units);
-        try {
-            return ((motor_ratio_linear_slide*gear_ratio_up_linear_slide*28)/gear_ratio_down_linear_slide)/(stringperrotation*PI);
-        }
-        catch (ArithmeticException e) {
-            return (motor_ratio_linear_slide*28)/(stringperrotation*PI);
-        }
-    } */
 }

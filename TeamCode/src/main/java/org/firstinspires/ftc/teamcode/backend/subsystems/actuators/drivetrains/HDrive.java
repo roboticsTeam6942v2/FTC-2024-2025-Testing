@@ -15,7 +15,7 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
     private Telemetry telemetry;
 
     /**
-     * Creates a HDrive drive Object by putting motors into a sorted array, and declaring the odd motor out seperate
+     * Creates a HDrive drive Object by putting motors into a sorted array, and declaring the odd motor out separate
      *
      * @param motors   Four base motor Objects in an array
      * @param midshift The rotated motor Object
@@ -28,7 +28,7 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
         this.frontRight = motors[3];
         this.midShift = midshift;
         midshift.close();
-        // close because java is pass by value not pass by reference, if we can come up with a way to pass by referance or object we can change the function to be also able to control indiviual motors using the motor class
+        // close because java is pass by value not pass by reference, if we can come up with a way to pass by reference or object we can change the function to be also able to control individual motors using the motor class
         for (Motor motor : motors) {
             motor.close();
         }
@@ -66,7 +66,7 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
         frontLeft.SP(((y + rx)) / speed);
         backLeft.SP(((y + rx)) / speed);
         frontRight.SP(((y - rx)) / speed);
-        backRight.SP(((y + -rx)) / speed);
+        backRight.SP(((y - rx)) / speed);
         midShift.SP(x * 1.5 / speed);
     }
 

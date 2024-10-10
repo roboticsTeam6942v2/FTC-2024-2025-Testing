@@ -43,7 +43,7 @@ public class DistanceSensor extends subsystem {
     }
 
     /**
-     * Forces a loop until we notice an object within a certain distance, object must be 5 inchs closer than the background
+     * Forces a loop until we notice an object within a certain distance, object must be 5 inches closer than the background
      *
      * @param distance Max amount of inches we expect the object to be from us
      */
@@ -81,7 +81,7 @@ public class DistanceSensor extends subsystem {
     }
 
     /**
-     * Forces a loop until we notice an object within a certain distance, object must be 5 inchs closer than the background
+     * Forces a loop until we notice an object within a certain distance, object must be 5 inches closer than the background
      *
      * @param distance Max amount of inches we expect the object to be from us
      */

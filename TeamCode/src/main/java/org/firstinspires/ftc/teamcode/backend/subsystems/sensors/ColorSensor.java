@@ -8,6 +8,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.backend.libraries.subsystem;
 import org.firstinspires.ftc.teamcode.backend.subsystems.EaseCommands;
 
+import java.util.Objects;
+
 // add a while not at color, also make color an enum
 
 /**
@@ -19,40 +21,45 @@ public class ColorSensor extends subsystem {
 
     /**
      * ColorSensor Object
-     * @param name Name of the ColorSensor in the phone
+     *
+     * @param name  Name of the ColorSensor in the phone
      * @param hwMap HardwareMap object from OpMode
      */
-    public ColorSensor(String name, @NonNull HardwareMap hwMap, Telemetry telemetry){
+    public ColorSensor(String name, @NonNull HardwareMap hwMap, Telemetry telemetry) {
         colorSensor = hwMap.get(com.qualcomm.robotcore.hardware.ColorSensor.class, name);
         this.telemetry = telemetry;
     }
 
     /**
      * Returns red value
+     *
      * @return Red value
      */
-    public double getRed(){
+    public double getRed() {
         return colorSensor.red();
     }
 
     /**
      * Returns blue value
+     *
      * @return Blue value
      */
-    public double getBlue(){
+    public double getBlue() {
         return colorSensor.blue();
     }
 
     /**
      * Returns green value
+     *
      * @return Green value
      */
-    public double getGreen(){
+    public double getGreen() {
         return colorSensor.green();
     }
 
     /**
      * Returns color as string
+     *
      * @return Color
      */
 
@@ -61,44 +68,44 @@ public class ColorSensor extends subsystem {
     }
 
     /**
+     * Tells you how close to a given color the sensor is right now
+     * @param color Color you want to determine similarity to
+     * @return Similarity score
+     */
+    public double getSimilarity(EaseCommands.Colors color) {
+        return EaseCommands.calculateColorSimilarity(Objects.requireNonNull(EaseCommands.basicColors.get(color)), colorSensor.red(), colorSensor.green(), colorSensor.blue());
+    }
+
+    /**
      * Returns whether or not the red value falls within a set boundary
+     *
      * @param num1 Smaller value
      * @param num2 Larger value
      * @return Whether or not the value is in the boundary (true or false)
      */ // basically deprecated with new color based methods found in the EaseCommands class
-    public boolean redBoundary(int num1, int num2){
-        if (colorSensor.red() > num1 && colorSensor.red() < num2){
-            return true;
-        } else {
-            return false;
-        }
+    public boolean redBoundary(int num1, int num2) {
+        return colorSensor.red() > num1 && colorSensor.red() < num2;
     }
 
     /**
      * Returns whether or not the blue value falls within a set boundary
+     *
      * @param num1 Smaller value
      * @param num2 Larger value
      * @return Whether or not the value is in the boundary (true or false)
      */ // basically deprecated with new color based methods found in the EaseCommands class
     public boolean blueBoundary(int num1, int num2) {
-        if (colorSensor.blue() > num1 && colorSensor.blue() < num2){
-            return true;
-        } else {
-            return false;
-        }
+        return colorSensor.blue() > num1 && colorSensor.blue() < num2;
     }
 
     /**
      * Returns whether or not the green value falls within a set boundary
+     *
      * @param num1 Smaller value
      * @param num2 Larger value
      * @return Whether or not the value is in the boundary (true or false)
      */ // basically deprecated with new color based methods found in the EaseCommands class
-    public boolean greenBoundary(int num1, int num2){
-        if (colorSensor.green() > num1 && colorSensor.green() < num2){
-            return true;
-        } else {
-            return false;
-        }
+    public boolean greenBoundary(int num1, int num2) {
+        return colorSensor.green() > num1 && colorSensor.green() < num2;
     }
 }

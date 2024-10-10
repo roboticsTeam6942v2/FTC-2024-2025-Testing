@@ -28,7 +28,7 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
         this.backRight = motors[1];
         this.frontLeft = motors[2];
         this.frontRight = motors[3];
-        // close because java is pass by value not pass by reference, if we can come up with a way to pass by referance or object we can change the function to be also able to control indiviual motors using the motor class
+        // close because java is pass by value not pass by reference, if we can come up with a way to pass by reference or object we can change the function to be also able to control individual motors using the motor class
         for (Motor motor : motors) {
             motor.close();
         }
@@ -84,6 +84,7 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
             case m:
                 throw new IllegalArgumentException("Midshift is an illegal argument for TankDrive");
             case all:
+            case dt:
                 frontLeft.SP(p);
                 frontRight.SP(p);
                 backLeft.SP(p);
@@ -115,12 +116,6 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
                 break;
             case r:
                 frontRight.SP(p);
-                backRight.SP(p);
-                break;
-            case dt:
-                frontLeft.SP(p);
-                frontRight.SP(p);
-                backLeft.SP(p);
                 backRight.SP(p);
                 break;
         }
@@ -138,6 +133,7 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
             case m:
                 throw new IllegalArgumentException("Midshift is an illegal argument for TankDrive");
             case all:
+            case dt:
                 frontLeft.STP(tp);
                 frontRight.STP(tp);
                 backLeft.STP(tp);
@@ -169,12 +165,6 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
                 break;
             case r:
                 frontRight.STP(tp);
-                backRight.STP(tp);
-                break;
-            case dt:
-                frontLeft.STP(tp);
-                frontRight.STP(tp);
-                backLeft.STP(tp);
                 backRight.STP(tp);
                 break;
         }
@@ -193,6 +183,7 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
             case m:
                 throw new IllegalArgumentException("Midshift is an illegal argument for TankDrive");
             case all:
+            case dt:
                 frontLeft.RTP();
                 frontRight.RTP();
                 backLeft.RTP();
@@ -224,12 +215,6 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
                 break;
             case r:
                 frontRight.RTP();
-                backRight.RTP();
-                break;
-            case dt:
-                frontLeft.RTP();
-                frontRight.RTP();
-                backLeft.RTP();
                 backRight.RTP();
                 break;
         }
@@ -247,6 +232,7 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
             case m:
                 throw new IllegalArgumentException("Midshift is an illegal argument for TankDrive");
             case all:
+            case dt:
                 frontLeft.SAR();
                 frontRight.SAR();
                 backLeft.SAR();
@@ -278,12 +264,6 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
                 break;
             case r:
                 frontRight.SAR();
-                backRight.SAR();
-                break;
-            case dt:
-                frontLeft.SAR();
-                frontRight.SAR();
-                backLeft.SAR();
                 backRight.SAR();
                 break;
         }
@@ -300,6 +280,7 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
             case m:
                 throw new IllegalArgumentException("Midshift is an illegal argument for TankDrive");
             case all:
+            case dt:
                 frontLeft.RWE();
                 frontRight.RWE();
                 backLeft.RWE();
@@ -331,12 +312,6 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
                 break;
             case r:
                 frontRight.RWE();
-                backRight.RWE();
-                break;
-            case dt:
-                frontLeft.RWE();
-                frontRight.RWE();
-                backLeft.RWE();
                 backRight.RWE();
                 break;
         }
@@ -353,6 +328,7 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
             case m:
                 throw new IllegalArgumentException("Midshift is an illegal argument for TankDrive");
             case all:
+            case dt:
                 frontLeft.RUE();
                 frontRight.RUE();
                 backLeft.RUE();
@@ -384,12 +360,6 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
                 break;
             case r:
                 frontRight.RUE();
-                backRight.RUE();
-                break;
-            case dt:
-                frontLeft.RUE();
-                frontRight.RUE();
-                backLeft.RUE();
                 backRight.RUE();
                 break;
         }

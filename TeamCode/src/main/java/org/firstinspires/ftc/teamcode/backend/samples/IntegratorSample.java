@@ -21,32 +21,29 @@ public class IntegratorSample extends LinearOpMode {
     public void runOpMode() {
         imu = new UpdatedIMU("imu", hardwareMap, telemetry);
 
-        integratorThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                ElapsedTime timer = new ElapsedTime();
-                double lastTime = 0;
-                while (running) {
-                    // get current data
-                    Acceleration acceleration = imu.getAcceleration();
-                    double xA = acceleration.xAccel;
-                    double yA = acceleration.yAccel;
-                    double heading = imu.getAngle();
+        integratorThread = new Thread(() -> {
+            ElapsedTime timer = new ElapsedTime();
+            double lastTime = 0;
+            while (running) {
+                // get current data
+                Acceleration acceleration = imu.getAcceleration();
+                double xA = acceleration.xAccel;
+                double yA = acceleration.yAccel;
+                double heading = imu.getAngle();
 
-                    double currentTime = timer.seconds();
-                    double timeDelta = currentTime - lastTime; // less taxing then a timer.reset();
-                    lastTime = currentTime; // update state for loop
+                double currentTime = timer.seconds();
+                double timeDelta = currentTime - lastTime; // less taxing then a timer.reset();
+                lastTime = currentTime; // update state for loop
 
-                    // update the integrator
-                    integrator.update(xA, yA, heading, timeDelta);
-                    timer.reset();
+                // update the integrator
+                integrator.update(xA, yA, heading, timeDelta);
+                timer.reset();
 
-                    // sleep to control stress on the cpu, as well as accuracy
-                    try {
-                        Thread.sleep(20); // bigger to stress cpu less but will make result less accurate, vice versa with smaller values
-                    } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
-                    }
+                // sleep to control stress on the cpu, as well as accuracy
+                try {
+                    Thread.sleep(20); // bigger to stress cpu less but will make result less accurate, vice versa with smaller values
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
                 }
             }
         });

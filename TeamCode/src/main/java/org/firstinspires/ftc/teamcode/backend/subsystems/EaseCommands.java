@@ -128,7 +128,7 @@ public class EaseCommands {
             }
             i++;
         }
-        return Optional.ofNullable(null);
+        return Optional.empty();
     }
 
     /**
@@ -193,8 +193,4 @@ public class EaseCommands {
     public static int inTT_dt(double inches) {
         return (int) round(c.conversion_factor_dt * inches);
     }
-    /*
-    public static int inTT_linear_slide(double inches){
-        return (int)round(c.conversion_factor_linear_slide*inches);
-    }*/
 }

@@ -53,7 +53,7 @@ public class Motor extends subsystem implements Closeable, Comparable<Motor> {
     }
 
     /**
-     * Returns the name of the motor Obejct
+     * Returns the name of the motor Object
      *
      * @return name Name of the motor
      */
