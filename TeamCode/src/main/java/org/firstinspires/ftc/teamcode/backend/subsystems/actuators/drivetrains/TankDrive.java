@@ -150,6 +150,17 @@ public class TankDrive extends subsystem implements DrivetrainMotorControls {
      *
      * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
      */
+    @Override
+    public void RTP(@NonNull DTMotors m) {
+        RTP(m, true);
+    }
+
+    /**
+     * Sets the mode of the motor to RUN_TO_POSITION using case switch
+     *
+     * @param m    Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
+     * @param wait If you want to wait till the drivetrain is in position or if the code should just continue
+     */
     public void RTP(@NonNull DTMotors m, boolean wait) {
         Telemetry.Item tankDriveRTPTelemetry = telemetry().addData("TankDrive moving", "");
         switch (m) {
