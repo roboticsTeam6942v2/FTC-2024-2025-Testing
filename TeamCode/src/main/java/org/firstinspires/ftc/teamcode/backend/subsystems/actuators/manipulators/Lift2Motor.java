@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.backend.subsystems.actuators.slides;
+package org.firstinspires.ftc.teamcode.backend.subsystems.actuators.manipulators;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.backend.libraries.subsystem;
@@ -7,27 +7,30 @@ import org.firstinspires.ftc.teamcode.backend.subsystems.Constants;
 
 import java.util.LinkedList;
 
-public class Lift1Motor extends subsystem {
-    private Motor motor;
+public class Lift2Motor extends subsystem {
+    private Motor motor1, motor2;
     public final String name;
     private final int min, max;
     LinkedList<Integer> levels = new LinkedList<>();
 
     /**
-     * Creates a Lift1Motor object
+     * Creates a Lift1Motor object, one of these motors must be reversed
      *
-     * @param motor     Motor for lift
+     * @param motor1    First Motor for lift
+     * @param motor2    Second Motor for lift
      * @param telemetry Telemetry Object
      * @param min       Max ticks to extend
      * @param max       Min ticks, zero position
      */
-    public Lift1Motor(String name, Motor motor, Telemetry telemetry, int min, int max) {
+    public Lift2Motor(String name, Motor motor1, Motor motor2, Telemetry telemetry, int min, int max) {
         super(telemetry);
         this.name = name;
-        this.motor = motor;
+        this.motor1 = motor1;
+        this.motor2 = motor2;
         this.min = min;
         this.max = max;
-        motor.close();
+        motor1.close();
+        motor2.close();
     }
 
     /**
@@ -36,7 +39,7 @@ public class Lift1Motor extends subsystem {
      * @return Boolean, true if motors are running
      */
     public boolean isBusy() {
-        return motor.isBusy();
+        return motor1.isBusy() && motor2.isBusy();
     }
 
     /**
@@ -45,42 +48,48 @@ public class Lift1Motor extends subsystem {
      * @param power Power you want the motor to travel at, 0-1
      */
     public void SP(double power) {
-        motor.SP(power);
+        motor1.SP(power);
+        motor1.SP(power);
     }
 
     /**
      * Sets the mode of the motor to RUN_TO_POSITION using case switch
      */
     public void RTP() {
-        motor.RTP();
+        motor1.RTP();
+        motor2.RTP();
     }
 
     /**
      * Set the target position of the motors using a case switch
      */
     public void STP(int targetPosition) {
-        motor.STP(targetPosition > this.max ? this.max : (targetPosition < this.min ? this.min : targetPosition));
+        motor1.STP(targetPosition > this.max ? this.max : (targetPosition < this.min ? this.min : targetPosition));
+        motor2.STP(targetPosition > this.max ? this.max : (targetPosition < this.min ? this.min : targetPosition));
     }
 
     /**
      * Sets given motors relative ticks to 0, STOP_AND_RESET_ENCODERS
      */
     public void SAR() {
-        motor.SAR();
+        motor1.SAR();
+        motor2.SAR();
     }
 
     /**
      * Sets given motors to RunMode.RUN_WITHOUT_ENCODER
      */
     public void RWE() {
-        motor.RWE();
+        motor1.RWE();
+        motor2.RWE();
     }
 
     /**
      * Sets given motors to RunMode.RUN_USING_ENCODER
      */
     public void RUE() {
-        motor.RUE();
+        motor1.RUE();
+        motor2.RUE();
     }
 
     /**
@@ -89,7 +98,8 @@ public class Lift1Motor extends subsystem {
      * @param ticks Number of ticks
      */
     public void ST(int ticks) {
-        motor.ST(ticks);
+        motor1.ST(ticks);
+        motor2.ST(ticks);
     }
 
     /**
@@ -98,7 +108,7 @@ public class Lift1Motor extends subsystem {
      * @return The current position of the motor in ticks
      */
     public int GCP() {
-        return motor.GCP();
+        return (int)((motor1.GCP()+ motor2.GCP())/2);
     }
 
     /**
@@ -107,7 +117,7 @@ public class Lift1Motor extends subsystem {
      * @return The target position of the motor in ticks
      */
     public int GTP() {
-        return motor.GTP();
+        return (int)((motor1.GTP()+ motor2.GTP())/2);
     }
 
     /**
@@ -116,7 +126,7 @@ public class Lift1Motor extends subsystem {
      * @return The motor's power as a double
      */
     public double GP() {
-        return motor.GP();
+        return motor1.GP();
     }
 
     private double powerSetter(int ticks) {
