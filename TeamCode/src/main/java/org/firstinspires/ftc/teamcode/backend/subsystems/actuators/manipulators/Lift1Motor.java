@@ -16,6 +16,7 @@ public class Lift1Motor extends subsystem {
     /**
      * Creates a Lift1Motor object
      *
+     * @param name      Name of motor, used pretty much only for telemetry
      * @param motor     Motor for lift
      * @param telemetry Telemetry Object
      * @param min       Max ticks to extend
