@@ -15,7 +15,6 @@ import java.util.Arrays;
  */
 public class Mecanum extends subsystem implements DrivetrainHolonomic {
     private Motor frontLeft, frontRight, backLeft, backRight;
-    private Telemetry telemetry;
 
     /**
      * Creates a Mecanum drive Object by putting motors into a sorted array
@@ -23,6 +22,7 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
      * @param motors Four motor Objects in an array
      */
     public Mecanum(Motor[] motors, Telemetry telemetry) {
+        super(telemetry);
         Arrays.sort(motors); // allows us to ensure motors are in the right order no matter what order the motor array is sent in
         this.backLeft = motors[0];
         this.backRight = motors[1];
@@ -32,7 +32,6 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
         for (Motor motor : motors) {
             motor.close();
         }
-        this.telemetry = telemetry;
     }
 
     /**
@@ -177,8 +176,8 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
      */
     @Override
     public void RTP(@NonNull DTMotors m) {
-        telemetry.addData("Mecanum moving", "");
-        telemetry.update();
+        telemetry().addData("Mecanum moving", "");
+        telemetry().update();
         switch (m) {
             case m:
                 throw new IllegalArgumentException("Midshift is an illegal argument for TankDrive");
@@ -218,7 +217,7 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
                 backRight.RTP();
                 break;
         }
-        telemetry.clear();
+        telemetry().clear();
     }
 
     /**

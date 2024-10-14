@@ -22,7 +22,6 @@ public class Motor extends subsystem implements Closeable, Comparable<Motor> {
     private String name;
     private int globalTicks;
     private boolean closed;
-    private Telemetry telemetry;
 
     /**
      * Sets the variables for the motor Object without direction
@@ -42,6 +41,7 @@ public class Motor extends subsystem implements Closeable, Comparable<Motor> {
      * @param direction Direction of the motor (f or r)
      */
     public Motor(@NonNull String name, @NonNull HardwareMap hwMap, @NonNull String direction, Telemetry telemetry) {
+        super(hwMap, telemetry);
         motor = hwMap.get(DcMotorEx.class, name);
         motor.setDirection(direction.toLowerCase().charAt(0) == 'r' ? DcMotorSimple.Direction.REVERSE : DcMotorSimple.Direction.FORWARD);
         motor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
@@ -49,7 +49,6 @@ public class Motor extends subsystem implements Closeable, Comparable<Motor> {
         motor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         this.name = name;
         closed = false;
-        this.telemetry = telemetry;
     }
 
     /**
@@ -86,10 +85,10 @@ public class Motor extends subsystem implements Closeable, Comparable<Motor> {
      */
     public void RTP() throws TargetPositionNotSetException {
         ensureOpen();
-        telemetry.addData(this.name, " is running to position");
-        telemetry.update();
+        telemetry().addData(this.name, " is running to position");
+        telemetry().update();
         motor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        telemetry.clear();
+        telemetry().clear();
     }
 
     /**

@@ -16,7 +16,6 @@ import java.util.Arrays;
  */
 public class TankDrive extends subsystem implements DrivetrainMotorControls {
     private Motor frontLeft, frontRight, backLeft, backRight;
-    private Telemetry telemetry;
 
     /**
      * Creates a TankDrive drive Object by putting motors into a sorted array
@@ -24,6 +23,7 @@ public class TankDrive extends subsystem implements DrivetrainMotorControls {
      * @param motors Four motor Objects in an array
      */
     public TankDrive(Motor[] motors, Telemetry telemetry) {
+        super(telemetry);
         Arrays.sort(motors); // allows us to ensure motors are in the right order no matter what order the motor array is sent in
         this.backLeft = motors[0];
         this.backRight = motors[1];
@@ -33,7 +33,6 @@ public class TankDrive extends subsystem implements DrivetrainMotorControls {
         for (Motor motor : motors) {
             motor.close();
         }
-        this.telemetry = telemetry;
     }
 
     /**
@@ -153,8 +152,8 @@ public class TankDrive extends subsystem implements DrivetrainMotorControls {
      */
     @Override
     public void RTP(@NonNull DTMotors m) {
-        telemetry.addData("TankDrive moving", "");
-        telemetry.update();
+        telemetry().addData("TankDrive moving", "");
+        telemetry().update();
         switch (m) {
             case m:
                 throw new IllegalArgumentException("Midshift is an illegal argument for TankDrive");
@@ -194,7 +193,7 @@ public class TankDrive extends subsystem implements DrivetrainMotorControls {
                 backRight.RTP();
                 break;
         }
-        telemetry.clear();
+        telemetry().clear();
     }
 
     /**

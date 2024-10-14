@@ -12,7 +12,6 @@ import org.firstinspires.ftc.teamcode.backend.libraries.subsystem;
  */
 public class Servo extends subsystem {
     private com.qualcomm.robotcore.hardware.Servo servo;
-    private Telemetry telemetry;
 
     /**
      * Servo object
@@ -20,9 +19,9 @@ public class Servo extends subsystem {
      * @param name  Name of the servo in the phone
      * @param hwMap HardwareMap object from OpMode
      */
-    public Servo(String name, @NonNull HardwareMap hwMap) {
+    public Servo(String name, @NonNull HardwareMap hwMap, Telemetry telemetry) {
+        super(hwMap, telemetry);
         servo = hwMap.get(com.qualcomm.robotcore.hardware.Servo.class, name);
-        this.telemetry = telemetry;
     }
 
     /**

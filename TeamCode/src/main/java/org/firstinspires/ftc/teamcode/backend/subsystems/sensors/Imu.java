@@ -20,7 +20,6 @@ public class Imu extends subsystem {
     private Orientation globalAngles = new Orientation();
     private double referenceAngle;
     private IMU imu;
-    private Telemetry telemetry;
 
     /**
      * IMU Object
@@ -31,11 +30,11 @@ public class Imu extends subsystem {
      * @param usbDirection  USB Direction
      */
     public Imu(String name, @NonNull HardwareMap hwMap, RevHubOrientationOnRobot.LogoFacingDirection logoDirection, RevHubOrientationOnRobot.UsbFacingDirection usbDirection, Telemetry telemetry) {
+        super(hwMap, telemetry);
         imu = hwMap.get(IMU.class, name);
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);
         imu.initialize(new IMU.Parameters(orientationOnRobot));
         referenceAngle = 0;
-        this.telemetry = telemetry;
     }
 
     /**

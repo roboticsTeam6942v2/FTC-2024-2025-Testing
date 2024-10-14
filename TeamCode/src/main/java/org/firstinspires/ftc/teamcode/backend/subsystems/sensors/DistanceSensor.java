@@ -10,7 +10,6 @@ import org.firstinspires.ftc.teamcode.backend.libraries.subsystem;
 
 public class DistanceSensor extends subsystem {
     private com.qualcomm.robotcore.hardware.DistanceSensor distanceSensor;
-    private Telemetry telemetry;
 
     /**
      * DistanceSensor Object
@@ -19,8 +18,8 @@ public class DistanceSensor extends subsystem {
      * @param hwMap HardwareMap object from OpMode
      */
     public DistanceSensor(String name, @NonNull HardwareMap hwMap, Telemetry telemetry) {
+        super(hwMap, telemetry);
         distanceSensor = hwMap.get(com.qualcomm.robotcore.hardware.DistanceSensor.class, name);
-        this.telemetry = telemetry;
     }
 
     /**
@@ -69,15 +68,15 @@ public class DistanceSensor extends subsystem {
      * @param distanceUnit Unit of distance, ex. Inches, meters, mm, cm
      */
     public void untilPassObject(double distance, double delta, DistanceUnit distanceUnit) {
-        telemetry.addData("Waiting till passing an object ", distance + " " + distanceUnit.toString() + " away");
-        telemetry.update();
+        telemetry().addData("Waiting till passing an object ", distance + " " + distanceUnit.toString() + " away");
+        telemetry().update();
         double old = distanceSensor.getDistance(distanceUnit);
         while (true) {
             double current = distanceSensor.getDistance(distanceUnit);
             if (old - current > delta && old < distance)
                 break;
         }
-        telemetry.clear();
+        telemetry().clear();
     }
 
     /**
@@ -107,14 +106,14 @@ public class DistanceSensor extends subsystem {
      * @param distanceUnit Unit of distance, ex. Inches, meters, mm, cm
      */
     public void untilHitObject(double distance, double delta, DistanceUnit distanceUnit) {
-        telemetry.addData("Waiting till we see an object ", distance + " " + distanceUnit.toString() + " away");
-        telemetry.update();
+        telemetry().addData("Waiting till we see an object ", distance + " " + distanceUnit.toString() + " away");
+        telemetry().update();
         double old = distanceSensor.getDistance(distanceUnit);
         while (true) {
             double current = distanceSensor.getDistance(distanceUnit);
             if (current - old > delta && current < distance)
                 break;
         }
-        telemetry.clear();
+        telemetry().clear();
     }
 }

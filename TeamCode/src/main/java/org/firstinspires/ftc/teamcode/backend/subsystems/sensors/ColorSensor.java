@@ -17,7 +17,6 @@ import java.util.Objects;
  */
 public class ColorSensor extends subsystem {
     private com.qualcomm.robotcore.hardware.ColorSensor colorSensor;
-    private Telemetry telemetry;
 
     /**
      * ColorSensor Object
@@ -26,8 +25,8 @@ public class ColorSensor extends subsystem {
      * @param hwMap HardwareMap object from OpMode
      */
     public ColorSensor(String name, @NonNull HardwareMap hwMap, Telemetry telemetry) {
+        super(hwMap, telemetry);
         colorSensor = hwMap.get(com.qualcomm.robotcore.hardware.ColorSensor.class, name);
-        this.telemetry = telemetry;
     }
 
     /**
@@ -69,6 +68,7 @@ public class ColorSensor extends subsystem {
 
     /**
      * Tells you how close to a given color the sensor is right now
+     *
      * @param color Color you want to determine similarity to
      * @return Similarity score
      */

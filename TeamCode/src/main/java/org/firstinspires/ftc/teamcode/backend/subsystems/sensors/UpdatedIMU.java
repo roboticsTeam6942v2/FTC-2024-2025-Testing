@@ -18,13 +18,13 @@ public class UpdatedIMU extends subsystem {
     private double referenceAngle;
     private BNO055IMU imu;
     private BNO055IMU.Parameters parameters;
-    private Telemetry telemetry;
 
     public UpdatedIMU(String name, @NonNull HardwareMap hwMap, Telemetry telemetry) {
         this(name, hwMap, null, telemetry);
     }
 
     public UpdatedIMU(String name, @NonNull HardwareMap hwMap, BNO055IMU.Parameters parameters, Telemetry telemetry) {
+        super(hwMap, telemetry);
         imu = hwMap.get(BNO055IMU.class, name);
         if (parameters != null) {
             this.parameters = parameters;
@@ -37,7 +37,6 @@ public class UpdatedIMU extends subsystem {
             imu.initialize(this.parameters);
         }
         referenceAngle = 0;
-        this.telemetry = telemetry;
     }
 
     /**

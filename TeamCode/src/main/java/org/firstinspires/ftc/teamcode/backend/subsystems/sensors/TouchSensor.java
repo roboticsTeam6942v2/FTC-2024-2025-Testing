@@ -10,7 +10,6 @@ import org.firstinspires.ftc.teamcode.backend.libraries.subsystem;
 public class TouchSensor extends subsystem {
 
     private com.qualcomm.robotcore.hardware.TouchSensor touchSensor;
-    private Telemetry telemetry;
 
     /**
      * TouchSensor Object
@@ -20,8 +19,8 @@ public class TouchSensor extends subsystem {
      * @param telemetry Telemetry object from OpMode
      */
     public TouchSensor(String name, @NonNull HardwareMap hwMap, Telemetry telemetry) {
+        super(hwMap, telemetry);
         touchSensor = hwMap.get(com.qualcomm.robotcore.hardware.TouchSensor.class, name);
-        this.telemetry = telemetry;
     }
 
     /**
