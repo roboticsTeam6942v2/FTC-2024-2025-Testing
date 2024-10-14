@@ -97,7 +97,7 @@ public class Lift1Motor extends subsystem {
      *
      * @return The current position of the motor in ticks
      */
-    public double GCP() {
+    public int GCP() {
         return motor.GCP();
     }
 
