@@ -1,1 +1,6 @@
-Make DT motors into an enum rather than a string like "dt", "fl" etc
+Make runnable for the end of RTP for Drivetrains and Manipulators, try to not make it taxing
+Fix parameters to be more clear ex. Instead of m or p, write motor or power
+Make parallel motor linkage class
+Figure out odometry and then entirely rewrite the drivetrains
+Figure up trapazoidal powering stuff, to ramp up and down power to fix roadrunner-ing
+Rewrite all the drivetrains a third time because theres 2 approaches to odemetry
