@@ -176,8 +176,17 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
      */
     @Override
     public void RTP(@NonNull DTMotors m) {
-        telemetry().addData("Mecanum moving", "");
-        telemetry().update();
+        RTP(m, true);
+    }
+
+    /**
+     * Sets the mode of the motor to RUN_TO_POSITION using case switch
+     *
+     * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
+     * @param wait If you want to wait till the drivetrain is in position or if the code should just continue
+     */
+    public void RTP(@NonNull DTMotors m, boolean wait) {
+        Telemetry.Item mecanumRTPTelemetry = telemetry().addData("Mecanum moving", "");
         switch (m) {
             case m:
                 throw new IllegalArgumentException("Midshift is an illegal argument for TankDrive");
@@ -217,7 +226,12 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
                 backRight.RTP();
                 break;
         }
-        telemetry().clear();
+        if (wait) {
+            telemetry().update();
+            while (isBusy()) {
+            }
+        }
+        telemetry().removeItem(mecanumRTPTelemetry);
     }
 
     /**

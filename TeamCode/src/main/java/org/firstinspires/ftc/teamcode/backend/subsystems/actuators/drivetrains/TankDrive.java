@@ -150,10 +150,8 @@ public class TankDrive extends subsystem implements DrivetrainMotorControls {
      *
      * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
      */
-    @Override
-    public void RTP(@NonNull DTMotors m) {
-        telemetry().addData("TankDrive moving", "");
-        telemetry().update();
+    public void RTP(@NonNull DTMotors m, boolean wait) {
+        Telemetry.Item tankDriveRTPTelemetry = telemetry().addData("TankDrive moving", "");
         switch (m) {
             case m:
                 throw new IllegalArgumentException("Midshift is an illegal argument for TankDrive");
@@ -193,7 +191,12 @@ public class TankDrive extends subsystem implements DrivetrainMotorControls {
                 backRight.RTP();
                 break;
         }
-        telemetry().clear();
+        if (wait) {
+            telemetry().update();
+            while (isBusy()) {
+            }
+        }
+        telemetry().removeItem(tankDriveRTPTelemetry);
     }
 
     /**
