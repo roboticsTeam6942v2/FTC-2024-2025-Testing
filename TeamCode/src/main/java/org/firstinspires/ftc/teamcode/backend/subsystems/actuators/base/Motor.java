@@ -74,11 +74,11 @@ public class Motor extends subsystem implements Closeable, Comparable<Motor> {
     /**
      * Sets a target position for the encoders within the motor Object, Ex frontLeft.STP(100);
      *
-     * @param tp Target Position (in ticks)
+     * @param targetPosition Target Position (in ticks)
      */
-    public void STP(int tp) {
+    public void STP(int targetPosition) {
         ensureOpen();
-        motor.setTargetPosition(tp + globalTicks);
+        motor.setTargetPosition(targetPosition + globalTicks);
     }
 
     /**

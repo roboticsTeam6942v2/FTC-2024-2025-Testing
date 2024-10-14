@@ -166,7 +166,7 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
     /**
      * If the drivetrain is running
      *
-     * @return Boolean, rue if motors are running
+     * @return Boolean, true if motors are running
      */
     @Override
     public boolean isBusy() {
