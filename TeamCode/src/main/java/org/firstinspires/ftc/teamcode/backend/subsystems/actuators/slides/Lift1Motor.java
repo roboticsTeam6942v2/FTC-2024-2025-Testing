@@ -14,9 +14,9 @@ public class Lift1Motor extends subsystem {
     LinkedList<Integer> levels = new LinkedList<>();
 
     /**
-     * Creates a HDrive drive Object by putting motors into a sorted array, and declaring the odd motor out separate
+     * Creates a Lift1Motor object
      *
-     * @param motor     Motor for slide
+     * @param motor     Motor for lift
      * @param telemetry Telemetry Object
      * @param min       Max ticks to extend
      * @param max       Min ticks, zero position
