@@ -3,14 +3,14 @@ package org.firstinspires.ftc.teamcode.backend.subsystems.actuators.slides;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.backend.libraries.subsystem;
 import org.firstinspires.ftc.teamcode.backend.subsystems.actuators.base.Motor;
+import org.firstinspires.ftc.teamcode.backend.subsystems.Constants;
 
 import java.util.LinkedList;
 
-public class Slide1Motor extends subsystem {
+public class Lift1Motor extends subsystem {
     private Motor motor;
-    int min, max;
-    private final double upPower = .7;
-    private final double downPower = .3;
+    public final String name;
+    private final int min, max;
     LinkedList<Integer> levels = new LinkedList<>();
 
     /**
@@ -21,8 +21,9 @@ public class Slide1Motor extends subsystem {
      * @param min       Max ticks to extend
      * @param max       Min ticks, zero position
      */
-    public Slide1Motor(Motor motor, Telemetry telemetry, int min, int max) {
+    public Lift1Motor(String name, Motor motor, Telemetry telemetry, int min, int max) {
         super(telemetry);
+        this.name = name;
         this.motor = motor;
         this.min = min;
         this.max = max;
@@ -58,7 +59,7 @@ public class Slide1Motor extends subsystem {
      * Set the target position of the motors using a case switch
      */
     public void STP(int targetPosition) {
-        motor.STP(targetPosition);
+        motor.STP(targetPosition > this.max ? this.max : (targetPosition < this.min ? this.min : targetPosition));
     }
 
     /**
@@ -120,8 +121,8 @@ public class Slide1Motor extends subsystem {
 
     private double powerSetter(int ticks) {
         if (GCP() < ticks)
-            return upPower;
-        return downPower;
+            return Constants.upPower;
+        return Constants.downPower;
     }
 
     /**
@@ -140,21 +141,24 @@ public class Slide1Motor extends subsystem {
      * @param wait  If you want to wait till you get to position or if the code should just continue
      */
     public void goToPosition(int ticks, boolean wait) {
-        telemetry().addData("Moving arm", "");
+        Telemetry.Item slide1MotorTelemetry = telemetry().addData("Moving Slide/Lift: ", isBusy());
         STP(GTP() + ticks);
         SP(powerSetter(ticks));
         RTP();
         if (wait) {
+            telemetry().update();
             while (isBusy()) {
             }
         }
-        SP(downPower);
+        SP(Constants.downPower);
+        telemetry().removeItem(slide1MotorTelemetry);
     }
 
     /**
      * Adds a level of height to maintain and travel to
      *
      * @param ticks The height in ticks you want to maintain
+     * @return Returns false if the level input isnt valid
      */
     public boolean addLevels(int ticks) {
         if (levels.contains(ticks))
@@ -163,6 +167,13 @@ public class Slide1Motor extends subsystem {
         return true;
     }
 
+    /**
+     * Adds a level of height to maintain and travel to
+     *
+     * @param level The level you have predetermined and want to travel to
+     * @param wait  If you would or would like to proceed the code without getting to position or not
+     * @return Returns false if the level input isnt valid
+     */
     public boolean goToLevel(int level, boolean wait) {
         if (levels.size() > level)
             return false;
