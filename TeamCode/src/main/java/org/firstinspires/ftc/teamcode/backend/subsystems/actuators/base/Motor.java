@@ -116,13 +116,13 @@ public class Motor extends subsystem implements Closeable, Comparable<Motor> {
     }
 
     /**
-     * Set the tolerance of the motors, used to determine how close the target position must be to the current position for isBusy() to return false
+     * Set the tolerance of the motor, used to determine how close the target position must be to the current position for isBusy() to return false
      *
-     * @param i Number of ticks
+     * @param ticks Number of ticks
      */
-    public void ST(int i) {
+    public void ST(int ticks) {
         ensureOpen();
-        motor.setTargetPositionTolerance(i);
+        motor.setTargetPositionTolerance(ticks);
     }
 
     // basic rules for tuning
@@ -162,7 +162,7 @@ public class Motor extends subsystem implements Closeable, Comparable<Motor> {
      *
      * @return The current position of the motor in ticks
      */
-    public double GCP() {
+    public int GCP() {
         return motor.getCurrentPosition();
     }
 
@@ -171,7 +171,7 @@ public class Motor extends subsystem implements Closeable, Comparable<Motor> {
      *
      * @return The target position of the motor in ticks
      */
-    public double GTP() {
+    public int GTP() {
         return motor.getTargetPosition();
     }
 
