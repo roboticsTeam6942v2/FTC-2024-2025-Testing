@@ -16,10 +16,11 @@ public class ParallelMotionLinkageUnlimited extends subsystem {
     /**
      * Creates a ChainLinkage object with no min/max bounds
      *
-     * @param motor     Motor for the chain linkage
-     * @param telemetry Telemetry Object
+     * @param name       Name of system, used pretty much only for telemetry
+     * @param motor      Motor for the chain linkage
+     * @param telemetry  Telemetry Object
      * @param inchRadius Radius of the sprocket in inches
-     * @param gearRatio Gear ratio for the linkage
+     * @param gearRatio  Gear ratio for the linkage
      */
     public ParallelMotionLinkageUnlimited(String name, Motor motor, Telemetry telemetry, double inchRadius, int gearRatio) {
         super(telemetry);

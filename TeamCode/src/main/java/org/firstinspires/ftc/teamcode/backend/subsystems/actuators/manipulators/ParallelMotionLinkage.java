@@ -20,6 +20,7 @@ public class ParallelMotionLinkage extends subsystem {
     /**
      * Creates a ParallelMotionLinkage object
      *
+     * @param name      Name of system, used pretty much only for telemetry
      * @param motor     Motor for lift
      * @param telemetry Telemetry Object
      * @param min       Max ticks to extend

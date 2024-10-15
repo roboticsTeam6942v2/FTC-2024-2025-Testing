@@ -16,6 +16,7 @@ public class Lift2Motor extends subsystem {
     /**
      * Creates a Lift1Motor object, one of these motors must be reversed
      *
+     * @param name      Name of the system, used pretty much only for telemetry
      * @param motor1    First Motor for lift
      * @param motor2    Second Motor for lift
      * @param telemetry Telemetry Object
@@ -108,7 +109,7 @@ public class Lift2Motor extends subsystem {
      * @return The current position of the motor in ticks
      */
     public int GCP() {
-        return (int)((motor1.GCP()+ motor2.GCP())/2);
+        return (int) ((motor1.GCP() + motor2.GCP()) / 2);
     }
 
     /**
@@ -117,7 +118,7 @@ public class Lift2Motor extends subsystem {
      * @return The target position of the motor in ticks
      */
     public int GTP() {
-        return (int)((motor1.GTP()+ motor2.GTP())/2);
+        return (int) ((motor1.GTP() + motor2.GTP()) / 2);
     }
 
     /**
