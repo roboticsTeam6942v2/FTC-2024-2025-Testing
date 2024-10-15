@@ -151,7 +151,7 @@ public class Lift2Motor extends subsystem {
      * @param wait  If you want to wait till you get to position or if the code should just continue
      */
     public void goToPosition(int ticks, boolean wait) {
-        Telemetry.Item slide1MotorTelemetry = telemetry().addData("Moving Slide/Lift: ", isBusy());
+        Telemetry.Item slide2MotorTelemetry = telemetry().addData("Moving Slide/Lift: ", isBusy());
         STP(GTP() + ticks);
         SP(powerSetter(ticks));
         RTP();
@@ -161,7 +161,7 @@ public class Lift2Motor extends subsystem {
             }
         }
         SP(Constants.downPower);
-        telemetry().removeItem(slide1MotorTelemetry);
+        telemetry().removeItem(slide2MotorTelemetry);
     }
 
     /**
