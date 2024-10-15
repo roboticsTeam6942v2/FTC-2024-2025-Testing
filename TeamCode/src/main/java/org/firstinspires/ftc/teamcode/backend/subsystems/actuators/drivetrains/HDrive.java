@@ -298,6 +298,7 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
             }
         }
         telemetry().removeItem(hDriveRTPTelemetry);
+        telemetry().update();
     }
 
     /**

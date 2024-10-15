@@ -162,6 +162,7 @@ public class Lift2Motor extends subsystem {
         }
         SP(Constants.downPower);
         telemetry().removeItem(slide2MotorTelemetry);
+        telemetry().update();
     }
 
     /**

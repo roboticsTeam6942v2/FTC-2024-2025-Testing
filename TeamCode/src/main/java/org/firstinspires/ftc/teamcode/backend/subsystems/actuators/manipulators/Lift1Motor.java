@@ -153,6 +153,7 @@ public class Lift1Motor extends subsystem {
         }
         SP(Constants.downPower);
         telemetry().removeItem(slide1MotorTelemetry);
+        telemetry().update();
     }
 
     /**

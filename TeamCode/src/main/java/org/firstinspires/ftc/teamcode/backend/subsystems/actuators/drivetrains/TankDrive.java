@@ -208,6 +208,7 @@ public class TankDrive extends subsystem implements DrivetrainMotorControls {
             }
         }
         telemetry().removeItem(tankDriveRTPTelemetry);
+        telemetry().update();
     }
 
     /**

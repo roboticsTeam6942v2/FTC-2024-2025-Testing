@@ -232,6 +232,7 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
             }
         }
         telemetry().removeItem(mecanumRTPTelemetry);
+        telemetry().update();
     }
 
     /**
