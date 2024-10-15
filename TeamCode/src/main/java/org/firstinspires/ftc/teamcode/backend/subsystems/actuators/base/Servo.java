@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.backend.libraries.subsystem;
  * Methods to streamline the usage of Servos
  */
 public class Servo extends subsystem {
-    private com.qualcomm.robotcore.hardware.Servo servo;
+    protected com.qualcomm.robotcore.hardware.Servo servo; // changed to protected to make a version 2, a ServoEx or NormalizedServo, not set on a name yet
 
     /**
      * Servo object
@@ -26,17 +26,10 @@ public class Servo extends subsystem {
 
     /**
      * Sets the servo's position to zero
-     */
-    public void zero() {
-        servo.setPosition(0);
-    }
-
-    /**
-     * Sets the servo's position to zero
      *
-     * @param position Integer of target position
+     * @param targetPosition Double of target position
      */
-    public void setPosition(int position) {
-        servo.setPosition(position);
+    public void setPosition(double targetPosition) {
+        servo.setPosition(targetPosition > 1 ? 1 : (targetPosition < 0 ? 0 : targetPosition));
     }
 }
