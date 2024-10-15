@@ -29,10 +29,6 @@ public class TankDrive extends subsystem implements DrivetrainMotorControls {
         this.backRight = motors[1];
         this.frontLeft = motors[2];
         this.frontRight = motors[3];
-        // close because java is pass by value not pass by reference, if we can come up with a way to pass by reference or object we can change the function to be also able to control individual motors using the motor class
-        for (Motor motor : motors) {
-            motor.close();
-        }
     }
 
     /**

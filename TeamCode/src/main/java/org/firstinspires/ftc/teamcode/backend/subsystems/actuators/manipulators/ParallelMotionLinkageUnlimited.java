@@ -28,7 +28,6 @@ public class ParallelMotionLinkageUnlimited extends subsystem {
         this.motor = motor;
         this.inchRadius = inchRadius;
         this.ticksPerRotation = (int) (gearRatio * 28); // Assume 28 ticks per rotation per motor revolution
-        motor.close();
     }
 
     /**

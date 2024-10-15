@@ -34,7 +34,6 @@ public class ParallelMotionLinkage extends subsystem {
         this.max = max;
         this.inchRadius = inchRadius;
         this.ticksPerRotation = (int) (gearRatio * 28);
-        motor.close();
     }
 
     /**

@@ -28,7 +28,6 @@ public class Lift1Motor extends subsystem {
         this.motor = motor;
         this.min = min;
         this.max = max;
-        motor.close();
     }
 
     /**

@@ -17,7 +17,7 @@ import java.io.Closeable;
 /**
  * Motor Object, used to declare the motors within the programming of the robot
  */
-public class Motor extends subsystem implements Closeable, Comparable<Motor> {
+public class Motor extends subsystem implements Comparable<Motor> {
     private DcMotorEx motor;
     private String name;
     private int globalTicks;
@@ -66,7 +66,6 @@ public class Motor extends subsystem implements Closeable, Comparable<Motor> {
      * @param power Power of the motor, between -1 and 1
      */
     public void SP(double power) {
-        ensureOpen();
         motor.setPower(power);
     }
 
@@ -76,7 +75,6 @@ public class Motor extends subsystem implements Closeable, Comparable<Motor> {
      * @param targetPosition Target Position (in ticks)
      */
     public void STP(int targetPosition) {
-        ensureOpen();
         motor.setTargetPosition(targetPosition + globalTicks);
     }
 
@@ -84,7 +82,6 @@ public class Motor extends subsystem implements Closeable, Comparable<Motor> {
      * Sets the mode of the motor Object to RUN_TO_POSITION, Ex frontLeft.RTP();
      */
     public void RTP() throws TargetPositionNotSetException {
-        ensureOpen();
         telemetry().addData(this.name, " is running to position");
         telemetry().update();
         motor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
@@ -95,7 +92,6 @@ public class Motor extends subsystem implements Closeable, Comparable<Motor> {
      * Sets the mode of the motor Object to STOP_AND_RESET_ENCODERS, Ex frontLeft.SAR();
      */
     public void SAR() {
-        ensureOpen();
         globalTicks = motor.getCurrentPosition();
     }
 
@@ -103,7 +99,6 @@ public class Motor extends subsystem implements Closeable, Comparable<Motor> {
      * Sets the mode of the motor Object to RUN_WITHOUT_ENCODER, Ex frontLeft.RWE();
      */
     public void RWE() {
-        ensureOpen();
         motor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
     }
 
@@ -111,7 +106,6 @@ public class Motor extends subsystem implements Closeable, Comparable<Motor> {
      * Sets the mode of motor Object to RUN_USING_ENCODER, Ex frontLeft.RUE();
      */
     public void RUE() {
-        ensureOpen();
         motor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
     }
 
@@ -121,7 +115,6 @@ public class Motor extends subsystem implements Closeable, Comparable<Motor> {
      * @param ticks Number of ticks
      */
     public void ST(int ticks) {
-        ensureOpen();
         motor.setTargetPositionTolerance(ticks);
     }
 
@@ -144,7 +137,6 @@ public class Motor extends subsystem implements Closeable, Comparable<Motor> {
      * @param f Feedforward to predict future
      */
     public void changePIDF(double p, double i, double d, double f) {
-        ensureOpen();
         motor.setPIDFCoefficients(DcMotorEx.RunMode.RUN_TO_POSITION, new PIDFCoefficients(p, i, d, f, MotorControlAlgorithm.PIDF));
     }
 
@@ -182,21 +174,6 @@ public class Motor extends subsystem implements Closeable, Comparable<Motor> {
      */
     public double GP() {
         return motor.getPower();
-    }
-
-    /**
-     * Sets closed to true
-     */
-    @Override
-    public void close() {
-        if (closed)
-            return;
-        closed = true;
-    }
-
-    private void ensureOpen() {
-        if (closed)
-            throw new IllegalStateException("Motor closed");
     }
 
     /**
