@@ -5,8 +5,8 @@ import org.firstinspires.ftc.teamcode.backend.libraries.subsystem;
 import org.firstinspires.ftc.teamcode.backend.subsystems.actuators.base.Motor;
 
 /**
- * The PassiveRoller1Motor class controls a passive roller mechanism using a single motor.
- * It provides functionality to roll the mechanism forward, backward, or disengage it.
+ * The PassiveRoller1Motor class controls a passive roller mechanism using a single motor
+ * It provides functionality to roll the mechanism forward, backward, or disengage it
  */
 public class PassiveRoller1Motor extends subsystem {
     private Motor motor;
@@ -14,19 +14,19 @@ public class PassiveRoller1Motor extends subsystem {
     private final double rollerSpeed;
 
     /**
-     * Enum to define roller control directions: forward, backward, or disengaged.
+     * Enum to define roller control directions: forward, backward, or disengaged
      */
     enum RollerControl {
         FORWARD, BACKWARD, DISENGAGE
     }
 
     /**
-     * Constructs a new PassiveRoller1Motor instance.
+     * Constructs a new PassiveRoller1Motor instance
      *
-     * @param name        The name of the roller system.
-     * @param motor       The Motor object controlling the roller.
-     * @param telemetry   Telemetry object for logging and debugging.
-     * @param rollerSpeed The speed at which the roller operates.
+     * @param name        The name of the roller system
+     * @param motor       The Motor object controlling the roller
+     * @param telemetry   Telemetry object for logging and debugging
+     * @param rollerSpeed The speed at which the roller operates
      */
     public PassiveRoller1Motor(String name, Motor motor, Telemetry telemetry, int rollerSpeed) {
         super(telemetry);
@@ -37,9 +37,9 @@ public class PassiveRoller1Motor extends subsystem {
     }
 
     /**
-     * Controls the roller mechanism based on the given control direction.
+     * Controls the roller mechanism based on the given control direction
      *
-     * @param control The desired control direction for the roller (FORWARD, BACKWARD, or DISENGAGE).
+     * @param control The desired control direction for the roller (FORWARD, BACKWARD, or DISENGAGE)
      */
     public void roll(RollerControl control) {
         switch (control) {
