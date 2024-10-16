@@ -1,6 +1,6 @@
 Make runnable for the end of RTP for Drivetrains and Manipulators, try to not make it taxing
-Fix parameters to be more clear ex. Instead of m or p, write motor or power
-Make parallel motor linkage class
 Figure out odometry and then entirely rewrite the drivetrains
 Figure up trapazoidal powering stuff, to ramp up and down power to fix roadrunner-ing
 Rewrite all the drivetrains a third time because theres 2 approaches to odemetry
+
+Maybe make CR servo, but then again you can just take advantage of how a CR servo works, and use .5 as the position to go stay, and just go up and down from there. Also CR servo is just basically dcmotorsimple anyways
