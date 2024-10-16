@@ -28,7 +28,7 @@ public class Constants {
 
     // to calculate distances
     // assuming its a hall effect encoder then *28 accounts for the rises and falls for the channels
-    final static double conversion_factor_dt = getConversionFactorDT();
+    public final static double conversion_factor_dt = getConversionFactorDT();
 //    final double conversion_factor_linear_slide = getConversionFactorLinearSlide();
 
     /**
