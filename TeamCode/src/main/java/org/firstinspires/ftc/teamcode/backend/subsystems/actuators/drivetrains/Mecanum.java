@@ -4,7 +4,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.backend.subsystems.actuators.base.Motor;
 import org.firstinspires.ftc.teamcode.backend.subsystems.interfaces.DrivetrainHolonomic;
 import org.firstinspires.ftc.teamcode.backend.libraries.subsystem;
-import org.firstinspires.ftc.teamcode.backend.subsystems.EaseCommands;
+import org.firstinspires.ftc.teamcode.backend.subsystems.opModeTools.EaseCommands;
 
 import java.util.Arrays;
 

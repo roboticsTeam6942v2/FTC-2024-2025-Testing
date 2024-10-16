@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
-import org.firstinspires.ftc.teamcode.backend.subsystems.Integrator;
+import org.firstinspires.ftc.teamcode.backend.subsystems.opModeTools.Integrator;
 import org.firstinspires.ftc.teamcode.backend.subsystems.actuators.base.Motor;
 import org.firstinspires.ftc.teamcode.backend.subsystems.actuators.drivetrains.Mecanum;
 import org.firstinspires.ftc.teamcode.backend.subsystems.sensors.UpdatedIMU;
