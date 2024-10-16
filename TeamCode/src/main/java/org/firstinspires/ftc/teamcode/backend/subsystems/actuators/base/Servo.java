@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.backend.subsystems.actuators.base;
 
-import androidx.annotation.NonNull;
-
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -19,7 +17,7 @@ public class Servo extends subsystem {
      * @param name  Name of the servo in the phone
      * @param hwMap HardwareMap object from OpMode
      */
-    public Servo(String name, @NonNull HardwareMap hwMap, Telemetry telemetry) {
+    public Servo(String name, HardwareMap hwMap, Telemetry telemetry) {
         super(hwMap, telemetry);
         servo = hwMap.get(com.qualcomm.robotcore.hardware.Servo.class, name);
     }

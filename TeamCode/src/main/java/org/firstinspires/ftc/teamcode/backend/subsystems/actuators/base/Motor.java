@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.backend.subsystems.actuators.base;
 
-import androidx.annotation.NonNull;
-
 import com.qualcomm.robotcore.exception.TargetPositionNotSetException;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -29,7 +27,7 @@ public class Motor extends subsystem implements Comparable<Motor> {
      * @param name  Name of the motor in the phone
      * @param hwMap HardwareMap object from OpMode
      */
-    public Motor(@NonNull String name, @NonNull HardwareMap hwMap, Telemetry telemetry) {
+    public Motor(String name, HardwareMap hwMap, Telemetry telemetry) {
         this(name, hwMap, "", telemetry);
     }
 
@@ -40,7 +38,7 @@ public class Motor extends subsystem implements Comparable<Motor> {
      * @param hwMap     Name of the motor within the phones
      * @param direction Direction of the motor (f or r)
      */
-    public Motor(@NonNull String name, @NonNull HardwareMap hwMap, @NonNull String direction, Telemetry telemetry) {
+    public Motor(String name, HardwareMap hwMap, String direction, Telemetry telemetry) {
         super(hwMap, telemetry);
         motor = hwMap.get(DcMotorEx.class, name);
         motor.setDirection(direction.toLowerCase().charAt(0) == 'r' ? DcMotorSimple.Direction.REVERSE : DcMotorSimple.Direction.FORWARD);

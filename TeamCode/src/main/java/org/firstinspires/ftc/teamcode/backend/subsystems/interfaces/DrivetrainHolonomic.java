@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.backend.subsystems.interfaces;
 
-import androidx.annotation.NonNull;
-
 public interface DrivetrainHolonomic extends DrivetrainMotorControls {
 
     enum Directions {
@@ -34,5 +32,5 @@ public interface DrivetrainHolonomic extends DrivetrainMotorControls {
      * @param inches    Distance using inches
      * @param speed     Power (between -1 and 1)
      */
-    void drive(@NonNull Directions direction, double inches, double speed);
+    void drive(Directions direction, double inches, double speed);
 }

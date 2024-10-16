@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.backend.subsystems.actuators.drivetrains;
 
-import androidx.annotation.NonNull;
-
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.backend.subsystems.actuators.base.Motor;
 import org.firstinspires.ftc.teamcode.backend.subsystems.interfaces.DrivetrainHolonomic;
@@ -74,7 +72,7 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
      * @param p Power (between -1 and 1)
      */
     @Override
-    public void SP(@NonNull DTMotors m, double p) {
+    public void SP(DTMotors m, double p) {
         switch (m) {
             case m:
                 throw new IllegalArgumentException("Midshift is an illegal argument for TankDrive");
@@ -123,7 +121,7 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
      * @param tp Target Position in ticks
      */
     @Override
-    public void STP(@NonNull DTMotors m, int tp) {
+    public void STP(DTMotors m, int tp) {
         switch (m) {
             case m:
                 throw new IllegalArgumentException("Midshift is an illegal argument for TankDrive");
@@ -171,17 +169,17 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
      * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
      */
     @Override
-    public void RTP(@NonNull DTMotors m) {
+    public void RTP(DTMotors m) {
         RTP(m, true);
     }
 
     /**
      * Sets the mode of the motor to RUN_TO_POSITION using case switch
      *
-     * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
+     * @param m    Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
      * @param wait If you want to wait till the drivetrain is in position or if the code should just continue
      */
-    public void RTP(@NonNull DTMotors m, boolean wait) {
+    public void RTP(DTMotors m, boolean wait) {
         Telemetry.Item mecanumRTPTelemetry = telemetry().addData("Mecanum moving", "");
         switch (m) {
             case m:
@@ -237,7 +235,7 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
      * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
      */
     @Override
-    public void SAR(@NonNull DTMotors m) {
+    public void SAR(DTMotors m) {
         switch (m) {
             case m:
                 throw new IllegalArgumentException("Midshift is an illegal argument for TankDrive");
@@ -285,7 +283,7 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
      * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
      */
     @Override
-    public void RWE(@NonNull DTMotors m) {
+    public void RWE(DTMotors m) {
         switch (m) {
             case m:
                 throw new IllegalArgumentException("Midshift is an illegal argument for TankDrive");
@@ -333,7 +331,7 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
      * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
      */
     @Override
-    public void RUE(@NonNull DTMotors m) {
+    public void RUE(DTMotors m) {
         switch (m) {
             case m:
                 throw new IllegalArgumentException("Midshift is an illegal argument for TankDrive");
@@ -405,7 +403,7 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
      * @param speed     Power (between -1 and 1)
      */
     @Override
-    public void drive(@NonNull Directions direction, double inches, double speed) {
+    public void drive(Directions direction, double inches, double speed) {
         SAR(DTMotors.dt);
         RUE(DTMotors.dt);
         switch (direction) {

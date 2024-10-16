@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.backend.subsystems.actuators.base;
 
-import androidx.annotation.NonNull;
-
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -9,10 +7,10 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class ServoEx extends Servo {
     private int degrees;
 
-    public ServoEx(String name, @NonNull HardwareMap hwMap, Telemetry telemetry, int degrees) {
+    public ServoEx(String name, HardwareMap hwMap, Telemetry telemetry, int degrees) {
         super(name, hwMap, telemetry);
         this.degrees = degrees;
-        servo.scaleRange(0,degrees);
+        servo.scaleRange(0, degrees);
     }
 
     @Override

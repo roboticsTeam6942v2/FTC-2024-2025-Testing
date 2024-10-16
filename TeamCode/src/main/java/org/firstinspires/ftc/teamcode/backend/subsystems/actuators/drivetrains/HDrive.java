@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.backend.subsystems.actuators.drivetrains;
 
-import androidx.annotation.NonNull;
-
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.backend.subsystems.EaseCommands;
 import org.firstinspires.ftc.teamcode.backend.subsystems.actuators.base.Motor;
@@ -72,7 +70,7 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
      * @param speed     Speed from 0-1 for the drivetrain to travel
      */
     @Override
-    public void drive(@NonNull Directions direction, double inches, double speed) {
+    public void drive(Directions direction, double inches, double speed) {
         SAR(DTMotors.all);
         RUE(DTMotors.all);
         int val;
@@ -174,7 +172,7 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
      * @param p Power you want the motor to travel at, 0-1
      */
     @Override
-    public void SP(@NonNull DTMotors m, double p) {
+    public void SP(DTMotors m, double p) {
         switch (m) {
             case fl:
                 frontLeft.SP(p);
@@ -229,17 +227,17 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
      * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt, all)
      */
     @Override
-    public void RTP(@NonNull DTMotors m) {
+    public void RTP(DTMotors m) {
         RTP(m, true);
     }
 
     /**
      * Sets the mode of the motor to RUN_TO_POSITION using case switch
      *
-     * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt, all)
+     * @param m    Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt, all)
      * @param wait If you want to wait till the drivetrain is in position or if the code should just continue
      */
-    public void RTP(@NonNull DTMotors m, boolean wait) {
+    public void RTP(DTMotors m, boolean wait) {
         Telemetry.Item hDriveRTPTelemetry = telemetry().addData("HDrive moving", "");
         switch (m) {
             case fl:
@@ -303,7 +301,7 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
      * @param tp Target Position in ticks
      */
     @Override
-    public void STP(@NonNull DTMotors m, int tp) {
+    public void STP(DTMotors m, int tp) {
         switch (m) {
             case fl:
                 frontLeft.STP(tp);
@@ -358,7 +356,7 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
      * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt, all)
      */
     @Override
-    public void SAR(@NonNull DTMotors m) {
+    public void SAR(DTMotors m) {
         switch (m) {
             case fl:
                 frontLeft.SAR();
@@ -413,7 +411,7 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
      * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt, all)
      */
     @Override
-    public void RWE(@NonNull DTMotors m) {
+    public void RWE(DTMotors m) {
         switch (m) {
             case fl:
                 frontLeft.RWE();
@@ -468,7 +466,7 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
      * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt, all)
      */
     @Override
-    public void RUE(@NonNull DTMotors m) {
+    public void RUE(DTMotors m) {
         switch (m) {
             case fl:
                 frontLeft.RUE();
