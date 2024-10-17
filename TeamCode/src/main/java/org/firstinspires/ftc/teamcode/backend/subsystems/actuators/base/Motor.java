@@ -193,6 +193,10 @@ public class Motor extends subsystem implements Comparable<Motor> {
         return motor.getPower();
     }
 
+    protected MotorConfigurationType getMotorConfiguration() {
+        return motor.getMotorType();
+    }
+
     /**
      * Compares this motor to another motor based on their names
      *
