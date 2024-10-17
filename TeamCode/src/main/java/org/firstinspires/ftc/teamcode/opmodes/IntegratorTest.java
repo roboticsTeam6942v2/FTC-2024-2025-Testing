@@ -23,30 +23,27 @@ public class IntegratorTest extends LinearOpMode {
 
         imu = new UpdatedIMU("imu", hardwareMap, telemetry);
 
-        integratorThread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                ElapsedTime timer = new ElapsedTime();
-                double lastTime = 0;
-                while (running) {
-                    // get current data
-                    Acceleration acceleration = imu.getAcceleration();
-                    double xA = acceleration.xAccel;
-                    double yA = acceleration.yAccel;
-                    double heading = imu.getAngle();
+        integratorThread = new Thread(() -> {
+            ElapsedTime timer = new ElapsedTime();
+            double lastTime = 0;
+            while (running) {
+                // get current data
+                Acceleration acceleration = imu.getAcceleration();
+                double xA = acceleration.xAccel;
+                double yA = acceleration.yAccel;
+                double heading = imu.getAngle();
 
-                    double currentTime = timer.seconds();
-                    double timeDelta = currentTime - lastTime;
-                    lastTime = currentTime;
+                double currentTime = timer.seconds();
+                double timeDelta = currentTime - lastTime;
+                lastTime = currentTime;
 
-                    integrator.update(xA, yA, heading, timeDelta);
-                    timer.reset();
+                integrator.update(xA, yA, heading, timeDelta);
+                timer.reset();
 
-                    try {
-                        Thread.sleep(20);
-                    } catch (InterruptedException e) {
-                        Thread.currentThread().interrupt();
-                    }
+                try {
+                    Thread.sleep(20);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
                 }
             }
         });
