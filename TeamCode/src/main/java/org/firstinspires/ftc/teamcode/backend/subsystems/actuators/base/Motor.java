@@ -1,16 +1,18 @@
 package org.firstinspires.ftc.teamcode.backend.subsystems.actuators.base;
 
+import com.qualcomm.hardware.lynx.LynxModule;
+import com.qualcomm.hardware.lynx.commands.core.LynxGetMotorEncoderPositionCommand;
+import com.qualcomm.hardware.lynx.commands.core.LynxSetMotorChannelModeCommand;
+import com.qualcomm.hardware.lynx.commands.core.LynxSetMotorTargetPositionCommand;
 import com.qualcomm.robotcore.exception.TargetPositionNotSetException;
+import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.hardware.MotorControlAlgorithm;
-import com.qualcomm.robotcore.hardware.PIDFCoefficients;
+import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.backend.libraries.subsystem;
-
-import java.io.Closeable;
 
 /**
  * Motor Object, used to declare the motors within the programming of the robot
@@ -18,8 +20,9 @@ import java.io.Closeable;
 public class Motor extends subsystem implements Comparable<Motor> {
     private DcMotorEx motor;
     private String name;
-    private int globalTicks;
-    private boolean closed;
+    private Integer globalTicks, tolerance, targetPosition;
+    private final LynxModule lynxModule;
+    private final int motorPort;
 
     /**
      * Sets the variables for the motor Object without direction
@@ -39,6 +42,7 @@ public class Motor extends subsystem implements Comparable<Motor> {
      * @param direction Direction of the motor (f or r)
      */
     public Motor(String name, HardwareMap hwMap, String direction, Telemetry telemetry) {
+        // after this initialization setup, we are going to go as base level as possible to optimize
         super(hwMap, telemetry);
         motor = hwMap.get(DcMotorEx.class, name);
         motor.setDirection(direction.toLowerCase().charAt(0) == 'r' ? DcMotorSimple.Direction.REVERSE : DcMotorSimple.Direction.FORWARD);
@@ -46,7 +50,11 @@ public class Motor extends subsystem implements Comparable<Motor> {
         motor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
         motor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
         this.name = name;
-        closed = false;
+        lynxModule = (LynxModule) motor.getController();
+        motorPort = motor.getPortNumber();
+        tolerance = 10;
+        targetPosition = null;
+//        MotorConfigurationType
     }
 
     /**
@@ -65,7 +73,13 @@ public class Motor extends subsystem implements Comparable<Motor> {
      */
     public void SP(double power) {
         motor.setPower(power);
-    }
+//        while (true) {
+//            try {
+//                new LynxSetMotorPowerCommand(lynxModule, motorPort, power);
+//            } catch (Exception e) {
+//
+//            }
+        }
 
     /**
      * Sets a target position for the encoders within the motor Object, Ex frontLeft.STP(100);
@@ -73,38 +87,62 @@ public class Motor extends subsystem implements Comparable<Motor> {
      * @param targetPosition Target Position (in ticks)
      */
     public void STP(int targetPosition) {
-        motor.setTargetPosition(targetPosition + globalTicks);
+        this.targetPosition = targetPosition + globalTicks;
+        while (true) {
+            try {
+                new LynxSetMotorTargetPositionCommand(lynxModule, motorPort, this.targetPosition, tolerance).send();
+            } catch (Exception e) {
+
+            }
+        }
     }
 
     /**
      * Sets the mode of the motor Object to RUN_TO_POSITION, Ex frontLeft.RTP();
      */
     public void RTP() throws TargetPositionNotSetException {
-        telemetry().addData(this.name, " is running to position");
-        telemetry().update();
-        motor.setMode(DcMotorEx.RunMode.RUN_TO_POSITION);
-        telemetry().clear();
+        if (this.targetPosition == null)
+            throw new TargetPositionNotSetException();
+        while (true) {
+            try {
+                new LynxSetMotorChannelModeCommand(lynxModule, motorPort, DcMotor.RunMode.RUN_USING_ENCODER, DcMotor.ZeroPowerBehavior.BRAKE).send();
+            } catch (Exception e) {
+
+            }
+        }
     }
 
     /**
      * Sets the mode of the motor Object to STOP_AND_RESET_ENCODERS, Ex frontLeft.SAR();
      */
     public void SAR() {
-        globalTicks = motor.getCurrentPosition();
+        globalTicks = GCP();
     }
 
     /**
      * Sets the mode of the motor Object to RUN_WITHOUT_ENCODER, Ex frontLeft.RWE();
      */
     public void RWE() {
-        motor.setMode(DcMotorEx.RunMode.RUN_WITHOUT_ENCODER);
+        while (true) {
+            try {
+                new LynxSetMotorChannelModeCommand(lynxModule, motorPort, DcMotor.RunMode.RUN_WITHOUT_ENCODER, DcMotor.ZeroPowerBehavior.BRAKE).send();
+            } catch (Exception e) {
+
+            }
+        }
     }
 
     /**
      * Sets the mode of motor Object to RUN_USING_ENCODER, Ex frontLeft.RUE();
      */
     public void RUE() {
-        motor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
+        while (true) {
+            try {
+                new LynxSetMotorChannelModeCommand(lynxModule, motorPort, DcMotor.RunMode.RUN_USING_ENCODER, DcMotor.ZeroPowerBehavior.BRAKE);
+            } catch (Exception e) {
+
+            }
+        }
     }
 
     /**
@@ -113,29 +151,7 @@ public class Motor extends subsystem implements Comparable<Motor> {
      * @param ticks Number of ticks
      */
     public void ST(int ticks) {
-        motor.setTargetPositionTolerance(ticks);
-    }
-
-    // basic rules for tuning
-    // p means youre going fast the further you are from your target
-    // i means if you hit a rough patch or arent getting to speed we increase power over time to get there
-    // d means depending on how big of a spike from the rate of change, we slow down to prevent overshoot
-    // the larger the spike the more it dampens, so if youve been slow on a bump and i gets high enough to pass the bump
-    // then all of a sudden in one loop youve moved 4x the degrees you normally do, d will spike up to slow you down so you dont overshoot
-
-    // input adjustment value
-    // RUN_USING_ENCODERS is a PID algorithm, so we are able to adjust the coefficients if we have a weird issue such as it getting caught on something then suddenly shooting
-
-    /**
-     * Input the adjustment value for the PID algorithm.
-     *
-     * @param p Speed according to the distance from the target
-     * @param i Increase power over time
-     * @param d Slow down to prevent overshoot
-     * @param f Feedforward to predict future
-     */
-    public void changePIDF(double p, double i, double d, double f) {
-        motor.setPIDFCoefficients(DcMotorEx.RunMode.RUN_TO_POSITION, new PIDFCoefficients(p, i, d, f, MotorControlAlgorithm.PIDF));
+        this.tolerance = ticks;
     }
 
     /**
@@ -144,7 +160,7 @@ public class Motor extends subsystem implements Comparable<Motor> {
      * @return isBusy (true or false)
      */
     public boolean isBusy() {
-        return motor.isBusy();
+        return Math.abs(GCP() - GTP()) > this.tolerance;
     }
 
     /**
@@ -153,7 +169,13 @@ public class Motor extends subsystem implements Comparable<Motor> {
      * @return The current position of the motor in ticks
      */
     public int GCP() {
-        return motor.getCurrentPosition();
+        while (true) {
+            try {
+                return new LynxGetMotorEncoderPositionCommand(lynxModule, motorPort).sendReceive().getPosition() - globalTicks;
+            } catch (Exception e) {
+
+            }
+        }
     }
 
     /**
@@ -162,7 +184,7 @@ public class Motor extends subsystem implements Comparable<Motor> {
      * @return The target position of the motor in ticks
      */
     public int GTP() {
-        return motor.getTargetPosition();
+        return this.targetPosition;
     }
 
     /**
