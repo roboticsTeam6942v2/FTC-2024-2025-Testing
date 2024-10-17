@@ -11,7 +11,7 @@ import org.firstinspires.ftc.teamcode.backend.subsystems.actuators.drivetrains.M
 import org.firstinspires.ftc.teamcode.backend.subsystems.sensors.UpdatedIMU;
 
 @TeleOp
-public class TestTeleOp extends LinearOpMode {
+public class IntegratorTest extends LinearOpMode {
     UpdatedIMU imu;
     private Integrator integrator = new Integrator();
     private Thread integratorThread;
