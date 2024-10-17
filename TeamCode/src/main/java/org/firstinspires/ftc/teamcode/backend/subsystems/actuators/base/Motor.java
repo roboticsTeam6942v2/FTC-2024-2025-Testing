@@ -15,7 +15,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.backend.libraries.subsystem;
 
 /**
- * Motor Object, used to declare the motors within the programming of the robot
+ * A class representing a motor and providing methods for controlling and interacting with it.
+ * This class extends the functionality of {@link DcMotorEx} to simplify the use of motors
  */
 public class Motor extends subsystem implements Comparable<Motor> {
     private DcMotorEx motor;
@@ -25,66 +26,60 @@ public class Motor extends subsystem implements Comparable<Motor> {
     private final int motorPort;
 
     /**
-     * Sets the variables for the motor Object without direction
+     * Constructs a {@code Motor} object without specifying a direction
      *
-     * @param name  Name of the motor in the phone
-     * @param hwMap HardwareMap object from OpMode
+     * @param name      The name of the motor as configured in the robot configuration on the phone
+     * @param hwMap     The {@link HardwareMap} object passed from the OpMode to map the motor
+     * @param telemetry The {@link Telemetry} object to display runtime information
      */
     public Motor(String name, HardwareMap hwMap, Telemetry telemetry) {
         this(name, hwMap, "", telemetry);
     }
 
     /**
-     * Sets the variables for the motor Object
+     * Constructs a {@code Motor} object with a specified direction
      *
-     * @param name      Name of the motor in the code
-     * @param hwMap     Name of the motor within the phones
-     * @param direction Direction of the motor (f or r)
+     * @param name      The name of the motor as configured in the robot configuration on the phone
+     * @param hwMap     The {@link HardwareMap} object passed from the OpMode to map the motor
+     * @param direction The direction of the motor ('f' for forward, 'r' for reverse)
+     * @param telemetry The {@link Telemetry} object to display runtime information
      */
     public Motor(String name, HardwareMap hwMap, String direction, Telemetry telemetry) {
-        // after this initialization setup, we are going to go as base level as possible to optimize
         super(hwMap, telemetry);
         motor = hwMap.get(DcMotorEx.class, name);
         motor.setDirection(direction.toLowerCase().charAt(0) == 'r' ? DcMotorSimple.Direction.REVERSE : DcMotorSimple.Direction.FORWARD);
-        motor.setMode(DcMotorEx.RunMode.STOP_AND_RESET_ENCODER);
-        motor.setMode(DcMotorEx.RunMode.RUN_USING_ENCODER);
-        motor.setZeroPowerBehavior(DcMotorEx.ZeroPowerBehavior.BRAKE);
+        motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         this.name = name;
         lynxModule = (LynxModule) motor.getController();
         motorPort = motor.getPortNumber();
         tolerance = 10;
         targetPosition = null;
-//        MotorConfigurationType
     }
 
     /**
-     * Returns the name of the motor Object
+     * Returns the name of the motor
      *
-     * @return name Name of the motor
+     * @return The name of the motor
      */
     public String getName() {
         return name;
-    } // made so we can sort if needed
+    }
 
     /**
-     * Sets the power of the specific motor Object, Ex frontLeft.SP(1);
+     * Sets the power of the motor
      *
-     * @param power Power of the motor, between -1 and 1
+     * @param power The power of the motor, between -1.0 and 1.0
      */
     public void SP(double power) {
         motor.setPower(power);
-//        while (true) {
-//            try {
-//                new LynxSetMotorPowerCommand(lynxModule, motorPort, power);
-//            } catch (Exception e) {
-//
-//            }
-        }
+    }
 
     /**
-     * Sets a target position for the encoders within the motor Object, Ex frontLeft.STP(100);
+     * Sets a target position for the motor in encoder ticks
      *
-     * @param targetPosition Target Position (in ticks)
+     * @param targetPosition The target position in ticks
      */
     public void STP(int targetPosition) {
         this.targetPosition = targetPosition + globalTicks;
@@ -98,14 +93,16 @@ public class Motor extends subsystem implements Comparable<Motor> {
     }
 
     /**
-     * Sets the mode of the motor Object to RUN_TO_POSITION, Ex frontLeft.RTP();
+     * Sets the motor to run to the target position
+     *
+     * @throws TargetPositionNotSetException If the target position is not set before calling this method
      */
     public void RTP() throws TargetPositionNotSetException {
         if (this.targetPosition == null)
             throw new TargetPositionNotSetException();
         while (true) {
             try {
-                new LynxSetMotorChannelModeCommand(lynxModule, motorPort, DcMotor.RunMode.RUN_USING_ENCODER, DcMotor.ZeroPowerBehavior.BRAKE).send();
+                new LynxSetMotorChannelModeCommand(lynxModule, motorPort, DcMotor.RunMode.RUN_TO_POSITION, DcMotor.ZeroPowerBehavior.BRAKE).send();
             } catch (Exception e) {
 
             }
@@ -113,14 +110,14 @@ public class Motor extends subsystem implements Comparable<Motor> {
     }
 
     /**
-     * Sets the mode of the motor Object to STOP_AND_RESET_ENCODERS, Ex frontLeft.SAR();
+     * Resets the motor's encoder and sets the global ticks
      */
     public void SAR() {
         globalTicks = GCP();
     }
 
     /**
-     * Sets the mode of the motor Object to RUN_WITHOUT_ENCODER, Ex frontLeft.RWE();
+     * Sets the motor to run without using encoders
      */
     public void RWE() {
         while (true) {
@@ -133,7 +130,7 @@ public class Motor extends subsystem implements Comparable<Motor> {
     }
 
     /**
-     * Sets the mode of motor Object to RUN_USING_ENCODER, Ex frontLeft.RUE();
+     * Sets the motor to run using the encoders
      */
     public void RUE() {
         while (true) {
@@ -146,25 +143,25 @@ public class Motor extends subsystem implements Comparable<Motor> {
     }
 
     /**
-     * Set the tolerance of the motor, used to determine how close the target position must be to the current position for isBusy() to return false
+     * Sets the tolerance for determining whether the motor has reached its target position
      *
-     * @param ticks Number of ticks
+     * @param ticks The number of encoder ticks within which the motor is considered to have reached its target
      */
     public void ST(int ticks) {
         this.tolerance = ticks;
     }
 
     /**
-     * Returns whether or not a motor is busy, Ex frontLeft.isBusy();
+     * Returns whether the motor is busy (still moving to its target position)
      *
-     * @return isBusy (true or false)
+     * @return {@code true} if the motor is busy, {@code false} otherwise
      */
     public boolean isBusy() {
         return Math.abs(GCP() - GTP()) > this.tolerance;
     }
 
     /**
-     * Returns the current position of the motor Object, Ex frontLeft.GCP();
+     * Returns the current position of the motor in encoder ticks
      *
      * @return The current position of the motor in ticks
      */
@@ -179,7 +176,7 @@ public class Motor extends subsystem implements Comparable<Motor> {
     }
 
     /**
-     * Returns the target position of the motor Object, Ex frontLeft.GTP();
+     * Returns the target position of the motor in encoder ticks
      *
      * @return The target position of the motor in ticks
      */
@@ -188,19 +185,19 @@ public class Motor extends subsystem implements Comparable<Motor> {
     }
 
     /**
-     * Returns the power of the motor Object, Ex frontLeft.GP();
+     * Returns the current power of the motor
      *
-     * @return The motor's power as a double
+     * @return The power of the motor as a double between -1.0 and 1.0
      */
     public double GP() {
         return motor.getPower();
     }
 
     /**
-     * Compares this motor to another motor by name
+     * Compares this motor to another motor based on their names
      *
-     * @param otherMotor Motor object
-     * @return Alphabetical order sorting math
+     * @param otherMotor The other motor to compare to
+     * @return A negative integer, zero, or a positive integer as this motor's name is lexicographically less than, equal to, or greater than the other motor's name
      */
     @Override
     public int compareTo(Motor otherMotor) {
