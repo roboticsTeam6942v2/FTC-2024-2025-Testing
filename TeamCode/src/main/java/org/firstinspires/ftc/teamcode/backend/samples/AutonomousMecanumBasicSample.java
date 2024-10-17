@@ -10,7 +10,7 @@ import org.firstinspires.ftc.teamcode.backend.subsystems.interfaces.DrivetrainHo
 
 @Disabled
 @Autonomous
-public class AutonomousBasic extends LinearOpMode {
+public class AutonomousMecanumBasicSample extends LinearOpMode {
     public static Motor frontLeft, frontRight, backLeft, backRight;
 
     public void runOpMode() {

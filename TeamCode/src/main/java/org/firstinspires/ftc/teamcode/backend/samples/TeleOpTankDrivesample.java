@@ -12,7 +12,7 @@ import org.firstinspires.ftc.teamcode.backend.subsystems.actuators.drivetrains.T
  */
 @Disabled
 @TeleOp
-public class TeleOpTankDriveTest extends LinearOpMode {
+public class TeleOpTankDrivesample extends LinearOpMode {
     public static Motor frontLeft, frontRight, backLeft, backRight;
 
     public void runOpMode() {

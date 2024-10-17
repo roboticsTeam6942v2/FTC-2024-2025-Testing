@@ -15,7 +15,7 @@ import org.firstinspires.ftc.teamcode.backend.subsystems.sensors.Imu;
  */
 @Disabled
 @TeleOp
-public class TeleOpMecanum extends LinearOpMode {
+public class TeleOpMecanumSample extends LinearOpMode {
     private static Motor frontLeft, frontRight, backLeft, backRight;
     private Imu imu;
     private boolean robotOriented = true, fast = true;
