@@ -8,14 +8,20 @@ import org.firstinspires.ftc.teamcode.backend.libraries.subsystem;
 
 import java.util.Arrays;
 
+/**
+ * Represents an H-Drive drivetrain for a robot.
+ * This drivetrain consists of four base motors arranged in a traditional holonomic setup
+ * (frontLeft, frontRight, backLeft, backRight), and a fifth motor (midShift) for lateral movement
+ */
 public class HDrive extends subsystem implements DrivetrainHolonomic {
     private Motor frontLeft, frontRight, backLeft, backRight, midShift;
 
     /**
-     * Creates a HDrive drive Object by putting motors into a sorted array, and declaring the odd motor out separate
+     * Constructs an H-Drive object with the specified base motors and a mid-shift motor for lateral movement
      *
-     * @param motors   Four base motor Objects in an array
-     * @param midshift The rotated motor Object
+     * @param motors   An array of four base Motor objects representing the base of the drivetrain
+     * @param midshift The mid-shift Motor object for lateral movement
+     * @param telemetry The telemetry object for displaying data
      */
     public HDrive(Motor[] motors, Motor midshift, Telemetry telemetry) {
         super(telemetry);
@@ -28,11 +34,11 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
     }
 
     /**
-     * Set power to motors for teleOp driving
+     * Controls the drivetrain during TeleOp mode by setting power to the motors for driving, rotation, and strafing
      *
-     * @param y  Driving
-     * @param rx Rotation
-     * @param x  Strafing
+     * @param y  The power for forward/backward movement
+     * @param rx The power for rotation
+     * @param x  The power for strafing (lateral movement)
      */
     @Override
     public void teleOpDrive(double y, double rx, double x) {
@@ -45,12 +51,12 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
     }
 
     /**
-     * Set power to motors for teleOp driving, allows for adjustment to speed
+     * Controls the drivetrain during TeleOp mode with adjustable speed for driving, rotation, and strafing
      *
-     * @param y     Driving
-     * @param rx    Rotation
-     * @param x     Strafing
-     * @param speed Speed reduction, higher reduction means slower speed
+     * @param y     The power for forward/backward movement
+     * @param rx    The power for rotation
+     * @param x     The power for strafing (lateral movement)
+     * @param speed Speed modifier; a higher value means slower movement
      */
     @Override
     public void teleOpDrive(double y, double rx, double x, double speed) {
@@ -63,11 +69,11 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
     }
 
     /**
-     * Tell the drivetrain to drive a given direction x amount of inches at a given speed
+     * Drives the robot in a specified direction for a given distance and speed
      *
-     * @param direction Direction to travel
-     * @param inches    Distance to travel in inches
-     * @param speed     Speed from 0-1 for the drivetrain to travel
+     * @param direction The direction in which the robot should move
+     * @param inches    The distance to move, in inches
+     * @param speed     The speed at which the robot should move (0 to 1)
      */
     @Override
     public void drive(Directions direction, double inches, double speed) {
@@ -156,9 +162,9 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
     }
 
     /**
-     * If the drivetrain is running
+     * Checks if any of the drivetrain motors are still running
      *
-     * @return Boolean, true if motors are running
+     * @return True if any of the motors are busy, false otherwise
      */
     @Override
     public boolean isBusy() {
@@ -166,10 +172,10 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
     }
 
     /**
-     * Sets power to drivetrain motors
+     * Sets the power to specific motors in the drivetrain
      *
-     * @param m Motor you want to set power to
-     * @param p Power you want the motor to travel at, 0-1
+     * @param m Motor group or specific motor to set power for
+     * @param p The power level (0 to 1)
      */
     @Override
     public void SP(DTMotors m, double p) {
@@ -222,9 +228,9 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
     }
 
     /**
-     * Sets the mode of the motor to RUN_TO_POSITION using case switch
+     * Sets the target position for the drivetrain motors to RUN_TO_POSITION
      *
-     * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt, all)
+     * @param m Motor group or specific motor to run to position
      */
     @Override
     public void RTP(DTMotors m) {
@@ -232,10 +238,10 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
     }
 
     /**
-     * Sets the mode of the motor to RUN_TO_POSITION using case switch
+     * Sets the target position for the drivetrain motors to RUN_TO_POSITION, optionally waiting for completion
      *
-     * @param m    Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt, all)
-     * @param wait If you want to wait till the drivetrain is in position or if the code should just continue
+     * @param m    Motor group or specific motor to run to position
+     * @param wait Whether to wait for the motors to reach their target position
      */
     public void RTP(DTMotors m, boolean wait) {
         Telemetry.Item hDriveRTPTelemetry = telemetry().addData("HDrive moving", "");
@@ -295,10 +301,10 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
     }
 
     /**
-     * Set the target position of the motors using a case switch
+     * Sets the target position of a motor group using a case switch
      *
-     * @param m  Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt, all)
-     * @param tp Target Position in ticks
+     * @param m  Motor group to set the target position for
+     * @param tp Target position in encoder ticks
      */
     @Override
     public void STP(DTMotors m, int tp) {
@@ -351,9 +357,9 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
     }
 
     /**
-     * Sets given motors relative ticks to 0, STOP_AND_RESET_ENCODERS
+     * Resets the encoder values of the specified motors to zero
      *
-     * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt, all)
+     * @param m Motor group or specific motor to reset
      */
     @Override
     public void SAR(DTMotors m) {
@@ -406,9 +412,9 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
     }
 
     /**
-     * Sets given motors to RunMode.RUN_WITHOUT_ENCODER
+     * Sets the motors to RUN_WITHOUT_ENCODER mode
      *
-     * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt, all)
+     * @param m Motor group or specific motor
      */
     @Override
     public void RWE(DTMotors m) {
@@ -461,9 +467,9 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
     }
 
     /**
-     * Sets given motors to RunMode.RUN_USING_ENCODER
+     * Sets the motors to RUN_USING_ENCODER mode
      *
-     * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt, all)
+     * @param m Motor group or specific motor
      */
     @Override
     public void RUE(DTMotors m) {
@@ -516,10 +522,10 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
     }
 
     /**
-     * Takes advantage of holonomic drivetrain to travel at abnormal angles
+     * Moves the drivetrain in a given direction, using holonomic properties for angles
      *
-     * @param inches       Inches to travel
-     * @param directionDeg Direction in degrees
+     * @param inches       The distance to move in inches
+     * @param directionDeg The direction in degrees (0° is forward)
      */
     public void moveInDirection(double inches, int directionDeg) {
         double directionRad = Math.toRadians(directionDeg);

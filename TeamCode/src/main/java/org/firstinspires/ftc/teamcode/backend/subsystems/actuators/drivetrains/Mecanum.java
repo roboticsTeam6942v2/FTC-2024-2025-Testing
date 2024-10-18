@@ -9,15 +9,18 @@ import org.firstinspires.ftc.teamcode.backend.subsystems.opModeTools.EaseCommand
 import java.util.Arrays;
 
 /**
- * Object in order to create Mecanum drive for autonomous and teleop
+ * This class represents a Mecanum drivetrain for autonomous and teleoperation
+ * It allows for control of a holonomic robot using mecanum wheels, enabling movements in multiple directions
  */
 public class Mecanum extends subsystem implements DrivetrainHolonomic {
     private Motor frontLeft, frontRight, backLeft, backRight;
 
     /**
-     * Creates a Mecanum drive Object by putting motors into a sorted array
+     * Constructs a Mecanum drivetrain object and initializes the motor positions
+     * The motor array is sorted to ensure motors are assigned to correct drivetrain positions
      *
-     * @param motors Four motor Objects in an array
+     * @param motors   An array containing four motor objects, representing the drivetrain motors
+     * @param telemetry The telemetry object for logging data
      */
     public Mecanum(Motor[] motors, Telemetry telemetry) {
         super(telemetry);
@@ -29,11 +32,11 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
     }
 
     /**
-     * Set power to motors for teleOp driving
+     * Controls the drivetrain in teleOp mode, allowing driving, strafing, and rotating
      *
-     * @param y  Driving
-     * @param rx Rotation
-     * @param x  Strafing
+     * @param y  Forward or backward motion
+     * @param rx Rotational motion (turning)
+     * @param x  Lateral motion (strafing)
      */
     @Override
     public void teleOpDrive(double y, double rx, double x) {
@@ -47,12 +50,12 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
     }
 
     /**
-     * Set power to motors for teleOp driving, allows for adjustment to speed
+     * Controls the drivetrain in teleOp mode with speed adjustment
      *
-     * @param y     Driving
-     * @param rx    Rotation
-     * @param x     Strafing
-     * @param speed Speed reduction, higher reduction means slower speed
+     * @param y     Forward or backward motion
+     * @param rx    Rotational motion (turning)
+     * @param x     Lateral motion (strafing)
+     * @param speed Speed adjustment factor; higher value slows down the drivetrain
      */
     @Override
     public void teleOpDrive(double y, double rx, double x, double speed) {
@@ -66,10 +69,10 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
     }
 
     /**
-     * Set power to motors using a case switch
+     * Sets motor power using motor abbreviations and power levels
      *
      * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
-     * @param p Power (between -1 and 1)
+     * @param p Power level (from -1 to 1)
      */
     @Override
     public void SP(DTMotors m, double p) {
@@ -115,10 +118,10 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
     }
 
     /**
-     * Set the target position of the motors using a case switch
+     * Sets the target position for motors using a motor abbreviation and target position in ticks
      *
      * @param m  Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
-     * @param tp Target Position in ticks
+     * @param tp Target position in ticks
      */
     @Override
     public void STP(DTMotors m, int tp) {
@@ -164,7 +167,7 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
     }
 
     /**
-     * Sets the mode of the motor to RUN_TO_POSITION using case switch
+     * Sets motors to run to a specific position
      *
      * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
      */
@@ -174,10 +177,10 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
     }
 
     /**
-     * Sets the mode of the motor to RUN_TO_POSITION using case switch
+     * Sets motors to run to a specific position and optionally waits until the position is reached
      *
      * @param m    Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
-     * @param wait If you want to wait till the drivetrain is in position or if the code should just continue
+     * @param wait Whether to wait until the position is reached
      */
     public void RTP(DTMotors m, boolean wait) {
         Telemetry.Item mecanumRTPTelemetry = telemetry().addData("Mecanum moving", "");
@@ -230,7 +233,7 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
     }
 
     /**
-     * Sets the mode of the motor to STOP_AND_RESET_ENCODERS using case switch
+     * Stops and resets the motor encoders using a motor abbreviation
      *
      * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
      */
@@ -278,7 +281,7 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
     }
 
     /**
-     * Sets the mode of the motor to RUN_WITHOUT_ENCODERS using case switch
+     * Runs motors without using encoders based on the motor abbreviation
      *
      * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
      */
@@ -326,7 +329,7 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
     }
 
     /**
-     * Sets the mode of the motor to RUN_USING_ENCODERS using case switch
+     * Runs motors using encoders based on the motor abbreviation
      *
      * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
      */
@@ -374,9 +377,9 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
     }
 
     /**
-     * Sets tolerance of motor
+     * Sets the tolerance for considering the motor "not busy" when running to a position
      *
-     * @param i Tolerance in ticks to consider not busy when running to position
+     * @param i Tolerance value in ticks
      */
     public void ST(int i) {
         frontLeft.ST(i);
@@ -386,9 +389,9 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
     }
 
     /**
-     * Returns whether or not the drivetrain is busy
+     * Checks if the drivetrain motors are still busy
      *
-     * @return isBusy (true or false)
+     * @return true if the drivetrain is busy, false otherwise
      */
     @Override
     public boolean isBusy() {
@@ -396,11 +399,11 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
     }
 
     /**
-     * Driving method used for autonomous using case switch, distance, and power
+     * Drives the robot autonomously based on direction, distance in inches, and speed
      *
-     * @param direction Direction to drive
-     * @param inches    Distance using inches
-     * @param speed     Power (between -1 and 1)
+     * @param direction Direction to drive (FORWARD, BACKWARDS, LEFT, RIGHT, etc.)
+     * @param inches    Distance to drive in inches
+     * @param speed     Speed of the movement (from -1 to 1)
      */
     @Override
     public void drive(Directions direction, double inches, double speed) {
@@ -487,10 +490,10 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
     }
 
     /**
-     * Takes advantage of holonomic drivetrain to travel at abnormal angles
+     * Moves the robot in a specific direction using degrees and distance
      *
-     * @param inches       Inches to travel
-     * @param directionDeg Direction in degrees
+     * @param inches       Distance to move in inches
+     * @param directionDeg Direction in degrees (0-360)
      */
     public void moveInDirection(double inches, int directionDeg) {
         double directionRad = Math.toRadians(directionDeg);
