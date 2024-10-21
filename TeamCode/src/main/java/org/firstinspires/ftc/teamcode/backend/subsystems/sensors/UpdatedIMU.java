@@ -11,6 +11,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
+import org.firstinspires.ftc.robotcore.external.navigation.TempUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Temperature;
 import org.firstinspires.ftc.teamcode.backend.libraries.subsystem;
 
 public class UpdatedIMU extends subsystem {
@@ -80,5 +82,14 @@ public class UpdatedIMU extends subsystem {
 
     public Acceleration getAcceleration() {
         return imu.getLinearAcceleration();
+    }
+
+    /**
+     * Used to get temperature as read by the BNO055IMU
+     *
+     * @return Temperature
+     */
+    public Temperature getTemp() {
+        return imu.getTemperature();//.toUnit(TempUnit.FARENHEIT).temperature;
     }
 }

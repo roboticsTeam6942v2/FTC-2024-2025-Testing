@@ -36,7 +36,7 @@ public class TankDrive extends subsystem implements DrivetrainMotorControls {
      * @param right Right joystick
      */
     public void teleOpDrive(double left, double right) {
-        RWE(DTMotors.dt);
+        RWE(DTMotors.DRIVETRAIN_BASIC_4);
         frontLeft.SP(left);
         frontRight.SP(right);
     }
@@ -44,48 +44,48 @@ public class TankDrive extends subsystem implements DrivetrainMotorControls {
     /**
      * Set power to motors using a case switch
      *
-     * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
-     * @param p Power (between -1 and 1)
+     * @param motors Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
+     * @param power Power (between -1 and 1)
      */
     @Override
-    public void SP(DTMotors m, double p) {
-        switch (m) {
-            case m:
+    public void SP(DTMotors motors, double power) {
+        switch (motors) {
+            case MIDSHIFT:
                 throw new IllegalArgumentException("Midshift is an illegal argument for TankDrive");
-            case all:
-            case dt:
-                frontLeft.SP(p);
-                frontRight.SP(p);
-                backLeft.SP(p);
-                backRight.SP(p);
+            case ALL:
+            case DRIVETRAIN_BASIC_4:
+                frontLeft.SP(power);
+                frontRight.SP(power);
+                backLeft.SP(power);
+                backRight.SP(power);
                 break;
-            case fl:
-                frontLeft.SP(p);
+            case FRONT_LEFT:
+                frontLeft.SP(power);
                 break;
-            case fr:
-                frontRight.SP(p);
+            case FRONT_RIGHT:
+                frontRight.SP(power);
                 break;
-            case bl:
-                backLeft.SP(p);
+            case BACK_LEFT:
+                backLeft.SP(power);
                 break;
-            case br:
-                backRight.SP(p);
+            case BACK_RIGHT:
+                backRight.SP(power);
                 break;
-            case f:
-                frontLeft.SP(p);
-                frontRight.SP(p);
+            case FRONT:
+                frontLeft.SP(power);
+                frontRight.SP(power);
                 break;
-            case b:
-                backLeft.SP(p);
-                backRight.SP(p);
+            case BACK:
+                backLeft.SP(power);
+                backRight.SP(power);
                 break;
-            case l:
-                frontLeft.SP(p);
-                backLeft.SP(p);
+            case LEFT:
+                frontLeft.SP(power);
+                backLeft.SP(power);
                 break;
-            case r:
-                frontRight.SP(p);
-                backRight.SP(p);
+            case RIGHT:
+                frontRight.SP(power);
+                backRight.SP(power);
                 break;
         }
     }
@@ -93,48 +93,48 @@ public class TankDrive extends subsystem implements DrivetrainMotorControls {
     /**
      * Set the target position of the motors using a case switch
      *
-     * @param m  Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
-     * @param tp Target Position in ticks
+     * @param motors  Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
+     * @param targetPosition Target Position in ticks
      */
     @Override
-    public void STP(DTMotors m, int tp) {
-        switch (m) {
-            case m:
+    public void STP(DTMotors motors, int targetPosition) {
+        switch (motors) {
+            case MIDSHIFT:
                 throw new IllegalArgumentException("Midshift is an illegal argument for TankDrive");
-            case all:
-            case dt:
-                frontLeft.STP(tp);
-                frontRight.STP(tp);
-                backLeft.STP(tp);
-                backRight.STP(tp);
+            case ALL:
+            case DRIVETRAIN_BASIC_4:
+                frontLeft.STP(targetPosition);
+                frontRight.STP(targetPosition);
+                backLeft.STP(targetPosition);
+                backRight.STP(targetPosition);
                 break;
-            case fl:
-                frontLeft.STP(tp);
+            case FRONT_LEFT:
+                frontLeft.STP(targetPosition);
                 break;
-            case fr:
-                frontRight.STP(tp);
+            case FRONT_RIGHT:
+                frontRight.STP(targetPosition);
                 break;
-            case bl:
-                backLeft.STP(tp);
+            case BACK_LEFT:
+                backLeft.STP(targetPosition);
                 break;
-            case br:
-                backRight.STP(tp);
+            case BACK_RIGHT:
+                backRight.STP(targetPosition);
                 break;
-            case f:
-                frontLeft.STP(tp);
-                frontRight.STP(tp);
+            case FRONT:
+                frontLeft.STP(targetPosition);
+                frontRight.STP(targetPosition);
                 break;
-            case b:
-                backLeft.STP(tp);
-                backRight.STP(tp);
+            case BACK:
+                backLeft.STP(targetPosition);
+                backRight.STP(targetPosition);
                 break;
-            case l:
-                frontLeft.STP(tp);
-                backLeft.STP(tp);
+            case LEFT:
+                frontLeft.STP(targetPosition);
+                backLeft.STP(targetPosition);
                 break;
-            case r:
-                frontRight.STP(tp);
-                backRight.STP(tp);
+            case RIGHT:
+                frontRight.STP(targetPosition);
+                backRight.STP(targetPosition);
                 break;
         }
     }
@@ -142,56 +142,56 @@ public class TankDrive extends subsystem implements DrivetrainMotorControls {
     /**
      * Sets the mode of the motor to RUN_TO_POSITION using case switch
      *
-     * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
+     * @param motors Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
      */
     @Override
-    public void RTP(DTMotors m) {
-        RTP(m, true);
+    public void RTP(DTMotors motors) {
+        RTP(motors, true);
     }
 
     /**
      * Sets the mode of the motor to RUN_TO_POSITION using case switch
      *
-     * @param m    Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
+     * @param motors    Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
      * @param wait If you want to wait till the drivetrain is in position or if the code should just continue
      */
-    public void RTP(DTMotors m, boolean wait) {
+    public void RTP(DTMotors motors, boolean wait) {
         Telemetry.Item tankDriveRTPTelemetry = telemetry().addData("TankDrive moving", "");
-        switch (m) {
-            case m:
+        switch (motors) {
+            case MIDSHIFT:
                 throw new IllegalArgumentException("Midshift is an illegal argument for TankDrive");
-            case all:
-            case dt:
+            case ALL:
+            case DRIVETRAIN_BASIC_4:
                 frontLeft.RTP();
                 frontRight.RTP();
                 backLeft.RTP();
                 backRight.RTP();
                 break;
-            case fl:
+            case FRONT_LEFT:
                 frontLeft.RTP();
                 break;
-            case fr:
+            case FRONT_RIGHT:
                 frontRight.RTP();
                 break;
-            case bl:
+            case BACK_LEFT:
                 backLeft.RTP();
                 break;
-            case br:
+            case BACK_RIGHT:
                 backRight.RTP();
                 break;
-            case f:
+            case FRONT:
                 frontLeft.RTP();
                 frontRight.RTP();
                 break;
-            case b:
+            case BACK:
                 backLeft.RTP();
                 backRight.RTP();
                 break;
-            case l:
+            case LEFT:
                 frontLeft.RTP();
                 backLeft.RTP();
                 break;
-            case r:
+            case RIGHT:
                 frontRight.RTP();
                 backRight.RTP();
                 break;
@@ -208,45 +208,45 @@ public class TankDrive extends subsystem implements DrivetrainMotorControls {
     /**
      * Sets the mode of the motor to STOP_AND_RESET_ENCODERS using case switch
      *
-     * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
+     * @param motors Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
      */
     @Override
-    public void SAR(DTMotors m) {
-        switch (m) {
-            case m:
+    public void SAR(DTMotors motors) {
+        switch (motors) {
+            case MIDSHIFT:
                 throw new IllegalArgumentException("Midshift is an illegal argument for TankDrive");
-            case all:
-            case dt:
+            case ALL:
+            case DRIVETRAIN_BASIC_4:
                 frontLeft.SAR();
                 frontRight.SAR();
                 backLeft.SAR();
                 backRight.SAR();
                 break;
-            case fl:
+            case FRONT_LEFT:
                 frontLeft.SAR();
                 break;
-            case fr:
+            case FRONT_RIGHT:
                 frontRight.SAR();
                 break;
-            case bl:
+            case BACK_LEFT:
                 backLeft.SAR();
                 break;
-            case br:
+            case BACK_RIGHT:
                 backRight.SAR();
                 break;
-            case f:
+            case FRONT:
                 frontLeft.SAR();
                 frontRight.SAR();
                 break;
-            case b:
+            case BACK:
                 backLeft.SAR();
                 backRight.SAR();
                 break;
-            case l:
+            case LEFT:
                 frontLeft.SAR();
                 backLeft.SAR();
                 break;
-            case r:
+            case RIGHT:
                 frontRight.SAR();
                 backRight.SAR();
                 break;
@@ -256,45 +256,45 @@ public class TankDrive extends subsystem implements DrivetrainMotorControls {
     /**
      * Sets the mode of the motor to RUN_WITHOUT_ENCODERS using case switch
      *
-     * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
+     * @param motors Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
      */
     @Override
-    public void RWE(DTMotors m) {
-        switch (m) {
-            case m:
+    public void RWE(DTMotors motors) {
+        switch (motors) {
+            case MIDSHIFT:
                 throw new IllegalArgumentException("Midshift is an illegal argument for TankDrive");
-            case all:
-            case dt:
+            case ALL:
+            case DRIVETRAIN_BASIC_4:
                 frontLeft.RWE();
                 frontRight.RWE();
                 backLeft.RWE();
                 backRight.RWE();
                 break;
-            case fl:
+            case FRONT_LEFT:
                 frontLeft.RWE();
                 break;
-            case fr:
+            case FRONT_RIGHT:
                 frontRight.RWE();
                 break;
-            case bl:
+            case BACK_LEFT:
                 backLeft.RWE();
                 break;
-            case br:
+            case BACK_RIGHT:
                 backRight.RWE();
                 break;
-            case f:
+            case FRONT:
                 frontLeft.RWE();
                 frontRight.RWE();
                 break;
-            case b:
+            case BACK:
                 backLeft.RWE();
                 backRight.RWE();
                 break;
-            case l:
+            case LEFT:
                 frontLeft.RWE();
                 backLeft.RWE();
                 break;
-            case r:
+            case RIGHT:
                 frontRight.RWE();
                 backRight.RWE();
                 break;
@@ -304,45 +304,45 @@ public class TankDrive extends subsystem implements DrivetrainMotorControls {
     /**
      * Sets the mode of the motor to RUN_USING_ENCODERS using case switch
      *
-     * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
+     * @param motors Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
      */
     @Override
-    public void RUE(DTMotors m) {
-        switch (m) {
-            case m:
+    public void RUE(DTMotors motors) {
+        switch (motors) {
+            case MIDSHIFT:
                 throw new IllegalArgumentException("Midshift is an illegal argument for TankDrive");
-            case all:
-            case dt:
+            case ALL:
+            case DRIVETRAIN_BASIC_4:
                 frontLeft.RUE();
                 frontRight.RUE();
                 backLeft.RUE();
                 backRight.RUE();
                 break;
-            case fl:
+            case FRONT_LEFT:
                 frontLeft.RUE();
                 break;
-            case fr:
+            case FRONT_RIGHT:
                 frontRight.RUE();
                 break;
-            case bl:
+            case BACK_LEFT:
                 backLeft.RUE();
                 break;
-            case br:
+            case BACK_RIGHT:
                 backRight.RUE();
                 break;
-            case f:
+            case FRONT:
                 frontLeft.RUE();
                 frontRight.RUE();
                 break;
-            case b:
+            case BACK:
                 backLeft.RUE();
                 backRight.RUE();
                 break;
-            case l:
+            case LEFT:
                 frontLeft.RUE();
                 backLeft.RUE();
                 break;
-            case r:
+            case RIGHT:
                 frontRight.RUE();
                 backRight.RUE();
                 break;
@@ -378,24 +378,24 @@ public class TankDrive extends subsystem implements DrivetrainMotorControls {
      * @param speed     Power (between -1 and 1)
      */
     public void drive(DrivetrainHolonomic.Directions direction, double inches, double speed) {
-        SAR(DTMotors.dt);
-        RUE(DTMotors.dt);
+        SAR(DTMotors.DRIVETRAIN_BASIC_4);
+        RUE(DTMotors.DRIVETRAIN_BASIC_4);
         switch (direction) {
             case FORWARD:
-                STP(DTMotors.dt, EaseCommands.inTT_dt(inches));
-                SP(DTMotors.dt, speed);
-                RTP(DTMotors.dt);
+                STP(DTMotors.DRIVETRAIN_BASIC_4, EaseCommands.inTT_dt(inches));
+                SP(DTMotors.DRIVETRAIN_BASIC_4, speed);
+                RTP(DTMotors.DRIVETRAIN_BASIC_4);
                 while (frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) {
                 }
-                SP(DTMotors.dt, 0);
+                SP(DTMotors.DRIVETRAIN_BASIC_4, 0);
                 break;
             case BACKWARDS:
-                STP(DTMotors.dt, EaseCommands.inTT_dt(-inches));
-                SP(DTMotors.dt, speed);
-                RTP(DTMotors.dt);
+                STP(DTMotors.DRIVETRAIN_BASIC_4, EaseCommands.inTT_dt(-inches));
+                SP(DTMotors.DRIVETRAIN_BASIC_4, speed);
+                RTP(DTMotors.DRIVETRAIN_BASIC_4);
                 while (frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) {
                 }
-                SP(DTMotors.dt, 0);
+                SP(DTMotors.DRIVETRAIN_BASIC_4, 0);
                 break;
             default:
                 throw new IllegalArgumentException(direction + " is an invalid direction for TankDrive");

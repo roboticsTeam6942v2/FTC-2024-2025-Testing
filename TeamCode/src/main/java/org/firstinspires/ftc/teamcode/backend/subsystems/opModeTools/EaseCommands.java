@@ -2,6 +2,8 @@ package org.firstinspires.ftc.teamcode.backend.subsystems.opModeTools;
 
 import static java.lang.Math.round;
 
+import androidx.annotation.ColorInt;
+
 import org.firstinspires.ftc.teamcode.backend.subsystems.Constants;
 
 import java.util.HashMap;
@@ -141,7 +143,7 @@ public class EaseCommands {
      * @param b Blue component (0-255)
      * @return The name of the closest basic color
      */
-    public static Colors findClosestColor(int r, int g, int b) {
+    public static Colors findClosestColor(@ColorInt int r, @ColorInt int g, @ColorInt int b) {
         if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255) {
             throw new IllegalArgumentException("RGB values must be between 0 and 255.");
         }
@@ -174,23 +176,12 @@ public class EaseCommands {
      * @param g         The value of green [0-255]
      * @return Similarity
      */
-    public static double calculateColorSimilarity(int[] targetRGB, int r, int g, int b) {
+    public static double calculateColorSimilarity(int[] targetRGB, @ColorInt int r, @ColorInt int g, @ColorInt int b) {
         if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255) {
             throw new IllegalArgumentException("RGB values must be between 0 and 255.");
         }
         return Math.sqrt(Math.pow(r - targetRGB[0], 2) + Math.pow(g - targetRGB[1], 2) + Math.pow(b - targetRGB[2], 2));
     }
-
-//    /**
-//     * Returns a unit of measure converted to inches
-//     *
-//     * @param i The number you want to convert
-//     * @param u The unit the number is, "in", "cm", or "mm"
-//     * @return The value of the given value converted to another unit
-//     */
-//    public static double toIN(double i, String u) {
-//        return u.equals("in") ? i : u.equals("cm") ? i / 2.54 : u.equals("mm") ? i / 25.4 : 0;
-//    } Just use DistanceUnit objects
 
     /**
      * Returns a value of ticks to travel based of the conversion factor defined in Constants class
@@ -200,5 +191,9 @@ public class EaseCommands {
      */
     public static int inTT_dt(double inches) {
         return (int) round(c.conversion_factor_dt * inches);
+    }
+
+    public static <T> T autoCast(Object obj) {
+        return (T) obj;
     }
 }

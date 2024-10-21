@@ -33,7 +33,7 @@ public class Motor extends subsystem implements Comparable<Motor> {
      * @param telemetry The {@link Telemetry} object to display runtime information
      */
     public Motor(String name, HardwareMap hwMap, Telemetry telemetry) {
-        this(name, hwMap, "", telemetry);
+        this(name, hwMap, DcMotorSimple.Direction.FORWARD, telemetry);
     }
 
     /**
@@ -41,13 +41,13 @@ public class Motor extends subsystem implements Comparable<Motor> {
      *
      * @param name      The name of the motor as configured in the robot configuration on the phone
      * @param hwMap     The {@link HardwareMap} object passed from the OpMode to map the motor
-     * @param direction The direction of the motor ('f' for forward, 'r' for reverse)
+     * @param direction The direction of the motor
      * @param telemetry The {@link Telemetry} object to display runtime information
      */
-    public Motor(String name, HardwareMap hwMap, String direction, Telemetry telemetry) {
+    public Motor(String name, HardwareMap hwMap, DcMotorSimple.Direction direction, Telemetry telemetry) {
         super(hwMap, telemetry);
         motor = hwMap.get(DcMotorEx.class, name);
-        motor.setDirection(direction.toLowerCase().charAt(0) == 'r' ? DcMotorSimple.Direction.REVERSE : DcMotorSimple.Direction.FORWARD);
+        motor.setDirection(direction);
         motor.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         motor.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         motor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);

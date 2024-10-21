@@ -5,6 +5,7 @@ import com.qualcomm.hardware.lynx.commands.standard.LynxSetModuleLEDColorCommand
 
 import org.firstinspires.ftc.robotcore.external.navigation.CurrentUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.TempUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.Temperature;
 import org.firstinspires.ftc.robotcore.external.navigation.VoltageUnit;
 
 /**
@@ -52,12 +53,13 @@ public class HubInfo {
     }
 
     /**
-     * Gets the temperature of the hub in Fahrenheit
+     * Gets the temperature of the hub
      *
-     * @return The temperature in degrees Fahrenheit
+     * @return Temperature
      */
-    public double getTemperature() {
-        return this.lynxModule.getTemperature(TempUnit.FARENHEIT);
+    public Temperature getTemperature() {
+//        return this.lynxModule.getTemperature(TempUnit.FARENHEIT);
+        return new Temperature(TempUnit.FARENHEIT, this.lynxModule.getTemperature(TempUnit.FARENHEIT), System.currentTimeMillis());
     }
 
     /**

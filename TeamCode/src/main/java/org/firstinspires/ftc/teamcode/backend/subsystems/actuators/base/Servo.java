@@ -33,4 +33,8 @@ public class Servo extends subsystem {
     public void setPosition(double targetPosition) {
         servo.setPosition(targetPosition > 1 ? 1 : (targetPosition < 0 ? 0 : targetPosition));
     }
+
+    public double getPosition() {
+        return servo.getPosition();
+    }
 }

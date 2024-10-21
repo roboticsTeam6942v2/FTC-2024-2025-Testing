@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.backend.subsystems.sensors;
 
+import androidx.annotation.ColorInt;
 import androidx.annotation.NonNull;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
@@ -77,13 +78,23 @@ public class ColorSensor extends subsystem {
     }
 
     /**
+     * Controls the led on the color sensor
+     *
+     * @param power Boolean representing if power is on (true) or off (false)
+     */
+    public void setLed(boolean power) {
+        colorSensor.enableLed(power);
+    }
+
+    /**
      * Returns whether or not the red value falls within a set boundary
      *
      * @param num1 Smaller value
      * @param num2 Larger value
      * @return Whether or not the value is in the boundary (true or false)
-     */ // basically deprecated with new color based methods found in the EaseCommands class
-    public boolean redBoundary(int num1, int num2) {
+     */
+    @Deprecated
+    public boolean redBoundary(@ColorInt int num1, @ColorInt int num2) {
         return colorSensor.red() > num1 && colorSensor.red() < num2;
     }
 
@@ -93,8 +104,9 @@ public class ColorSensor extends subsystem {
      * @param num1 Smaller value
      * @param num2 Larger value
      * @return Whether or not the value is in the boundary (true or false)
-     */ // basically deprecated with new color based methods found in the EaseCommands class
-    public boolean blueBoundary(int num1, int num2) {
+     */
+    @Deprecated
+    public boolean blueBoundary(@ColorInt int num1, @ColorInt int num2) {
         return colorSensor.blue() > num1 && colorSensor.blue() < num2;
     }
 
@@ -104,8 +116,9 @@ public class ColorSensor extends subsystem {
      * @param num1 Smaller value
      * @param num2 Larger value
      * @return Whether or not the value is in the boundary (true or false)
-     */ // basically deprecated with new color based methods found in the EaseCommands class
-    public boolean greenBoundary(int num1, int num2) {
+     */
+    @Deprecated
+    public boolean greenBoundary(@ColorInt int num1, @ColorInt int num2) {
         return colorSensor.green() > num1 && colorSensor.green() < num2;
     }
 }

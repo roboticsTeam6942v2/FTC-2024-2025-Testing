@@ -1,5 +1,6 @@
 package org.firstinspires.ftc.teamcode.backend.subsystems.actuators.base;
 
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.configuration.typecontainers.MotorConfigurationType;
 
@@ -25,7 +26,7 @@ public class MotorEx extends Motor {
      * @param motorType The type of the motor, as defined in {@link MotorTypeRegistry.MotorType}
      */
     public MotorEx(String name, HardwareMap hwMap, Telemetry telemetry, MotorTypeRegistry.MotorType motorType) {
-        this(name, hwMap, "", telemetry, motorType);
+        this(name, hwMap, DcMotorSimple.Direction.FORWARD, telemetry, motorType);
     }
 
     /**
@@ -35,28 +36,30 @@ public class MotorEx extends Motor {
      *
      * @param name      The name of the motor as configured in the robot configuration on the phone
      * @param hwMap     The {@link HardwareMap} object passed from the OpMode to map the motor
-     * @param direction The direction of the motor, 'f' for forward or 'r' for reverse
+     * @param direction The direction of the motor
      * @param telemetry The {@link Telemetry} object used to display runtime information
      * @param motorType The type of the motor, as defined in {@link MotorTypeRegistry.MotorType}
      */
-    public MotorEx(String name, HardwareMap hwMap, String direction, Telemetry telemetry, MotorTypeRegistry.MotorType motorType) {
+    public MotorEx(String name, HardwareMap hwMap, DcMotorSimple.Direction direction, Telemetry telemetry, MotorTypeRegistry.MotorType motorType) {
         super(name, hwMap, direction, telemetry);
+        if (motorType == MotorTypeRegistry.MotorType.REV_ULTRAPLANETARY_HD_HEX_MOTOR)
+            throw new IllegalArgumentException(motorType.toString() + " is invalid for constructor public MotorEx(String name, HardwareMap hwMap, String direction, Telemetry telemetry, MotorTypeRegistry.MotorType motorType)\n Use constructor public MotorEx(String name, HardwareMap hwMap, String direction, Telemetry telemetry, MotorTypeRegistry.MotorType motorType, double gearboxRatio)");
         this.motorConfiguration = MotorTypeRegistry.motorTypeMap.get(motorType);
     }
 
     /**
-     * Constructs a {@code MotorEx} object with a specified direction and custom gearbox ratio
+     * Constructs a {@code MotorEx} object for a Rev Ultrapanetary HD Hex Motor with a custom gearbox ratio
      * <p>
      * This constructor allows you to set a custom gear ratio, which is applied to the REV UltraPlanetary motor configuration
      *
      * @param name         The name of the motor as configured in the robot configuration on the phone
      * @param hwMap        The {@link HardwareMap} object passed from the OpMode to map the motor
-     * @param direction    The direction of the motor, 'f' for forward or 'r' for reverse
+     * @param direction    The direction of the motor
      * @param telemetry    The {@link Telemetry} object used to display runtime information
      * @param motorType    The type of the motor, as defined in {@link MotorTypeRegistry.MotorType}
      * @param gearboxRatio The gearbox ratio to be applied for motors like the REV UltraPlanetary HD Hex motor
      */
-    public MotorEx(String name, HardwareMap hwMap, String direction, Telemetry telemetry, MotorTypeRegistry.MotorType motorType, double gearboxRatio) {
+    public MotorEx(String name, HardwareMap hwMap, DcMotorSimple.Direction direction, Telemetry telemetry, MotorTypeRegistry.MotorType motorType, double gearboxRatio) {
         // 3:1 is 2.89:1, 4:1 is 3.61:1, 5:1 is 5.23:1
         super(name, hwMap, direction, telemetry);
         this.motorConfiguration = MotorTypeRegistry.motorTypeMap.get(motorType);
@@ -64,6 +67,8 @@ public class MotorEx extends Motor {
             motorConfiguration.setTicksPerRev(28 * gearboxRatio);
             motorConfiguration.setMaxRPM(6000 / gearboxRatio);
             motorConfiguration.setGearing(gearboxRatio);
+        } else {
+            throw new IllegalArgumentException("The constructor used to create a MotorEx object of type " + motorType.toString() + " only supports creation of DcMotorEx objects of type " + MotorTypeRegistry.MotorType.REV_ULTRAPLANETARY_HD_HEX_MOTOR.toString());
         }
     }
 }

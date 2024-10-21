@@ -19,7 +19,7 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
      * Constructs a Mecanum drivetrain object and initializes the motor positions
      * The motor array is sorted to ensure motors are assigned to correct drivetrain positions
      *
-     * @param motors   An array containing four motor objects, representing the drivetrain motors
+     * @param motors    An array containing four motor objects, representing the drivetrain motors
      * @param telemetry The telemetry object for logging data
      */
     public Mecanum(Motor[] motors, Telemetry telemetry) {
@@ -40,7 +40,7 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
      */
     @Override
     public void teleOpDrive(double y, double rx, double x) {
-        RWE(DTMotors.dt);
+        RWE(DTMotors.DRIVETRAIN_BASIC_4);
         // maintain ratio in case of range clip
         double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
         frontLeft.SP(((y + x * 1.1 + rx) / denominator));
@@ -59,7 +59,7 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
      */
     @Override
     public void teleOpDrive(double y, double rx, double x, double speed) {
-        RWE(DTMotors.dt);
+        RWE(DTMotors.DRIVETRAIN_BASIC_4);
         // maintain ratio in case of range clip
         double denominator = Math.max(Math.abs(y) + Math.abs(x) + Math.abs(rx), 1);
         frontLeft.SP(((y + x * 1.1 + rx) / denominator) / speed);
@@ -71,48 +71,48 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
     /**
      * Sets motor power using motor abbreviations and power levels
      *
-     * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
-     * @param p Power level (from -1 to 1)
+     * @param motors Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
+     * @param power  Power level (from -1 to 1)
      */
     @Override
-    public void SP(DTMotors m, double p) {
-        switch (m) {
-            case m:
+    public void SP(DTMotors motors, double power) {
+        switch (motors) {
+            case MIDSHIFT:
                 throw new IllegalArgumentException("Midshift is an illegal argument for TankDrive");
-            case all:
-            case dt:
-                frontLeft.SP(p);
-                frontRight.SP(p);
-                backLeft.SP(p);
-                backRight.SP(p);
+            case ALL:
+            case DRIVETRAIN_BASIC_4:
+                frontLeft.SP(power);
+                frontRight.SP(power);
+                backLeft.SP(power);
+                backRight.SP(power);
                 break;
-            case fl:
-                frontLeft.SP(p);
+            case FRONT_LEFT:
+                frontLeft.SP(power);
                 break;
-            case fr:
-                frontRight.SP(p);
+            case FRONT_RIGHT:
+                frontRight.SP(power);
                 break;
-            case bl:
-                backLeft.SP(p);
+            case BACK_LEFT:
+                backLeft.SP(power);
                 break;
-            case br:
-                backRight.SP(p);
+            case BACK_RIGHT:
+                backRight.SP(power);
                 break;
-            case f:
-                frontLeft.SP(p);
-                frontRight.SP(p);
+            case FRONT:
+                frontLeft.SP(power);
+                frontRight.SP(power);
                 break;
-            case b:
-                backLeft.SP(p);
-                backRight.SP(p);
+            case BACK:
+                backLeft.SP(power);
+                backRight.SP(power);
                 break;
-            case l:
-                frontLeft.SP(p);
-                backLeft.SP(p);
+            case LEFT:
+                frontLeft.SP(power);
+                backLeft.SP(power);
                 break;
-            case r:
-                frontRight.SP(p);
-                backRight.SP(p);
+            case RIGHT:
+                frontRight.SP(power);
+                backRight.SP(power);
                 break;
         }
     }
@@ -120,48 +120,48 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
     /**
      * Sets the target position for motors using a motor abbreviation and target position in ticks
      *
-     * @param m  Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
-     * @param tp Target position in ticks
+     * @param motors         Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
+     * @param targetPosition Target position in ticks
      */
     @Override
-    public void STP(DTMotors m, int tp) {
-        switch (m) {
-            case m:
+    public void STP(DTMotors motors, int targetPosition) {
+        switch (motors) {
+            case MIDSHIFT:
                 throw new IllegalArgumentException("Midshift is an illegal argument for TankDrive");
-            case all:
-            case dt:
-                frontLeft.STP(tp);
-                frontRight.STP(tp);
-                backLeft.STP(tp);
-                backRight.STP(tp);
+            case ALL:
+            case DRIVETRAIN_BASIC_4:
+                frontLeft.STP(targetPosition);
+                frontRight.STP(targetPosition);
+                backLeft.STP(targetPosition);
+                backRight.STP(targetPosition);
                 break;
-            case fl:
-                frontLeft.STP(tp);
+            case FRONT_LEFT:
+                frontLeft.STP(targetPosition);
                 break;
-            case fr:
-                frontRight.STP(tp);
+            case FRONT_RIGHT:
+                frontRight.STP(targetPosition);
                 break;
-            case bl:
-                backLeft.STP(tp);
+            case BACK_LEFT:
+                backLeft.STP(targetPosition);
                 break;
-            case br:
-                backRight.STP(tp);
+            case BACK_RIGHT:
+                backRight.STP(targetPosition);
                 break;
-            case f:
-                frontLeft.STP(tp);
-                frontRight.STP(tp);
+            case FRONT:
+                frontLeft.STP(targetPosition);
+                frontRight.STP(targetPosition);
                 break;
-            case b:
-                backLeft.STP(tp);
-                backRight.STP(tp);
+            case BACK:
+                backLeft.STP(targetPosition);
+                backRight.STP(targetPosition);
                 break;
-            case l:
-                frontLeft.STP(tp);
-                backLeft.STP(tp);
+            case LEFT:
+                frontLeft.STP(targetPosition);
+                backLeft.STP(targetPosition);
                 break;
-            case r:
-                frontRight.STP(tp);
-                backRight.STP(tp);
+            case RIGHT:
+                frontRight.STP(targetPosition);
+                backRight.STP(targetPosition);
                 break;
         }
     }
@@ -169,56 +169,56 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
     /**
      * Sets motors to run to a specific position
      *
-     * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
+     * @param motors Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
      */
     @Override
-    public void RTP(DTMotors m) {
-        RTP(m, true);
+    public void RTP(DTMotors motors) {
+        RTP(motors, true);
     }
 
     /**
      * Sets motors to run to a specific position and optionally waits until the position is reached
      *
-     * @param m    Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
-     * @param wait Whether to wait until the position is reached
+     * @param motors Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
+     * @param wait   Whether to wait until the position is reached
      */
-    public void RTP(DTMotors m, boolean wait) {
+    public void RTP(DTMotors motors, boolean wait) {
         Telemetry.Item mecanumRTPTelemetry = telemetry().addData("Mecanum moving", "");
-        switch (m) {
-            case m:
+        switch (motors) {
+            case MIDSHIFT:
                 throw new IllegalArgumentException("Midshift is an illegal argument for TankDrive");
-            case all:
-            case dt:
+            case ALL:
+            case DRIVETRAIN_BASIC_4:
                 frontLeft.RTP();
                 frontRight.RTP();
                 backLeft.RTP();
                 backRight.RTP();
                 break;
-            case fl:
+            case FRONT_LEFT:
                 frontLeft.RTP();
                 break;
-            case fr:
+            case FRONT_RIGHT:
                 frontRight.RTP();
                 break;
-            case bl:
+            case BACK_LEFT:
                 backLeft.RTP();
                 break;
-            case br:
+            case BACK_RIGHT:
                 backRight.RTP();
                 break;
-            case f:
+            case FRONT:
                 frontLeft.RTP();
                 frontRight.RTP();
                 break;
-            case b:
+            case BACK:
                 backLeft.RTP();
                 backRight.RTP();
                 break;
-            case l:
+            case LEFT:
                 frontLeft.RTP();
                 backLeft.RTP();
                 break;
-            case r:
+            case RIGHT:
                 frontRight.RTP();
                 backRight.RTP();
                 break;
@@ -235,45 +235,45 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
     /**
      * Stops and resets the motor encoders using a motor abbreviation
      *
-     * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
+     * @param motors Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
      */
     @Override
-    public void SAR(DTMotors m) {
-        switch (m) {
-            case m:
+    public void SAR(DTMotors motors) {
+        switch (motors) {
+            case MIDSHIFT:
                 throw new IllegalArgumentException("Midshift is an illegal argument for TankDrive");
-            case all:
-            case dt:
+            case ALL:
+            case DRIVETRAIN_BASIC_4:
                 frontLeft.SAR();
                 frontRight.SAR();
                 backLeft.SAR();
                 backRight.SAR();
                 break;
-            case fl:
+            case FRONT_LEFT:
                 frontLeft.SAR();
                 break;
-            case fr:
+            case FRONT_RIGHT:
                 frontRight.SAR();
                 break;
-            case bl:
+            case BACK_LEFT:
                 backLeft.SAR();
                 break;
-            case br:
+            case BACK_RIGHT:
                 backRight.SAR();
                 break;
-            case f:
+            case FRONT:
                 frontLeft.SAR();
                 frontRight.SAR();
                 break;
-            case b:
+            case BACK:
                 backLeft.SAR();
                 backRight.SAR();
                 break;
-            case l:
+            case LEFT:
                 frontLeft.SAR();
                 backLeft.SAR();
                 break;
-            case r:
+            case RIGHT:
                 frontRight.SAR();
                 backRight.SAR();
                 break;
@@ -283,45 +283,45 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
     /**
      * Runs motors without using encoders based on the motor abbreviation
      *
-     * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
+     * @param motors Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
      */
     @Override
-    public void RWE(DTMotors m) {
-        switch (m) {
-            case m:
+    public void RWE(DTMotors motors) {
+        switch (motors) {
+            case MIDSHIFT:
                 throw new IllegalArgumentException("Midshift is an illegal argument for TankDrive");
-            case all:
-            case dt:
+            case ALL:
+            case DRIVETRAIN_BASIC_4:
                 frontLeft.RWE();
                 frontRight.RWE();
                 backLeft.RWE();
                 backRight.RWE();
                 break;
-            case fl:
+            case FRONT_LEFT:
                 frontLeft.RWE();
                 break;
-            case fr:
+            case FRONT_RIGHT:
                 frontRight.RWE();
                 break;
-            case bl:
+            case BACK_LEFT:
                 backLeft.RWE();
                 break;
-            case br:
+            case BACK_RIGHT:
                 backRight.RWE();
                 break;
-            case f:
+            case FRONT:
                 frontLeft.RWE();
                 frontRight.RWE();
                 break;
-            case b:
+            case BACK:
                 backLeft.RWE();
                 backRight.RWE();
                 break;
-            case l:
+            case LEFT:
                 frontLeft.RWE();
                 backLeft.RWE();
                 break;
-            case r:
+            case RIGHT:
                 frontRight.RWE();
                 backRight.RWE();
                 break;
@@ -331,45 +331,45 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
     /**
      * Runs motors using encoders based on the motor abbreviation
      *
-     * @param m Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
+     * @param motors Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
      */
     @Override
-    public void RUE(DTMotors m) {
-        switch (m) {
-            case m:
+    public void RUE(DTMotors motors) {
+        switch (motors) {
+            case MIDSHIFT:
                 throw new IllegalArgumentException("Midshift is an illegal argument for TankDrive");
-            case all:
-            case dt:
+            case ALL:
+            case DRIVETRAIN_BASIC_4:
                 frontLeft.RUE();
                 frontRight.RUE();
                 backLeft.RUE();
                 backRight.RUE();
                 break;
-            case fl:
+            case FRONT_LEFT:
                 frontLeft.RUE();
                 break;
-            case fr:
+            case FRONT_RIGHT:
                 frontRight.RUE();
                 break;
-            case bl:
+            case BACK_LEFT:
                 backLeft.RUE();
                 break;
-            case br:
+            case BACK_RIGHT:
                 backRight.RUE();
                 break;
-            case f:
+            case FRONT:
                 frontLeft.RUE();
                 frontRight.RUE();
                 break;
-            case b:
+            case BACK:
                 backLeft.RUE();
                 backRight.RUE();
                 break;
-            case l:
+            case LEFT:
                 frontLeft.RUE();
                 backLeft.RUE();
                 break;
-            case r:
+            case RIGHT:
                 frontRight.RUE();
                 backRight.RUE();
                 break;
@@ -407,83 +407,83 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
      */
     @Override
     public void drive(Directions direction, double inches, double speed) {
-        SAR(DTMotors.dt);
-        RUE(DTMotors.dt);
+        SAR(DTMotors.DRIVETRAIN_BASIC_4);
+        RUE(DTMotors.DRIVETRAIN_BASIC_4);
         switch (direction) {
             case FORWARD:
-                STP(DTMotors.dt, EaseCommands.inTT_dt(inches));
-                SP(DTMotors.dt, speed);
-                RTP(DTMotors.dt);
+                STP(DTMotors.DRIVETRAIN_BASIC_4, EaseCommands.inTT_dt(inches));
+                SP(DTMotors.DRIVETRAIN_BASIC_4, speed);
+                RTP(DTMotors.DRIVETRAIN_BASIC_4);
                 while (frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) {
                 }
-                SP(DTMotors.dt, 0);
+                SP(DTMotors.DRIVETRAIN_BASIC_4, 0);
             case BACKWARDS:
-                STP(DTMotors.dt, EaseCommands.inTT_dt(-inches));
-                SP(DTMotors.dt, speed);
-                RTP(DTMotors.dt);
+                STP(DTMotors.DRIVETRAIN_BASIC_4, EaseCommands.inTT_dt(-inches));
+                SP(DTMotors.DRIVETRAIN_BASIC_4, speed);
+                RTP(DTMotors.DRIVETRAIN_BASIC_4);
                 while (frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) {
                 }
-                SP(DTMotors.dt, 0);
+                SP(DTMotors.DRIVETRAIN_BASIC_4, 0);
             case LEFT:
-                STP(DTMotors.fl, EaseCommands.inTT_dt(-inches));
-                STP(DTMotors.fr, EaseCommands.inTT_dt(inches));
-                STP(DTMotors.bl, EaseCommands.inTT_dt(inches));
-                STP(DTMotors.br, EaseCommands.inTT_dt(-inches));
-                SP(DTMotors.dt, speed);
-                RTP(DTMotors.dt);
+                STP(DTMotors.FRONT_LEFT, EaseCommands.inTT_dt(-inches));
+                STP(DTMotors.FRONT_RIGHT, EaseCommands.inTT_dt(inches));
+                STP(DTMotors.BACK_LEFT, EaseCommands.inTT_dt(inches));
+                STP(DTMotors.BACK_RIGHT, EaseCommands.inTT_dt(-inches));
+                SP(DTMotors.DRIVETRAIN_BASIC_4, speed);
+                RTP(DTMotors.DRIVETRAIN_BASIC_4);
                 while (isBusy()) {
                 }
-                SP(DTMotors.dt, 0);
+                SP(DTMotors.DRIVETRAIN_BASIC_4, 0);
             case RIGHT:
-                STP(DTMotors.fl, EaseCommands.inTT_dt(inches));
-                STP(DTMotors.fr, EaseCommands.inTT_dt(-inches));
-                STP(DTMotors.bl, EaseCommands.inTT_dt(-inches));
-                STP(DTMotors.br, EaseCommands.inTT_dt(inches));
-                SP(DTMotors.dt, speed);
-                RTP(DTMotors.dt);
+                STP(DTMotors.FRONT_LEFT, EaseCommands.inTT_dt(inches));
+                STP(DTMotors.FRONT_RIGHT, EaseCommands.inTT_dt(-inches));
+                STP(DTMotors.BACK_LEFT, EaseCommands.inTT_dt(-inches));
+                STP(DTMotors.BACK_RIGHT, EaseCommands.inTT_dt(inches));
+                SP(DTMotors.DRIVETRAIN_BASIC_4, speed);
+                RTP(DTMotors.DRIVETRAIN_BASIC_4);
                 while (isBusy()) {
                 }
-                SP(DTMotors.dt, 0);
+                SP(DTMotors.DRIVETRAIN_BASIC_4, 0);
             case DIAGONAL_FORWARDS_RIGHT:
-                STP(DTMotors.fl, EaseCommands.inTT_dt(inches));
-                STP(DTMotors.fr, EaseCommands.inTT_dt(0));
-                STP(DTMotors.bl, EaseCommands.inTT_dt(0));
-                STP(DTMotors.br, EaseCommands.inTT_dt(inches));
-                SP(DTMotors.dt, speed);
-                RTP(DTMotors.dt);
+                STP(DTMotors.FRONT_LEFT, EaseCommands.inTT_dt(inches));
+                STP(DTMotors.FRONT_RIGHT, EaseCommands.inTT_dt(0));
+                STP(DTMotors.BACK_LEFT, EaseCommands.inTT_dt(0));
+                STP(DTMotors.BACK_RIGHT, EaseCommands.inTT_dt(inches));
+                SP(DTMotors.DRIVETRAIN_BASIC_4, speed);
+                RTP(DTMotors.DRIVETRAIN_BASIC_4);
                 while (isBusy()) {
                 }
-                SP(DTMotors.dt, 0);
+                SP(DTMotors.DRIVETRAIN_BASIC_4, 0);
             case DIAGONAL_BACKWARDS_LEFT:
-                STP(DTMotors.fl, EaseCommands.inTT_dt(-inches));
-                STP(DTMotors.fr, EaseCommands.inTT_dt(0));
-                STP(DTMotors.bl, EaseCommands.inTT_dt(0));
-                STP(DTMotors.br, EaseCommands.inTT_dt(-inches));
-                SP(DTMotors.dt, speed);
-                RTP(DTMotors.dt);
+                STP(DTMotors.FRONT_LEFT, EaseCommands.inTT_dt(-inches));
+                STP(DTMotors.FRONT_RIGHT, EaseCommands.inTT_dt(0));
+                STP(DTMotors.BACK_LEFT, EaseCommands.inTT_dt(0));
+                STP(DTMotors.BACK_RIGHT, EaseCommands.inTT_dt(-inches));
+                SP(DTMotors.DRIVETRAIN_BASIC_4, speed);
+                RTP(DTMotors.DRIVETRAIN_BASIC_4);
                 while (isBusy()) {
                 }
-                SP(DTMotors.dt, 0);
+                SP(DTMotors.DRIVETRAIN_BASIC_4, 0);
             case DIAGONAL_FORWARDS_LEFT:
-                STP(DTMotors.fl, EaseCommands.inTT_dt(0));
-                STP(DTMotors.fr, EaseCommands.inTT_dt(inches));
-                STP(DTMotors.bl, EaseCommands.inTT_dt(inches));
-                STP(DTMotors.br, EaseCommands.inTT_dt(0));
-                SP(DTMotors.dt, speed);
-                RTP(DTMotors.dt);
+                STP(DTMotors.FRONT_LEFT, EaseCommands.inTT_dt(0));
+                STP(DTMotors.FRONT_RIGHT, EaseCommands.inTT_dt(inches));
+                STP(DTMotors.BACK_LEFT, EaseCommands.inTT_dt(inches));
+                STP(DTMotors.BACK_RIGHT, EaseCommands.inTT_dt(0));
+                SP(DTMotors.DRIVETRAIN_BASIC_4, speed);
+                RTP(DTMotors.DRIVETRAIN_BASIC_4);
                 while (isBusy()) {
                 }
-                SP(DTMotors.dt, 0);
+                SP(DTMotors.DRIVETRAIN_BASIC_4, 0);
             case DIAGONAL_BACKWARDS_RIGHT:
-                STP(DTMotors.fl, EaseCommands.inTT_dt(0));
-                STP(DTMotors.fr, EaseCommands.inTT_dt(-inches));
-                STP(DTMotors.bl, EaseCommands.inTT_dt(-inches));
-                STP(DTMotors.br, EaseCommands.inTT_dt(0));
-                SP(DTMotors.dt, speed);
-                RTP(DTMotors.dt);
+                STP(DTMotors.FRONT_LEFT, EaseCommands.inTT_dt(0));
+                STP(DTMotors.FRONT_RIGHT, EaseCommands.inTT_dt(-inches));
+                STP(DTMotors.BACK_LEFT, EaseCommands.inTT_dt(-inches));
+                STP(DTMotors.BACK_RIGHT, EaseCommands.inTT_dt(0));
+                SP(DTMotors.DRIVETRAIN_BASIC_4, speed);
+                RTP(DTMotors.DRIVETRAIN_BASIC_4);
                 while (isBusy()) {
                 }
-                SP(DTMotors.dt, 0);
+                SP(DTMotors.DRIVETRAIN_BASIC_4, 0);
             default:
                 throw new IllegalArgumentException(direction + " is an invalid direction for Mecanum");
         }
@@ -516,17 +516,17 @@ public class Mecanum extends subsystem implements DrivetrainHolonomic {
             backRightPower /= maxPower;
         }
 
-        STP(DTMotors.dt, EaseCommands.inTT_dt(inches));
+        STP(DTMotors.DRIVETRAIN_BASIC_4, EaseCommands.inTT_dt(inches));
         frontLeft.SP(frontLeftPower);
         frontRight.SP(frontRightPower);
         backLeft.SP(backLeftPower);
         backRight.SP(backRightPower);
 
-        RTP(DTMotors.dt);
+        RTP(DTMotors.DRIVETRAIN_BASIC_4);
 
         while (isBusy()) {
         }
-        SP(DTMotors.dt, 0);
+        SP(DTMotors.DRIVETRAIN_BASIC_4, 0);
     }
 
     // need to find a way to stop roadrunnering

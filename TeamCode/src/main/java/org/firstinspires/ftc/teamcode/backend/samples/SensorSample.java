@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.backend.samples;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.robotcore.external.navigation.DistanceUnit;
 import org.firstinspires.ftc.teamcode.backend.subsystems.actuators.base.Motor;
@@ -25,25 +26,25 @@ public class SensorSample extends LinearOpMode {
 
     public void runOpMode(){
         // declare motors
-        frontLeft = new Motor("frontLeft", hardwareMap, "reverse", telemetry);
+        frontLeft = new Motor("frontLeft", hardwareMap, DcMotorSimple.Direction.REVERSE, telemetry);
         frontRight = new Motor("frontRight", hardwareMap, telemetry);
-        backLeft = new Motor("backLeft", hardwareMap, "reverse", telemetry);
+        backLeft = new Motor("backLeft", hardwareMap, DcMotorSimple.Direction.REVERSE, telemetry);
         backRight = new Motor("backRight", hardwareMap, telemetry);
         colorSensor = new ColorSensor("colorSensor", hardwareMap, telemetry);
         distanceSensor = new DistanceSensor("distanceSensor", hardwareMap, telemetry);
         touchSensor = new TouchSensor("touchSensor", hardwareMap, telemetry);
 
         Mecanum drivetrain = new Mecanum(new Motor[]{frontLeft, frontRight, backLeft, backRight}, telemetry);
-        drivetrain.RWE(DrivetrainMotorControls.DTMotors.dt);
-        drivetrain.SP(DrivetrainMotorControls.DTMotors.dt, 0);
+        drivetrain.RWE(DrivetrainMotorControls.DTMotors.DRIVETRAIN_BASIC_4);
+        drivetrain.SP(DrivetrainMotorControls.DTMotors.DRIVETRAIN_BASIC_4, 0);
 
         waitForStart();
         while (opModeIsActive()){
 
             if (gamepad1.a) { // if you press a, auto drive forward until wall is hit
-                drivetrain.SP(DrivetrainMotorControls.DTMotors.dt, .75);
+                drivetrain.SP(DrivetrainMotorControls.DTMotors.DRIVETRAIN_BASIC_4, .75);
                 touchSensor.untilHitObject();
-                drivetrain.SP(DrivetrainMotorControls.DTMotors.dt, 0);
+                drivetrain.SP(DrivetrainMotorControls.DTMotors.DRIVETRAIN_BASIC_4, 0);
             } else {
                 // allow driver control
                 drivetrain.teleOpDrive(-gamepad1.left_stick_y, gamepad1.right_stick_x, gamepad1.left_stick_x);
