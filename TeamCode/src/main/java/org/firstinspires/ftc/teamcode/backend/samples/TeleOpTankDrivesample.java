@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode.backend.samples;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.teamcode.backend.subsystems.actuators.base.Motor;
 import org.firstinspires.ftc.teamcode.backend.subsystems.actuators.drivetrains.TankDrive;
@@ -17,9 +18,9 @@ public class TeleOpTankDrivesample extends LinearOpMode {
 
     public void runOpMode() {
         // declare motors
-        frontLeft = new Motor("frontLeft", hardwareMap, "reverse", telemetry);
+        frontLeft = new Motor("frontLeft", hardwareMap, DcMotorSimple.Direction.REVERSE, telemetry);
         frontRight = new Motor("frontRight", hardwareMap, telemetry);
-        backLeft = new Motor("backLeft", hardwareMap, "reverse", telemetry);
+        backLeft = new Motor("backLeft", hardwareMap, DcMotorSimple.Direction.REVERSE, telemetry);
         backRight = new Motor("backRight", hardwareMap, telemetry);
 
         TankDrive drivetrain = new TankDrive(new Motor[]{frontLeft, frontRight, backLeft, backRight}, telemetry);

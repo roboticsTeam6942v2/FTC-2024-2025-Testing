@@ -2,6 +2,7 @@ package org.firstinspires.ftc.teamcode.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 import org.firstinspires.ftc.robotcore.external.navigation.Acceleration;
@@ -19,7 +20,7 @@ public class IntegratorTest extends LinearOpMode {
 
     @Override
     public void runOpMode() {
-        Mecanum drivetrain = new Mecanum(new Motor[]{new Motor("backLeft", hardwareMap, "reverse", telemetry), new Motor("backRight", hardwareMap, telemetry), new Motor("frontLeft", hardwareMap, "reverse", telemetry), new Motor("frontRight", hardwareMap, telemetry)}, telemetry);
+        Mecanum drivetrain = new Mecanum(new Motor[]{new Motor("backLeft", hardwareMap, DcMotorSimple.Direction.REVERSE, telemetry), new Motor("backRight", hardwareMap, telemetry), new Motor("frontLeft", hardwareMap, DcMotorSimple.Direction.REVERSE, telemetry), new Motor("frontRight", hardwareMap, telemetry)}, telemetry);
 
         imu = new UpdatedIMU("imu", hardwareMap, telemetry);
 
