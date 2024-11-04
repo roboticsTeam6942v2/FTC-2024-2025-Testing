@@ -33,7 +33,7 @@ public class PassiveRoller1Motor extends subsystem {
         this.name = name;
         this.motor = motor;
         this.rollerSpeed = rollerSpeed;
-        motor.runWithoutEncoder();  // Reset motor encoders or setup (assuming RWE stands for Reset With Encoders).
+        motor.runWithoutEncoder();  // Reset motor encoders or setup (assuming runWithoutEncoder stands for Reset With Encoders).
     }
 
     /**

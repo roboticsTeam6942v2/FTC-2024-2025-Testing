@@ -44,14 +44,14 @@ public class ParallelMotionLinkageUnlimited extends subsystem {
      *
      * @param power Power for the motor, from 0 to 1
      */
-    public void SP(double power) {
+    public void setPower(double power) {
         motor.setPower(power);
     }
 
     /**
      * Sets the motor mode to RUN_TO_POSITION
      */
-    public void RTP() {
+    public void runToPosition() {
         motor.runToPosition();
     }
 
@@ -60,29 +60,29 @@ public class ParallelMotionLinkageUnlimited extends subsystem {
      *
      * @param targetPosition Target position in ticks
      */
-    public void STP(int targetPosition) {
+    public void setTargetPosition(int targetPosition) {
         motor.setTargetPosition(targetPosition); // No min/max checks here
     }
 
     /**
      * Resets the motor encoder to zero
      */
-    public void SAR() {
+    public void stopAndReset() {
         motor.stopAndReset();
     }
 
     /**
      * Runs the motor without using an encoder
      */
-    public void RWE() {
-        motor.RWE();
+    public void runWithoutEncoder() {
+        motor.runWithoutEncoder();
     }
 
     /**
      * Runs the motor using an encoder
      */
-    public void RUE() {
-        motor.RUE();
+    public void runUsingEncoder() {
+        motor.runUsingEncoder();
     }
 
     /**
@@ -90,7 +90,7 @@ public class ParallelMotionLinkageUnlimited extends subsystem {
      *
      * @param ticks Number of ticks for the tolerance
      */
-    public void ST(int ticks) {
+    public void setTolerance(int ticks) {
         motor.setTolerance(ticks);
     }
 
@@ -99,7 +99,7 @@ public class ParallelMotionLinkageUnlimited extends subsystem {
      *
      * @return The current motor position in ticks
      */
-    public int GCP() {
+    public int getCurrentPosition() {
         return motor.getCurrentPosition();
     }
 
@@ -108,7 +108,7 @@ public class ParallelMotionLinkageUnlimited extends subsystem {
      *
      * @return The motor's target position in ticks
      */
-    public int GTP() {
+    public int getTargetPosition() {
         return motor.getTargetPosition();
     }
 
@@ -117,7 +117,7 @@ public class ParallelMotionLinkageUnlimited extends subsystem {
      *
      * @return The current power of the motor as a double
      */
-    public double GP() {
+    public double getPower() {
         return motor.getPower();
     }
 
@@ -145,15 +145,15 @@ public class ParallelMotionLinkageUnlimited extends subsystem {
 
         // Move the motor
         Telemetry.Item chainLinkageTelemetry = telemetry().addData(this.name, " moving to " + closestTarget + " degrees");
-        STP(targetTicks);
-        SP(.8); // Start motor at higher speed
-        RTP();
+        setTargetPosition(targetTicks);
+        setPower(.8); // Start motor at higher speed
+        runToPosition();
         if (wait) {
             telemetry().update();
             while (isBusy()) {
             }
         }
-        SP(.4); // Slow down as it approaches the target
+        setPower(.4); // Slow down as it approaches the target
         telemetry().removeItem(chainLinkageTelemetry);
         telemetry().update();
     }
@@ -253,7 +253,7 @@ public class ParallelMotionLinkageUnlimited extends subsystem {
      * @return The current position of the motor in degrees.
      */
     private int getCurrentDegrees() {
-        int currentTicks = GCP(); // Get current position in ticks
+        int currentTicks = getCurrentPosition(); // Get current position in ticks
         return (currentTicks * 360) / ticksPerRotation; // Convert ticks to degrees
     }
 

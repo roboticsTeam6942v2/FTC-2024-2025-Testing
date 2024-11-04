@@ -46,7 +46,7 @@ public class Lift2Motor extends subsystem {
      *
      * @param power Power you want the motor to travel at, 0-1
      */
-    public void SP(double power) {
+    public void setPower(double power) {
         motor1.setPower(power);
         motor1.setPower(power);
     }
@@ -54,7 +54,7 @@ public class Lift2Motor extends subsystem {
     /**
      * Sets the mode of the motor to RUN_TO_POSITION using case switch
      */
-    public void RTP() {
+    public void runToPosition() {
         motor1.runToPosition();
         motor2.runToPosition();
     }
@@ -62,7 +62,7 @@ public class Lift2Motor extends subsystem {
     /**
      * Set the target position of the motors using a case switch
      */
-    public void STP(int targetPosition) {
+    public void setTargetPosition(int targetPosition) {
         motor1.setTargetPosition(targetPosition > this.max ? this.max : (targetPosition < this.min ? this.min : targetPosition));
         motor2.setTargetPosition(targetPosition > this.max ? this.max : (targetPosition < this.min ? this.min : targetPosition));
     }
@@ -70,7 +70,7 @@ public class Lift2Motor extends subsystem {
     /**
      * Sets given motors relative ticks to 0, STOP_AND_RESET_ENCODERS
      */
-    public void SAR() {
+    public void stopAndReset() {
         motor1.stopAndReset();
         motor2.stopAndReset();
     }
@@ -78,17 +78,17 @@ public class Lift2Motor extends subsystem {
     /**
      * Sets given motors to RunMode.RUN_WITHOUT_ENCODER
      */
-    public void RWE() {
-        motor1.RWE();
-        motor2.RWE();
+    public void runWithoutEncoder() {
+        motor1.runWithoutEncoder();
+        motor2.runWithoutEncoder();
     }
 
     /**
      * Sets given motors to RunMode.RUN_USING_ENCODER
      */
-    public void RUE() {
-        motor1.RUE();
-        motor2.RUE();
+    public void runUsingEncoder() {
+        motor1.runUsingEncoder();
+        motor2.runUsingEncoder();
     }
 
     /**
@@ -96,7 +96,7 @@ public class Lift2Motor extends subsystem {
      *
      * @param ticks Number of ticks
      */
-    public void ST(int ticks) {
+    public void setTolerance(int ticks) {
         motor1.setTolerance(ticks);
         motor2.setTolerance(ticks);
     }
@@ -106,7 +106,7 @@ public class Lift2Motor extends subsystem {
      *
      * @return The current position of the motor in ticks
      */
-    public int GCP() {
+    public int getCurrentPosition() {
         return (int) ((motor1.getCurrentPosition() + motor2.getCurrentPosition()) / 2);
     }
 
@@ -115,7 +115,7 @@ public class Lift2Motor extends subsystem {
      *
      * @return The target position of the motor in ticks
      */
-    public int GTP() {
+    public int getTargetPosition() {
         return (int) ((motor1.getTargetPosition() + motor2.getTargetPosition()) / 2);
     }
 
@@ -124,12 +124,12 @@ public class Lift2Motor extends subsystem {
      *
      * @return The motor's power as a double
      */
-    public double GP() {
+    public double getPower() {
         return motor1.getPower();
     }
 
     private double powerSetter(int ticks) {
-        if (GCP() < ticks)
+        if (getCurrentPosition() < ticks)
             return Constants.upPower;
         return Constants.downPower;
     }
@@ -151,15 +151,15 @@ public class Lift2Motor extends subsystem {
      */
     public void goToPosition(int ticks, boolean wait) {
         Telemetry.Item slide2MotorTelemetry = telemetry().addData("Moving Slide/Lift: ", isBusy());
-        STP(GTP() + ticks);
-        SP(powerSetter(ticks));
-        RTP();
+        setTargetPosition(getTargetPosition() + ticks);
+        setPower(powerSetter(ticks));
+        runToPosition();
         if (wait) {
             telemetry().update();
             while (isBusy()) {
             }
         }
-        SP(Constants.downPower);
+        setPower(Constants.downPower);
         telemetry().removeItem(slide2MotorTelemetry);
         telemetry().update();
     }
