@@ -30,10 +30,10 @@ public class TelepV2 extends LinearOpMode {
         frontLeft = new Motor("frontLeft", hardwareMap, DcMotorSimple.Direction.REVERSE, telemetry);
         frontRight = new Motor("frontRight", hardwareMap, telemetry);
 
-        backLeft.RWE();
-        backRight.RWE();
-        frontLeft.RWE();
-        frontRight.RWE();
+        backLeft.runWithoutEncoder();
+        backRight.runWithoutEncoder();
+        frontLeft.runWithoutEncoder();
+        frontRight.runWithoutEncoder();
 
         drivetrain = new Mecanum(new Motor[]{backLeft, backRight, frontLeft, frontRight}, telemetry);
 

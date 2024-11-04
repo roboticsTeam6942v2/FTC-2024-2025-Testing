@@ -44,43 +44,43 @@ public class Lift1Motor extends subsystem {
      *
      * @param power Power you want the motor to travel at, 0-1
      */
-    public void SP(double power) {
+    public void setPower(double power) {
         motor.setPower(power);
     }
 
     /**
      * Sets the mode of the motor to RUN_TO_POSITION using case switch
      */
-    public void RTP() {
+    public void runToPosition() {
         motor.runToPosition();
     }
 
     /**
      * Set the target position of the motors using a case switch
      */
-    public void STP(int targetPosition) {
+    public void setTargetPosition(int targetPosition) {
         motor.setTargetPosition(targetPosition > this.max ? this.max : (targetPosition < this.min ? this.min : targetPosition));
     }
 
     /**
      * Sets given motors relative ticks to 0, STOP_AND_RESET_ENCODERS
      */
-    public void SAR() {
+    public void stopAndReset() {
         motor.stopAndReset();
     }
 
     /**
      * Sets given motors to RunMode.RUN_WITHOUT_ENCODER
      */
-    public void RWE() {
-        motor.RWE();
+    public void runWithoutEncoder() {
+        motor.runWithoutEncoder();
     }
 
     /**
      * Sets given motors to RunMode.RUN_USING_ENCODER
      */
-    public void RUE() {
-        motor.RUE();
+    public void runUsingEncoder() {
+        motor.runUsingEncoder();
     }
 
     /**
@@ -88,7 +88,7 @@ public class Lift1Motor extends subsystem {
      *
      * @param ticks Number of ticks
      */
-    public void ST(int ticks) {
+    public void setTolerance(int ticks) {
         motor.setTolerance(ticks);
     }
 
@@ -97,7 +97,7 @@ public class Lift1Motor extends subsystem {
      *
      * @return The current position of the motor in ticks
      */
-    public int GCP() {
+    public int getCurrentPosition() {
         return motor.getCurrentPosition();
     }
 
@@ -106,7 +106,7 @@ public class Lift1Motor extends subsystem {
      *
      * @return The target position of the motor in ticks
      */
-    public int GTP() {
+    public int getTargetPosition() {
         return motor.getTargetPosition();
     }
 
@@ -120,7 +120,7 @@ public class Lift1Motor extends subsystem {
     }
 
     private double powerSetter(int ticks) {
-        if (GCP() < ticks)
+        if (getCurrentPosition() < ticks)
             return Constants.upPower;
         return Constants.downPower;
     }
@@ -142,15 +142,15 @@ public class Lift1Motor extends subsystem {
      */
     public void goToPosition(int ticks, boolean wait) {
         Telemetry.Item slide1MotorTelemetry = telemetry().addData(this.name, " moving");
-        STP(GTP() + ticks);
-        SP(powerSetter(ticks));
-        RTP();
+        setTargetPosition(getCurrentPosition() + ticks);
+        setPower(powerSetter(ticks));
+        runToPosition();
         if (wait) {
             telemetry().update();
             while (isBusy()) {
             }
         }
-        SP(Constants.downPower);
+        setPower(Constants.downPower);
         telemetry().removeItem(slide1MotorTelemetry);
         telemetry().update();
     }
