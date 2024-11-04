@@ -63,8 +63,8 @@ public class Lift2Motor extends subsystem {
      * Set the target position of the motors using a case switch
      */
     public void setTargetPosition(int targetPosition) {
-        motor1.setTargetPosition(targetPosition > this.max ? this.max : (targetPosition < this.min ? this.min : targetPosition));
-        motor2.setTargetPosition(targetPosition > this.max ? this.max : (targetPosition < this.min ? this.min : targetPosition));
+        motor1.setTargetPosition(targetPosition > this.max ? this.max : (Math.max(targetPosition, this.min)));
+        motor2.setTargetPosition(targetPosition > this.max ? this.max : (Math.max(targetPosition, this.min)));
     }
 
     /**
@@ -168,7 +168,7 @@ public class Lift2Motor extends subsystem {
      * Adds a level of height to maintain and travel to
      *
      * @param ticks The height in ticks you want to maintain
-     * @return Returns false if the level input isnt valid
+     * @return Returns false if the level input isn't valid
      */
     public boolean addLevels(int ticks) {
         if (levels.contains(ticks))
@@ -182,7 +182,7 @@ public class Lift2Motor extends subsystem {
      *
      * @param level The level you have predetermined and want to travel to
      * @param wait  If you would or would like to proceed the code without getting to position or not
-     * @return Returns false if the level input isnt valid
+     * @return Returns false if the level input isn't valid
      */
     public boolean goToLevel(int level, boolean wait) {
         if (levels.size() > level)
