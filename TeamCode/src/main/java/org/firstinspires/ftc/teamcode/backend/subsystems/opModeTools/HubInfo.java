@@ -8,8 +8,6 @@ import org.firstinspires.ftc.robotcore.external.navigation.TempUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Temperature;
 import org.firstinspires.ftc.robotcore.external.navigation.VoltageUnit;
 
-import java.util.Locale;
-
 /**
  * The {@code HubInfo} class provides a wrapper around the {@link LynxModule}
  * to gather information about the control hub's voltage, current, and temperature,

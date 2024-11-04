@@ -46,7 +46,7 @@ public class MotorEx extends Motor {
     public MotorEx(String name, HardwareMap hwMap, DcMotorSimple.Direction direction, Telemetry telemetry, MotorTypeRegistry.MotorType motorType) {
         super(name, hwMap, direction, telemetry);
         if (motorType == MotorTypeRegistry.MotorType.REV_ULTRAPLANETARY_HD_HEX_MOTOR)
-            throw new IllegalArgumentException(motorType.toString() + " is invalid for constructor public MotorEx(String name, HardwareMap hwMap, String direction, Telemetry telemetry, MotorTypeRegistry.MotorType motorType)\n Use constructor public MotorEx(String name, HardwareMap hwMap, String direction, Telemetry telemetry, MotorTypeRegistry.MotorType motorType, double gearboxRatio)");
+            throw new IllegalArgumentException(motorType + " is invalid for constructor public MotorEx(String name, HardwareMap hwMap, String direction, Telemetry telemetry, MotorTypeRegistry.MotorType motorType)\n Use constructor public MotorEx(String name, HardwareMap hwMap, String direction, Telemetry telemetry, MotorTypeRegistry.MotorType motorType, double gearboxRatio)");
         this.motorConfiguration = MotorTypeRegistry.motorTypeMap.get(motorType);
     }
 

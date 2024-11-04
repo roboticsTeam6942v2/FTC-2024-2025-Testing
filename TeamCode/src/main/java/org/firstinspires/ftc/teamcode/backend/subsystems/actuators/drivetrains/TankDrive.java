@@ -354,7 +354,7 @@ public class TankDrive extends subsystem implements DrivetrainMotorControls {
      *
      * @param i Tolerance in ticks to consider not busy when running to position
      */
-    public void ST(int i) {
+    public void setTolerance(int i) {
         frontLeft.setTolerance(i);
         backLeft.setTolerance(i);
         backRight.setTolerance(i);
