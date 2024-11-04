@@ -8,6 +8,8 @@ import org.firstinspires.ftc.robotcore.external.navigation.TempUnit;
 import org.firstinspires.ftc.robotcore.external.navigation.Temperature;
 import org.firstinspires.ftc.robotcore.external.navigation.VoltageUnit;
 
+import java.util.Locale;
+
 /**
  * The {@code HubInfo} class provides a wrapper around the {@link LynxModule}
  * to gather information about the control hub's voltage, current, and temperature,
@@ -58,7 +60,7 @@ public class HubInfo {
      * @return Temperature
      */
     public Temperature getTemperature() {
-//        return this.lynxModule.getTemperature(TempUnit.FARENHEIT);
+//        return this.lynxModule.getTemperature(TempUnit.FAHRENHEIT);
         return new Temperature(TempUnit.FARENHEIT, this.lynxModule.getTemperature(TempUnit.FARENHEIT), System.currentTimeMillis());
     }
 
@@ -100,6 +102,6 @@ public class HubInfo {
      */
     public String getStatusReport() {
         return String.format("Voltage: %.2fV, Current: %.2fA, Temperature: %.2f°F, Warnings: %s",
-                getVoltage(), getCurrent(), getTemperature(), getWarnings());
+                getVoltage(), getCurrent(), getTemperature().toUnit(TempUnit.FARENHEIT).temperature, getWarnings());
     }
 }

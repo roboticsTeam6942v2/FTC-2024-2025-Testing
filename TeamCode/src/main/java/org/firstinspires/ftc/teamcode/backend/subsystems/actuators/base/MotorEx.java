@@ -71,7 +71,7 @@ public class MotorEx extends Motor {
             motorConfiguration.setMaxRPM(6000 / gearboxRatio);
             motorConfiguration.setGearing(gearboxRatio);
         } else {
-            throw new IllegalArgumentException("The constructor used to create a MotorEx object of type " + motorType.toString() + " only supports creation of DcMotorEx objects of type " + MotorTypeRegistry.MotorType.REV_ULTRAPLANETARY_HD_HEX_MOTOR.toString());
+            throw new IllegalArgumentException("The constructor used to create a MotorEx object of type " + motorType.toString() + " only supports creation of DcMotorEx objects of type " + MotorTypeRegistry.MotorType.REV_ULTRAPLANETARY_HD_HEX_MOTOR);
         }
     }
 }
