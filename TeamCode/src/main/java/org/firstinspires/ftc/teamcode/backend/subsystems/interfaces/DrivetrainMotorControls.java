@@ -19,14 +19,14 @@ public interface DrivetrainMotorControls {
      * @param motors Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
      * @param power  Power (between -1 and 1)
      */
-    void SP(DTMotors motors, double power);
+    void setPower(DTMotors motors, double power);
 
     /**
      * Sets the mode of the motor to RUN_TO_POSITION using case switch
      *
      * @param motors Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt, all)
      */
-    void RTP(DTMotors motors);
+    void runToPosition(DTMotors motors);
 
     /**
      * Set the target position of the motors using a case switch
@@ -34,26 +34,26 @@ public interface DrivetrainMotorControls {
      * @param motors         Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
      * @param targetPosition Target Position in ticks
      */
-    void STP(DTMotors motors, int targetPosition);
+    void setTargetPosition(DTMotors motors, int targetPosition);
 
     /**
-     * Sets the mode of the motor to STOP_AND_RESET_ENCODERS using case switch
+     * Sets the mode of the motor to STOP_AND_RESET_ENCODER using case switch
      *
      * @param motors Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
      */
-    void SAR(DTMotors motors);
+    void stopAndReset(DTMotors motors);
 
     /**
-     * Sets the mode of the motor to RUN_WITHOUT_ENCODERS using case switch
+     * Sets the mode of the motor to RUN_WITHOUT_ENCODER using case switch
      *
      * @param motors Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
      */
-    void RWE(DTMotors motors);
+    void runWithoutEncoder(DTMotors motors);
 
     /**
-     * Sets the mode of the motor to RUN_USING_ENCODERS using case switch
+     * Sets the mode of the motor to RUN_USING_ENCODER using case switch
      *
      * @param motors Motor abbreviation (fl, fr, bl, br, f, b, l, r, dt)
      */
-    void RUE(DTMotors motors);
+    void runUsingEncoder(DTMotors motors);
 }

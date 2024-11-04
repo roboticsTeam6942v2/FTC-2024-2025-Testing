@@ -76,6 +76,7 @@ public class HubInfo {
         while (true) {
             try {
                 new LynxSetModuleLEDColorCommand(lynxModule, r, g, b).send();
+                break;
             } catch (Exception e) {
                 // Handle the exception (currently suppressed)
             }

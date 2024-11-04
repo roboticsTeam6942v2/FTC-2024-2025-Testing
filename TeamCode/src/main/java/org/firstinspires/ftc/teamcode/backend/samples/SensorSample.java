@@ -35,16 +35,16 @@ public class SensorSample extends LinearOpMode {
         touchSensor = new TouchSensor("touchSensor", hardwareMap, telemetry);
 
         Mecanum drivetrain = new Mecanum(new Motor[]{frontLeft, frontRight, backLeft, backRight}, telemetry);
-        drivetrain.RWE(DrivetrainMotorControls.DTMotors.DRIVETRAIN_BASIC_4);
-        drivetrain.SP(DrivetrainMotorControls.DTMotors.DRIVETRAIN_BASIC_4, 0);
+        drivetrain.runWithoutEncoder(DrivetrainMotorControls.DTMotors.DRIVETRAIN_BASIC_4);
+        drivetrain.setPower(DrivetrainMotorControls.DTMotors.DRIVETRAIN_BASIC_4, 0);
 
         waitForStart();
         while (opModeIsActive()){
 
             if (gamepad1.a) { // if you press a, auto drive forward until wall is hit
-                drivetrain.SP(DrivetrainMotorControls.DTMotors.DRIVETRAIN_BASIC_4, .75);
+                drivetrain.setPower(DrivetrainMotorControls.DTMotors.DRIVETRAIN_BASIC_4, .75);
                 touchSensor.untilHitObject();
-                drivetrain.SP(DrivetrainMotorControls.DTMotors.DRIVETRAIN_BASIC_4, 0);
+                drivetrain.setPower(DrivetrainMotorControls.DTMotors.DRIVETRAIN_BASIC_4, 0);
             } else {
                 // allow driver control
                 drivetrain.teleOpDrive(-gamepad1.left_stick_y, gamepad1.right_stick_x, gamepad1.left_stick_x);

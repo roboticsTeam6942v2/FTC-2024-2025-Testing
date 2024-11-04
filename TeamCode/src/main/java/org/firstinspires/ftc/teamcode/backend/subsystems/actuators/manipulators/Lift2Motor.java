@@ -47,32 +47,32 @@ public class Lift2Motor extends subsystem {
      * @param power Power you want the motor to travel at, 0-1
      */
     public void SP(double power) {
-        motor1.SP(power);
-        motor1.SP(power);
+        motor1.setPower(power);
+        motor1.setPower(power);
     }
 
     /**
      * Sets the mode of the motor to RUN_TO_POSITION using case switch
      */
     public void RTP() {
-        motor1.RTP();
-        motor2.RTP();
+        motor1.runToPosition();
+        motor2.runToPosition();
     }
 
     /**
      * Set the target position of the motors using a case switch
      */
     public void STP(int targetPosition) {
-        motor1.STP(targetPosition > this.max ? this.max : (targetPosition < this.min ? this.min : targetPosition));
-        motor2.STP(targetPosition > this.max ? this.max : (targetPosition < this.min ? this.min : targetPosition));
+        motor1.setTargetPosition(targetPosition > this.max ? this.max : (targetPosition < this.min ? this.min : targetPosition));
+        motor2.setTargetPosition(targetPosition > this.max ? this.max : (targetPosition < this.min ? this.min : targetPosition));
     }
 
     /**
      * Sets given motors relative ticks to 0, STOP_AND_RESET_ENCODERS
      */
     public void SAR() {
-        motor1.SAR();
-        motor2.SAR();
+        motor1.stopAndReset();
+        motor2.stopAndReset();
     }
 
     /**
@@ -97,8 +97,8 @@ public class Lift2Motor extends subsystem {
      * @param ticks Number of ticks
      */
     public void ST(int ticks) {
-        motor1.ST(ticks);
-        motor2.ST(ticks);
+        motor1.setTolerance(ticks);
+        motor2.setTolerance(ticks);
     }
 
     /**
@@ -107,7 +107,7 @@ public class Lift2Motor extends subsystem {
      * @return The current position of the motor in ticks
      */
     public int GCP() {
-        return (int) ((motor1.GCP() + motor2.GCP()) / 2);
+        return (int) ((motor1.getCurrentPosition() + motor2.getCurrentPosition()) / 2);
     }
 
     /**
@@ -116,7 +116,7 @@ public class Lift2Motor extends subsystem {
      * @return The target position of the motor in ticks
      */
     public int GTP() {
-        return (int) ((motor1.GTP() + motor2.GTP()) / 2);
+        return (int) ((motor1.getTargetPosition() + motor2.getTargetPosition()) / 2);
     }
 
     /**
@@ -125,7 +125,7 @@ public class Lift2Motor extends subsystem {
      * @return The motor's power as a double
      */
     public double GP() {
-        return motor1.GP();
+        return motor1.getPower();
     }
 
     private double powerSetter(int ticks) {

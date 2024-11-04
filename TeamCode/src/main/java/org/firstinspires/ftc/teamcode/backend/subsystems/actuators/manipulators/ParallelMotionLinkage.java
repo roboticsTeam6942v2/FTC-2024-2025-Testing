@@ -2,7 +2,6 @@ package org.firstinspires.ftc.teamcode.backend.subsystems.actuators.manipulators
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.firstinspires.ftc.teamcode.backend.libraries.subsystem;
-import org.firstinspires.ftc.teamcode.backend.subsystems.Constants;
 import org.firstinspires.ftc.teamcode.backend.subsystems.actuators.base.Motor;
 
 import java.util.LinkedList;
@@ -51,28 +50,28 @@ public class ParallelMotionLinkage extends subsystem {
      * @param power Power you want the motor to travel at, 0-1
      */
     public void SP(double power) {
-        motor.SP(power);
+        motor.setPower(power);
     }
 
     /**
      * Sets the mode of the motor to RUN_TO_POSITION using case switch
      */
     public void RTP() {
-        motor.RTP();
+        motor.runToPosition();
     }
 
     /**
      * Set the target position of the motors using a case switch
      */
     public void STP(int targetPosition) {
-        motor.STP(targetPosition > this.max ? this.max : (targetPosition < this.min ? this.min : targetPosition));
+        motor.setTargetPosition(targetPosition > this.max ? this.max : (targetPosition < this.min ? this.min : targetPosition));
     }
 
     /**
      * Sets given motors relative ticks to 0, STOP_AND_RESET_ENCODERS
      */
     public void SAR() {
-        motor.SAR();
+        motor.stopAndReset();
     }
 
     /**
@@ -95,7 +94,7 @@ public class ParallelMotionLinkage extends subsystem {
      * @param ticks Number of ticks
      */
     public void ST(int ticks) {
-        motor.ST(ticks);
+        motor.setTolerance(ticks);
     }
 
     /**
@@ -104,7 +103,7 @@ public class ParallelMotionLinkage extends subsystem {
      * @return The current position of the motor in ticks
      */
     public int GCP() {
-        return motor.GCP();
+        return motor.getCurrentPosition();
     }
 
     /**
@@ -113,7 +112,7 @@ public class ParallelMotionLinkage extends subsystem {
      * @return The target position of the motor in ticks
      */
     public int GTP() {
-        return motor.GTP();
+        return motor.getTargetPosition();
     }
 
     /**
@@ -122,7 +121,7 @@ public class ParallelMotionLinkage extends subsystem {
      * @return The motor's power as a double
      */
     public double GP() {
-        return motor.GP();
+        return motor.getPower();
     }
 
     /**

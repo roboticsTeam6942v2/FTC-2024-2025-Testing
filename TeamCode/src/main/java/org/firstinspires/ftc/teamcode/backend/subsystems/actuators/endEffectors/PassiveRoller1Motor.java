@@ -44,13 +44,13 @@ public class PassiveRoller1Motor extends subsystem {
     public void roll(RollerControl control) {
         switch (control) {
             case FORWARD:
-                motor.SP(rollerSpeed);  // Set motor power to rollerSpeed for forward motion.
+                motor.setPower(rollerSpeed);  // Set motor power to rollerSpeed for forward motion.
                 break;
             case BACKWARD:
-                motor.SP(-rollerSpeed);  // Set motor power to negative rollerSpeed for backward motion.
+                motor.setPower(-rollerSpeed);  // Set motor power to negative rollerSpeed for backward motion.
                 break;
             case DISENGAGE:
-                motor.SP(0);  // Stop the motor, disengaging the roller.
+                motor.setPower(0);  // Stop the motor, disengaging the roller.
                 break;
         }
     }

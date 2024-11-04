@@ -1,6 +1,8 @@
 package org.firstinspires.ftc.teamcode.opmodes;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Gamepad;
 
@@ -8,7 +10,9 @@ import org.firstinspires.ftc.teamcode.backend.subsystems.opModeTools.WarningRumb
 import org.firstinspires.ftc.teamcode.backend.subsystems.actuators.base.Motor;
 import org.firstinspires.ftc.teamcode.backend.subsystems.actuators.drivetrains.Mecanum;
 
-public class Basic extends LinearOpMode {
+@Disabled
+@TeleOp
+public class BasicTest extends LinearOpMode {
     @Override
     public void runOpMode() {
         WarningRumbler endGame = new WarningRumbler(gamepad1, 80, Gamepad.Type.SONY_PS4);

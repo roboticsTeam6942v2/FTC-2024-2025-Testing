@@ -7,6 +7,8 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 /**
  * An extension of the {@link Servo} class that adds support for servos with defined
  * angular ranges in degrees
+ *
+ * @see Servo
  */
 public class ServoEx extends Servo {
     private int degrees; // The maximum range of the servo in degrees

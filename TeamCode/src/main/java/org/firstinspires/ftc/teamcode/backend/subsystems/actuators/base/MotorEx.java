@@ -10,6 +10,9 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  * The {@code MotorEx} class extends the {@link Motor} class and provides additional functionality
  * for motors with customizable configurations such as gear ratios
  * It supports REV UltraPlanetary motors but for that you need to specify gearbox ratio at the end of the constructor
+ *
+ * @see Motor
+ * @see MotorTypeRegistry
  */
 public class MotorEx extends Motor {
 

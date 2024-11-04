@@ -42,12 +42,12 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
      */
     @Override
     public void teleOpDrive(double y, double rx, double x) {
-        RWE(DTMotors.ALL);
-        frontLeft.SP(((y + rx)));
-        backLeft.SP(((y + rx)));
-        frontRight.SP(((y - rx)));
-        backRight.SP(((y - rx)));
-        midShift.SP(x * 1.5);
+        runWithoutEncoder(DTMotors.ALL);
+        frontLeft.setPower(((y + rx)));
+        backLeft.setPower(((y + rx)));
+        frontRight.setPower(((y - rx)));
+        backRight.setPower(((y - rx)));
+        midShift.setPower(x * 1.5);
     }
 
     /**
@@ -60,12 +60,12 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
      */
     @Override
     public void teleOpDrive(double y, double rx, double x, double speed) {
-        RWE(DTMotors.ALL);
-        frontLeft.SP(((y + rx)) / speed);
-        backLeft.SP(((y + rx)) / speed);
-        frontRight.SP(((y - rx)) / speed);
-        backRight.SP(((y - rx)) / speed);
-        midShift.SP(x * 1.5 / speed);
+        runWithoutEncoder(DTMotors.ALL);
+        frontLeft.setPower(((y + rx)) / speed);
+        backLeft.setPower(((y + rx)) / speed);
+        frontRight.setPower(((y - rx)) / speed);
+        backRight.setPower(((y - rx)) / speed);
+        midShift.setPower(x * 1.5 / speed);
     }
 
     /**
@@ -77,84 +77,84 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
      */
     @Override
     public void drive(Directions direction, double inches, double speed) {
-        SAR(DTMotors.ALL);
-        RUE(DTMotors.ALL);
+        stopAndReset(DTMotors.ALL);
+        runUsingEncoder(DTMotors.ALL);
         int val;
 
         switch (direction) {
             case FORWARD:
-                STP(DTMotors.DRIVETRAIN_BASIC_4, EaseCommands.inTT_dt(inches));
-                SP(DTMotors.DRIVETRAIN_BASIC_4, speed);
-                RTP(DTMotors.DRIVETRAIN_BASIC_4);
+                setTargetPosition(DTMotors.DRIVETRAIN_BASIC_4, EaseCommands.inTT_dt(inches));
+                setPower(DTMotors.DRIVETRAIN_BASIC_4, speed);
+                runToPosition(DTMotors.DRIVETRAIN_BASIC_4);
                 while (frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) {
                 }
-                SP(DTMotors.DRIVETRAIN_BASIC_4, 0);
+                setPower(DTMotors.DRIVETRAIN_BASIC_4, 0);
                 break;
             case BACKWARDS:
-                STP(DTMotors.DRIVETRAIN_BASIC_4, EaseCommands.inTT_dt(-inches));
-                SP(DTMotors.DRIVETRAIN_BASIC_4, speed);
-                RTP(DTMotors.DRIVETRAIN_BASIC_4);
+                setTargetPosition(DTMotors.DRIVETRAIN_BASIC_4, EaseCommands.inTT_dt(-inches));
+                setPower(DTMotors.DRIVETRAIN_BASIC_4, speed);
+                runToPosition(DTMotors.DRIVETRAIN_BASIC_4);
                 while (frontLeft.isBusy() && frontRight.isBusy() && backLeft.isBusy() && backRight.isBusy()) {
                 }
-                SP(DTMotors.DRIVETRAIN_BASIC_4, 0);
+                setPower(DTMotors.DRIVETRAIN_BASIC_4, 0);
                 break;
             case LEFT:
-                STP(DTMotors.MIDSHIFT, EaseCommands.inTT_dt(-inches));
-                STP(DTMotors.DRIVETRAIN_BASIC_4, 0);
-                SP(DTMotors.ALL, speed);
-                RTP(DTMotors.ALL);
+                setTargetPosition(DTMotors.MIDSHIFT, EaseCommands.inTT_dt(-inches));
+                setTargetPosition(DTMotors.DRIVETRAIN_BASIC_4, 0);
+                setPower(DTMotors.ALL, speed);
+                runToPosition(DTMotors.ALL);
                 while (isBusy()) {
                 }
-                SP(DTMotors.ALL, 0);
+                setPower(DTMotors.ALL, 0);
                 break;
             case RIGHT:
-                STP(DTMotors.MIDSHIFT, EaseCommands.inTT_dt(inches));
-                STP(DTMotors.DRIVETRAIN_BASIC_4, 0);
-                SP(DTMotors.ALL, speed);
-                RTP(DTMotors.ALL);
+                setTargetPosition(DTMotors.MIDSHIFT, EaseCommands.inTT_dt(inches));
+                setTargetPosition(DTMotors.DRIVETRAIN_BASIC_4, 0);
+                setPower(DTMotors.ALL, speed);
+                runToPosition(DTMotors.ALL);
                 while (isBusy()) {
                 }
-                SP(DTMotors.ALL, 0);
+                setPower(DTMotors.ALL, 0);
                 break;
             case DIAGONAL_FORWARDS_RIGHT:
                 val = EaseCommands.inTT_dt(inches / (Math.sqrt(2)));
-                STP(DTMotors.MIDSHIFT, val);
-                STP(DTMotors.DRIVETRAIN_BASIC_4, val);
-                SP(DTMotors.ALL, speed);
-                RTP(DTMotors.ALL);
+                setTargetPosition(DTMotors.MIDSHIFT, val);
+                setTargetPosition(DTMotors.DRIVETRAIN_BASIC_4, val);
+                setPower(DTMotors.ALL, speed);
+                runToPosition(DTMotors.ALL);
                 while (isBusy()) {
                 }
-                SP(DTMotors.ALL, 0);
+                setPower(DTMotors.ALL, 0);
                 break;
             case DIAGONAL_BACKWARDS_LEFT:
                 val = -EaseCommands.inTT_dt(inches / (Math.sqrt(2)));
-                STP(DTMotors.MIDSHIFT, val);
-                STP(DTMotors.DRIVETRAIN_BASIC_4, val);
-                SP(DTMotors.ALL, speed);
-                RTP(DTMotors.ALL);
+                setTargetPosition(DTMotors.MIDSHIFT, val);
+                setTargetPosition(DTMotors.DRIVETRAIN_BASIC_4, val);
+                setPower(DTMotors.ALL, speed);
+                runToPosition(DTMotors.ALL);
                 while (isBusy()) {
                 }
-                SP(DTMotors.ALL, 0);
+                setPower(DTMotors.ALL, 0);
                 break;
             case DIAGONAL_FORWARDS_LEFT:
                 val = EaseCommands.inTT_dt(inches / (Math.sqrt(2)));
-                STP(DTMotors.MIDSHIFT, -val);
-                STP(DTMotors.DRIVETRAIN_BASIC_4, val);
-                SP(DTMotors.ALL, speed);
-                RTP(DTMotors.ALL);
+                setTargetPosition(DTMotors.MIDSHIFT, -val);
+                setTargetPosition(DTMotors.DRIVETRAIN_BASIC_4, val);
+                setPower(DTMotors.ALL, speed);
+                runToPosition(DTMotors.ALL);
                 while (isBusy()) {
                 }
-                SP(DTMotors.ALL, 0);
+                setPower(DTMotors.ALL, 0);
                 break;
             case DIAGONAL_BACKWARDS_RIGHT:
                 val = -EaseCommands.inTT_dt(inches / (Math.sqrt(2)));
-                STP(DTMotors.MIDSHIFT, -val);
-                STP(DTMotors.DRIVETRAIN_BASIC_4, val);
-                SP(DTMotors.ALL, speed);
-                RTP(DTMotors.ALL);
+                setTargetPosition(DTMotors.MIDSHIFT, -val);
+                setTargetPosition(DTMotors.DRIVETRAIN_BASIC_4, val);
+                setPower(DTMotors.ALL, speed);
+                runToPosition(DTMotors.ALL);
                 while (isBusy()) {
                 }
-                SP(DTMotors.ALL, 0);
+                setPower(DTMotors.ALL, 0);
                 break;
             default:
                 break;
@@ -178,51 +178,51 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
      * @param power  The power level (0 to 1)
      */
     @Override
-    public void SP(DTMotors motors, double power) {
+    public void setPower(DTMotors motors, double power) {
         switch (motors) {
             case FRONT_LEFT:
-                frontLeft.SP(power);
+                frontLeft.setPower(power);
                 break;
             case FRONT_RIGHT:
-                frontRight.SP(power);
+                frontRight.setPower(power);
                 break;
             case BACK_LEFT:
-                backLeft.SP(power);
+                backLeft.setPower(power);
                 break;
             case BACK_RIGHT:
-                backRight.SP(power);
+                backRight.setPower(power);
                 break;
             case MIDSHIFT:
-                midShift.SP(power);
+                midShift.setPower(power);
                 break;
             case FRONT:
-                frontLeft.SP(power);
-                frontRight.SP(power);
+                frontLeft.setPower(power);
+                frontRight.setPower(power);
                 break;
             case BACK:
-                backLeft.SP(power);
-                backRight.SP(power);
+                backLeft.setPower(power);
+                backRight.setPower(power);
                 break;
             case LEFT:
-                frontLeft.SP(power);
-                backLeft.SP(power);
+                frontLeft.setPower(power);
+                backLeft.setPower(power);
                 break;
             case RIGHT:
-                frontRight.SP(power);
-                backRight.SP(power);
+                frontRight.setPower(power);
+                backRight.setPower(power);
                 break;
             case DRIVETRAIN_BASIC_4:
-                frontLeft.SP(power);
-                frontRight.SP(power);
-                backLeft.SP(power);
-                backRight.SP(power);
+                frontLeft.setPower(power);
+                frontRight.setPower(power);
+                backLeft.setPower(power);
+                backRight.setPower(power);
                 break;
             case ALL:
-                frontLeft.SP(power);
-                frontRight.SP(power);
-                backLeft.SP(power);
-                backRight.SP(power);
-                midShift.SP(power);
+                frontLeft.setPower(power);
+                frontRight.setPower(power);
+                backLeft.setPower(power);
+                backRight.setPower(power);
+                midShift.setPower(power);
                 break;
         }
     }
@@ -233,7 +233,7 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
      * @param motors Motor group or specific motor to run to position
      */
     @Override
-    public void RTP(DTMotors motors) {
+    public void runToPosition(DTMotors motors) {
         RTP(motors, true);
     }
 
@@ -247,48 +247,48 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
         Telemetry.Item hDriveRTPTelemetry = telemetry().addData("HDrive moving", "");
         switch (motors) {
             case FRONT_LEFT:
-                frontLeft.RTP();
+                frontLeft.runToPosition();
                 break;
             case FRONT_RIGHT:
-                frontRight.RTP();
+                frontRight.runToPosition();
                 break;
             case BACK_LEFT:
-                backLeft.RTP();
+                backLeft.runToPosition();
                 break;
             case BACK_RIGHT:
-                backRight.RTP();
+                backRight.runToPosition();
                 break;
             case MIDSHIFT:
-                midShift.RTP();
+                midShift.runToPosition();
                 break;
             case FRONT:
-                frontLeft.RTP();
-                frontRight.RTP();
+                frontLeft.runToPosition();
+                frontRight.runToPosition();
                 break;
             case BACK:
-                backLeft.RTP();
-                backRight.RTP();
+                backLeft.runToPosition();
+                backRight.runToPosition();
                 break;
             case LEFT:
-                frontLeft.RTP();
-                backLeft.RTP();
+                frontLeft.runToPosition();
+                backLeft.runToPosition();
                 break;
             case RIGHT:
-                frontRight.RTP();
-                backRight.RTP();
+                frontRight.runToPosition();
+                backRight.runToPosition();
                 break;
             case DRIVETRAIN_BASIC_4:
-                frontLeft.RTP();
-                frontRight.RTP();
-                backLeft.RTP();
-                backRight.RTP();
+                frontLeft.runToPosition();
+                frontRight.runToPosition();
+                backLeft.runToPosition();
+                backRight.runToPosition();
                 break;
             case ALL:
-                frontLeft.RTP();
-                frontRight.RTP();
-                backLeft.RTP();
-                backRight.RTP();
-                midShift.RTP();
+                frontLeft.runToPosition();
+                frontRight.runToPosition();
+                backLeft.runToPosition();
+                backRight.runToPosition();
+                midShift.runToPosition();
                 break;
         }
         if (wait) {
@@ -307,51 +307,51 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
      * @param targetPosition Target position in encoder ticks
      */
     @Override
-    public void STP(DTMotors motors, int targetPosition) {
+    public void setTargetPosition(DTMotors motors, int targetPosition) {
         switch (motors) {
             case FRONT_LEFT:
-                frontLeft.STP(targetPosition);
+                frontLeft.setTargetPosition(targetPosition);
                 break;
             case MIDSHIFT:
-                midShift.STP(targetPosition);
+                midShift.setTargetPosition(targetPosition);
                 break;
             case FRONT_RIGHT:
-                frontRight.STP(targetPosition);
+                frontRight.setTargetPosition(targetPosition);
                 break;
             case BACK_LEFT:
-                backLeft.STP(targetPosition);
+                backLeft.setTargetPosition(targetPosition);
                 break;
             case BACK_RIGHT:
-                backRight.STP(targetPosition);
+                backRight.setTargetPosition(targetPosition);
                 break;
             case FRONT:
-                frontLeft.STP(targetPosition);
-                frontRight.STP(targetPosition);
+                frontLeft.setTargetPosition(targetPosition);
+                frontRight.setTargetPosition(targetPosition);
                 break;
             case BACK:
-                backLeft.STP(targetPosition);
-                backRight.STP(targetPosition);
+                backLeft.setTargetPosition(targetPosition);
+                backRight.setTargetPosition(targetPosition);
                 break;
             case LEFT:
-                frontLeft.STP(targetPosition);
-                backLeft.STP(targetPosition);
+                frontLeft.setTargetPosition(targetPosition);
+                backLeft.setTargetPosition(targetPosition);
                 break;
             case RIGHT:
-                frontRight.STP(targetPosition);
-                backRight.STP(targetPosition);
+                frontRight.setTargetPosition(targetPosition);
+                backRight.setTargetPosition(targetPosition);
                 break;
             case DRIVETRAIN_BASIC_4:
-                frontLeft.STP(targetPosition);
-                frontRight.STP(targetPosition);
-                backLeft.STP(targetPosition);
-                backRight.STP(targetPosition);
+                frontLeft.setTargetPosition(targetPosition);
+                frontRight.setTargetPosition(targetPosition);
+                backLeft.setTargetPosition(targetPosition);
+                backRight.setTargetPosition(targetPosition);
                 break;
             case ALL:
-                frontLeft.STP(targetPosition);
-                frontRight.STP(targetPosition);
-                backLeft.STP(targetPosition);
-                backRight.STP(targetPosition);
-                midShift.STP(targetPosition);
+                frontLeft.setTargetPosition(targetPosition);
+                frontRight.setTargetPosition(targetPosition);
+                backLeft.setTargetPosition(targetPosition);
+                backRight.setTargetPosition(targetPosition);
+                midShift.setTargetPosition(targetPosition);
                 break;
         }
     }
@@ -362,51 +362,51 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
      * @param motors Motor group or specific motor to reset
      */
     @Override
-    public void SAR(DTMotors motors) {
+    public void stopAndReset(DTMotors motors) {
         switch (motors) {
             case FRONT_LEFT:
-                frontLeft.SAR();
+                frontLeft.stopAndReset();
                 break;
             case FRONT_RIGHT:
-                frontRight.SAR();
+                frontRight.stopAndReset();
                 break;
             case BACK_LEFT:
-                backLeft.SAR();
+                backLeft.stopAndReset();
                 break;
             case BACK_RIGHT:
-                backRight.SAR();
+                backRight.stopAndReset();
                 break;
             case MIDSHIFT:
-                midShift.SAR();
+                midShift.stopAndReset();
                 break;
             case FRONT:
-                frontLeft.SAR();
-                frontRight.SAR();
+                frontLeft.stopAndReset();
+                frontRight.stopAndReset();
                 break;
             case BACK:
-                backLeft.SAR();
-                backRight.SAR();
+                backLeft.stopAndReset();
+                backRight.stopAndReset();
                 break;
             case LEFT:
-                frontLeft.SAR();
-                backLeft.SAR();
+                frontLeft.stopAndReset();
+                backLeft.stopAndReset();
                 break;
             case RIGHT:
-                frontRight.SAR();
-                backRight.SAR();
+                frontRight.stopAndReset();
+                backRight.stopAndReset();
                 break;
             case DRIVETRAIN_BASIC_4:
-                frontLeft.SAR();
-                frontRight.SAR();
-                backLeft.SAR();
-                backRight.SAR();
+                frontLeft.stopAndReset();
+                frontRight.stopAndReset();
+                backLeft.stopAndReset();
+                backRight.stopAndReset();
                 break;
             case ALL:
-                frontLeft.SAR();
-                frontRight.SAR();
-                backLeft.SAR();
-                backRight.SAR();
-                midShift.SAR();
+                frontLeft.stopAndReset();
+                frontRight.stopAndReset();
+                backLeft.stopAndReset();
+                backRight.stopAndReset();
+                midShift.stopAndReset();
                 break;
         }
     }
@@ -417,51 +417,51 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
      * @param motors Motor group or specific motor
      */
     @Override
-    public void RWE(DTMotors motors) {
+    public void runWithoutEncoder(DTMotors motors) {
         switch (motors) {
             case FRONT_LEFT:
-                frontLeft.RWE();
+                frontLeft.runWithoutEncoder();
                 break;
             case FRONT_RIGHT:
-                frontRight.RWE();
+                frontRight.runWithoutEncoder();
                 break;
             case BACK_LEFT:
-                backLeft.RWE();
+                backLeft.runWithoutEncoder();
                 break;
             case BACK_RIGHT:
-                backRight.RWE();
+                backRight.runWithoutEncoder();
                 break;
             case MIDSHIFT:
-                midShift.RWE();
+                midShift.runWithoutEncoder();
                 break;
             case FRONT:
-                frontLeft.RWE();
-                frontRight.RWE();
+                frontLeft.runWithoutEncoder();
+                frontRight.runWithoutEncoder();
                 break;
             case BACK:
-                backLeft.RWE();
-                backRight.RWE();
+                backLeft.runWithoutEncoder();
+                backRight.runWithoutEncoder();
                 break;
             case LEFT:
-                frontLeft.RWE();
-                backLeft.RWE();
+                frontLeft.runWithoutEncoder();
+                backLeft.runWithoutEncoder();
                 break;
             case RIGHT:
-                frontRight.RWE();
-                backRight.RWE();
+                frontRight.runWithoutEncoder();
+                backRight.runWithoutEncoder();
                 break;
             case DRIVETRAIN_BASIC_4:
-                frontLeft.RWE();
-                frontRight.RWE();
-                backLeft.RWE();
-                backRight.RWE();
+                frontLeft.runWithoutEncoder();
+                frontRight.runWithoutEncoder();
+                backLeft.runWithoutEncoder();
+                backRight.runWithoutEncoder();
                 break;
             case ALL:
-                frontLeft.RWE();
-                frontRight.RWE();
-                backLeft.RWE();
-                backRight.RWE();
-                midShift.RWE();
+                frontLeft.runWithoutEncoder();
+                frontRight.runWithoutEncoder();
+                backLeft.runWithoutEncoder();
+                backRight.runWithoutEncoder();
+                midShift.runWithoutEncoder();
                 break;
         }
     }
@@ -472,51 +472,51 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
      * @param motors Motor group or specific motor
      */
     @Override
-    public void RUE(DTMotors motors) {
+    public void runUsingEncoder(DTMotors motors) {
         switch (motors) {
             case FRONT_LEFT:
-                frontLeft.RUE();
+                frontLeft.runUsingEncoder();
                 break;
             case FRONT_RIGHT:
-                frontRight.RUE();
+                frontRight.runUsingEncoder();
                 break;
             case BACK_LEFT:
-                backLeft.RUE();
+                backLeft.runUsingEncoder();
                 break;
             case BACK_RIGHT:
-                backRight.RUE();
+                backRight.runUsingEncoder();
                 break;
             case MIDSHIFT:
-                midShift.RUE();
+                midShift.runUsingEncoder();
                 break;
             case FRONT:
-                frontLeft.RUE();
-                frontRight.RUE();
+                frontLeft.runUsingEncoder();
+                frontRight.runUsingEncoder();
                 break;
             case BACK:
-                backLeft.RUE();
-                backRight.RUE();
+                backLeft.runUsingEncoder();
+                backRight.runUsingEncoder();
                 break;
             case LEFT:
-                frontLeft.RUE();
-                backLeft.RUE();
+                frontLeft.runUsingEncoder();
+                backLeft.runUsingEncoder();
                 break;
             case RIGHT:
-                frontRight.RUE();
-                backRight.RUE();
+                frontRight.runUsingEncoder();
+                backRight.runUsingEncoder();
                 break;
             case DRIVETRAIN_BASIC_4:
-                frontLeft.RUE();
-                frontRight.RUE();
-                backLeft.RUE();
-                backRight.RUE();
+                frontLeft.runUsingEncoder();
+                frontRight.runUsingEncoder();
+                backLeft.runUsingEncoder();
+                backRight.runUsingEncoder();
                 break;
             case ALL:
-                frontLeft.RUE();
-                frontRight.RUE();
-                backLeft.RUE();
-                backRight.RUE();
-                midShift.RUE();
+                frontLeft.runUsingEncoder();
+                frontRight.runUsingEncoder();
+                backLeft.runUsingEncoder();
+                backRight.runUsingEncoder();
+                midShift.runUsingEncoder();
                 break;
         }
     }
@@ -551,19 +551,19 @@ public class HDrive extends subsystem implements DrivetrainHolonomic {
             backRightPower /= maxPower;
         }
 
-        STP(DTMotors.DRIVETRAIN_BASIC_4, EaseCommands.inTT_dt(inches));
-        frontLeft.SP(frontLeftPower);
-        frontRight.SP(frontRightPower);
-        backLeft.SP(backLeftPower);
-        backRight.SP(backRightPower);
-        midShift.SP(midShiftPower);
+        setTargetPosition(DTMotors.DRIVETRAIN_BASIC_4, EaseCommands.inTT_dt(inches));
+        frontLeft.setPower(frontLeftPower);
+        frontRight.setPower(frontRightPower);
+        backLeft.setPower(backLeftPower);
+        backRight.setPower(backRightPower);
+        midShift.setPower(midShiftPower);
 
-        RTP(DTMotors.ALL);
+        runToPosition(DTMotors.ALL);
 
         while (isBusy()) {
         }
 
-        SP(DTMotors.ALL, 0);
+        setPower(DTMotors.ALL, 0);
     }
 
 }
