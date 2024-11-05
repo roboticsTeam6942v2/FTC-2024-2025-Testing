@@ -11,7 +11,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
  * @see Servo
  */
 public class ServoEx extends Servo {
-    private int degrees; // The maximum range of the servo in degrees
+    private final int degrees; // The maximum range of the servo in degrees
 
     /**
      * Constructs a {@code ServoEx} object and initializes the hardware reference
