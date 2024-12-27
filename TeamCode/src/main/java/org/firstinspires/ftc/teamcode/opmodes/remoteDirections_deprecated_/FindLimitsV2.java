@@ -1,5 +1,6 @@
-package org.firstinspires.ftc.teamcode.opmodes.remoteDirections;
+package org.firstinspires.ftc.teamcode.opmodes.remoteDirections_deprecated_;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -9,6 +10,7 @@ import org.firstinspires.ftc.teamcode.backend.subsystems.actuators.base.Motor;
 import org.firstinspires.ftc.teamcode.backend.subsystems.actuators.base.Servo;
 
 @TeleOp
+@Disabled
 public class FindLimitsV2 extends LinearOpMode {
 
     Motor shoulderMotorLeft, shoulderMotorRight, elbowMotor;

@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmodes.remoteDirections;
+package org.firstinspires.ftc.teamcode.opmodes.remoteDirections_deprecated_;
 
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 

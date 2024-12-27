@@ -1,5 +1,6 @@
-package org.firstinspires.ftc.teamcode.opmodes.remoteDirections;
+package org.firstinspires.ftc.teamcode.opmodes.remoteDirections_deprecated_;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -13,6 +14,7 @@ import org.firstinspires.ftc.teamcode.backend.subsystems.actuators.drivetrains.M
 import java.util.concurrent.TimeUnit;
 
 @TeleOp
+@Disabled
 public class TelepV2 extends LinearOpMode {
 
     Motor shoulderMotorLeft, shoulderMotorRight, elbowMotor, backLeft, backRight, frontLeft, frontRight;

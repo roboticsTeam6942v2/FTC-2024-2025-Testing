@@ -1,5 +1,6 @@
-package org.firstinspires.ftc.teamcode.opmodes.remoteDirections;
+package org.firstinspires.ftc.teamcode.opmodes.remoteDirections_deprecated_;
 
+import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
@@ -8,13 +9,14 @@ import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
+@Disabled
 public class FindLimits extends LinearOpMode {
 
     DcMotorEx shoulderMotorLeft, shoulderMotorRight, elbowMotor;
     Servo fingers, wrist;
 
     Gamepad last = new Gamepad();
-    double fingerPosition = 0,  wristPosition = 0;
+    double fingerPosition = 0, wristPosition = 0;
     int deltaTargetShoulderPosition;
 
     @Override
@@ -44,8 +46,8 @@ public class FindLimits extends LinearOpMode {
         shoulderMotorRight.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
         elbowMotor.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
 
-        shoulderMotorLeft.setTargetPosition(0);
-        shoulderMotorRight.setTargetPosition(0);
+        shoulderMotorLeft.setTargetPosition(11);
+        shoulderMotorRight.setTargetPosition(11);
         elbowMotor.setTargetPosition(0);
 
         shoulderMotorLeft.setMode(DcMotor.RunMode.RUN_TO_POSITION);
@@ -72,26 +74,23 @@ public class FindLimits extends LinearOpMode {
         }
 
         while (opModeIsActive()) {
-            if (!shoulderMotorLeft.isBusy() && !shoulderMotorRight.isBusy()) {
-//                deltaTargetPosition = (int) ((Constants.SHOULDER_BOOSTER * gamepad1.right_trigger) - (Constants.SHOULDER_BOOSTER * gamepad1.left_trigger));
-                deltaTargetShoulderPosition = (int) (Constants.SHOULDER_BOOSTER * -gamepad1.left_stick_y);
-                shoulderMotorLeft.setTargetPosition(shoulderMotorLeft.getCurrentPosition() + deltaTargetShoulderPosition);
-                shoulderMotorRight.setTargetPosition(shoulderMotorRight.getCurrentPosition() + deltaTargetShoulderPosition);
-            }
 
-            if (!elbowMotor.isBusy())
-                elbowMotor.setTargetPosition(elbowMotor.getCurrentPosition() + (int) (Constants.ELBOW_BOOSTER * -gamepad1.right_stick_y));
+            deltaTargetShoulderPosition = (int) (Constants.SHOULDER_BOOSTER * -gamepad1.left_stick_y);
+            shoulderMotorLeft.setTargetPosition(shoulderMotorLeft.getCurrentPosition() + deltaTargetShoulderPosition);
+            shoulderMotorRight.setTargetPosition(shoulderMotorRight.getCurrentPosition() + deltaTargetShoulderPosition);
 
-            if (gamepad1.dpad_up && last.dpad_up)
+            elbowMotor.setTargetPosition(elbowMotor.getCurrentPosition() + (int) (Constants.ELBOW_BOOSTER * -gamepad1.right_stick_y));
+
+            if (gamepad1.dpad_up && !last.dpad_up)
                 fingerPosition += Constants.FINGER_STEP;
 
-            if (gamepad1.dpad_down && last.dpad_down)
+            if (gamepad1.dpad_down && !last.dpad_down)
                 fingerPosition -= Constants.FINGER_STEP;
 
-            if (gamepad1.y && last.y)
+            if (gamepad1.y && !last.y)
                 wristPosition += Constants.WRIST_STEP;
 
-            if (gamepad1.a && last.a)
+            if (gamepad1.a && !last.a)
                 wristPosition -= Constants.WRIST_STEP;
 
             telemetry.addData("shoulder: ", (shoulderMotorLeft.getCurrentPosition() + shoulderMotorRight.getCurrentPosition()) / 2);
