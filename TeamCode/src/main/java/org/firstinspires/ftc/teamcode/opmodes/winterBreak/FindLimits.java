@@ -95,6 +95,29 @@ public class FindLimits extends LinearOpMode {
                     telemetry.addData(selector + "elbow: ", Constants.elbowDirection);
                 }
 
+                if (gamepad1.a) {
+                    if (position == 1) {
+                        foot.setPower(.5);
+                    } else {
+                        foot.setPower(0);
+                    }
+                    if (position == 2) {
+                        liftRope.setPower(.5);
+                    } else {
+                        liftRope.setPower(0);
+                    }
+                    if (position == 3) {
+                        liftChain.setPower(.5);
+                    } else {
+                        liftChain.setPower(0);
+                    }
+                    if (position == 4) {
+                        elbow.setPower(.5);
+                    } else {
+                        elbow.setPower(0);
+                    }
+                }
+
                 if (!last.dpad_up && gamepad1.dpad_up) {
                     position++;
                     if (position > 4) {
