@@ -7,6 +7,8 @@ import com.qualcomm.robotcore.hardware.DcMotorEx;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.robotcore.external.Const;
+import org.firstinspires.ftc.robotcore.external.Function;
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 
 @TeleOp
@@ -18,8 +20,14 @@ public class FindLimits extends LinearOpMode {
     int position = 1;
 
     String
-        spacer = "   ",
-        selector = " > ";
+            spacer = "   ",
+            selector = " > ";
+
+    Boolean
+            footFrozen,
+            liftFrozen,
+            elbowFrozen;
+    Function <Boolean, String> frozenCheck = (isFrozen) -> isFrozen ? "frozen" : "unfrozen";
 
     Gamepad last = new Gamepad();
     double fingerPosition = 0, wristPosition = 0, shoulderPosition = 0;
@@ -50,7 +58,7 @@ public class FindLimits extends LinearOpMode {
         elbow.setDirection(Constants.elbowDirection);
 
         // if we get the numbers then open up
-        if (Constants.liftHover == null || Constants.wristGrab == null || Constants.fingersOpen == null) {
+        if (!Constants.directionIsSetUp) {
             setModeDirectional();
         } else {
             setModeManual();
@@ -73,6 +81,7 @@ public class FindLimits extends LinearOpMode {
 //------------------------------------------------------------------- Manual
             if (currentMode == Mode.DIRECTIONAL) {
 
+                // make telemetry and menu
                 if (position == 1) {
                     telemetry.addData(selector + "foot: ", Constants.footDirection);
                     telemetry.addData(spacer + "liftRope: ", Constants.liftRopeDirection);
@@ -95,6 +104,7 @@ public class FindLimits extends LinearOpMode {
                     telemetry.addData(selector + "elbow: ", Constants.elbowDirection);
                 }
 
+                // activate motors
                 if (gamepad1.a) {
                     if (position == 1) {
                         foot.setPower(.5);
@@ -118,6 +128,7 @@ public class FindLimits extends LinearOpMode {
                     }
                 }
 
+                // control motor selection
                 if (!last.dpad_up && gamepad1.dpad_up) {
                     position++;
                     if (position > 4) {
@@ -135,6 +146,8 @@ public class FindLimits extends LinearOpMode {
 
 //------------------------------------------------------------------- Manual
             if (currentMode == Mode.MANUAL) {
+
+                // make telemetry and menu
                 if (position == 1) {
                     telemetry.addData(selector + "foot: ", foot.getCurrentPosition());
                     telemetry.addData(spacer + "lift: ", liftRope.getCurrentPosition());
@@ -149,10 +162,13 @@ public class FindLimits extends LinearOpMode {
                     telemetry.addData(selector + "elbow: ", elbow.getCurrentPosition());
                 }
 
+                // cycle modes
                 if (!last.back && gamepad1.back) {
                     setModeFreezeMotor();
                     break;
                 }
+
+                // control motor selection
                 if (!last.dpad_up && gamepad1.dpad_up) {
                     position++;
                     if (position > 3) {
@@ -166,6 +182,62 @@ public class FindLimits extends LinearOpMode {
                     }
                 }
 
+            }
+
+//------------------------------------------------------------------- Freeze
+            if (currentMode == Mode.FREEZE_MOTOR) {
+
+                // make telemetry and menu
+                if (position == 1) {
+                    telemetry.addData(selector + "foot: ", frozenCheck.apply(footFrozen));
+                    telemetry.addData(spacer + "lift: ", frozenCheck.apply(liftFrozen));
+                    telemetry.addData(spacer + "elbow: ", frozenCheck.apply(elbowFrozen));
+                } else if (position == 2) {
+                    telemetry.addData(spacer + "foot: ", frozenCheck.apply(footFrozen));
+                    telemetry.addData(selector + "lift: ", frozenCheck.apply(liftFrozen));
+                    telemetry.addData(spacer + "elbow: ", frozenCheck.apply(elbowFrozen));
+                } else if (position == 3) {
+                    telemetry.addData(spacer + "foot: ", frozenCheck.apply(footFrozen));
+                    telemetry.addData(spacer + "lift: ", frozenCheck.apply(liftFrozen));
+                    telemetry.addData(selector + "elbow: ", frozenCheck.apply(elbowFrozen));
+                }
+
+                // if press a swap if its meant to be frozen or not
+                if (!last.a && gamepad1.a) {
+                    if (position == 1) {
+                        footFrozen = !footFrozen;
+                    } else if (position == 2) {
+                        liftFrozen = !liftFrozen;
+                    } else if (position == 3) {
+                        elbowFrozen = !elbowFrozen;
+                    }
+                }
+
+                // control motor selection
+                if (!last.dpad_up && gamepad1.dpad_up) {
+                    position++;
+                    if (position > 3) {
+                        position = 1;
+                    }
+                }
+                if (!last.dpad_down && gamepad1.dpad_down) {
+                    position++;
+                    if (position < 1) {
+                        position = 3;
+                    }
+                }
+
+                // cycle modes
+                if (!last.back && gamepad1.back) {
+                    setModeManual();
+                    break;
+                }
+
+                if (footFrozen) {
+                    foot.setTargetPosition(foot.getCurrentPosition());
+                } else {
+                    foot.setPower(0);
+                }
             }
 
             last = gamepad1;
@@ -229,6 +301,9 @@ public class FindLimits extends LinearOpMode {
         liftRope.setPower(1);
         liftChain.setPower(1);
         elbow.setPower(1);
+        footFrozen = true;
+        liftFrozen = true;
+        elbowFrozen = true;
         currentMode = Mode.FREEZE_MOTOR;
     }
 

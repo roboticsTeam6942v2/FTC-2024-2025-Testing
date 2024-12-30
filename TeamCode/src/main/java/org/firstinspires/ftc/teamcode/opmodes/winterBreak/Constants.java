@@ -14,6 +14,7 @@ public class Constants {
         INITIAL, HOVERING_TO_GRAB, GRABBING, LOW_BASKET, HIGH_BASKET
     }
 
+    public static boolean directionIsSetUp = false;
     public static DcMotorSimple.Direction
             footDirection = DcMotorSimple.Direction.FORWARD,
             liftRopeDirection = DcMotorSimple.Direction.FORWARD,
