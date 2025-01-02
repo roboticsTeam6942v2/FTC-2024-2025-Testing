@@ -15,7 +15,7 @@ import org.firstinspires.ftc.robotcore.external.Telemetry;
 public class FindLimits extends LinearOpMode {
 
     DcMotorEx foot, liftRope, liftChain, elbow;
-    Servo fingers, wrist, shoulder;
+    Servo fingers, wrist, shoulderLeft, shoulderRight;
 
     int position = 1;
 
@@ -46,8 +46,10 @@ public class FindLimits extends LinearOpMode {
         fingers.setPosition(fingerPosition);
         wrist = hardwareMap.get(Servo.class, "wrist");
         wrist.setPosition(wristPosition);
-        shoulder = hardwareMap.get(Servo.class, "shoulder");
-        shoulder.setPosition(shoulderPosition);
+        shoulderLeft = hardwareMap.get(Servo.class, "shoulderLeft");
+        shoulderLeft.setPosition(shoulderPosition);
+        shoulderRight = hardwareMap.get(Servo.class, "shoulderRight");
+        shoulderRight.setPosition(shoulderPosition);
         foot = hardwareMap.get(DcMotorEx.class, "foot");
         foot.setDirection(Constants.footDirection);
         liftRope = hardwareMap.get(DcMotorEx.class, "liftRope");
@@ -235,6 +237,24 @@ public class FindLimits extends LinearOpMode {
 
                 if (footFrozen) {
                     foot.setTargetPosition(foot.getCurrentPosition());
+                    foot.setPower(1);
+                    foot.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                } else {
+                    foot.setPower(0);
+                }if (liftFrozen) {
+                    liftRope.setTargetPosition(foot.getCurrentPosition());
+                    liftChain.setTargetPosition(foot.getCurrentPosition());
+                    liftRope.setPower(1);
+                    liftChain.setPower(1);
+                    liftRope.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    liftChain.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                } else {
+                    liftRope.setPower(0);
+                    liftChain.setPower(0);
+                }if (footFrozen) {
+                    foot.setTargetPosition(foot.getCurrentPosition());
+                    foot.setPower(1);
+                    foot.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 } else {
                     foot.setPower(0);
                 }

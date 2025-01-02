@@ -35,8 +35,8 @@ public class Constants {
             wristPlace = null,
             fingersOpen = null,
             fingersClosed = null,
-            shoulderUp = null,
-            shoulderDown = null;
+            shoulderUp = 1.0,
+            shoulderDown = 0.3;
 
     public static HashMap<RobotPositions, RobotPositionsData> positions = new HashMap<>();
 

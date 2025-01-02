@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.backend.subsystems.sensors;
 
-import androidx.annotation.NonNull;
-
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -18,7 +16,7 @@ public class TouchSensor extends subsystem {
      * @param hwMap     HardwareMap object from OpMode
      * @param telemetry Telemetry object from OpMode
      */
-    public TouchSensor(String name, @NonNull HardwareMap hwMap, Telemetry telemetry) {
+    public TouchSensor(String name, HardwareMap hwMap, Telemetry telemetry) {
         super(hwMap, telemetry);
         touchSensor = hwMap.get(com.qualcomm.robotcore.hardware.TouchSensor.class, name);
     }
