@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmodes.winterBreak;
+package org.firstinspires.ftc.teamcode.opmodes.winterBreak.servoTests;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -9,8 +9,8 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 @TeleOp
 @Disabled
-public class TestFingers extends LinearOpMode {
-    Servo fingers;
+public class TestShoulder extends LinearOpMode {
+    Servo shoulderLeft, shoulderRight;
 
     double position = 0;
     Gamepad last = new Gamepad();
@@ -19,8 +19,11 @@ public class TestFingers extends LinearOpMode {
     @Override
     public void runOpMode() {
 
-        fingers = hardwareMap.get(Servo.class, "fingers");
-        fingers.setPosition(position);
+        shoulderLeft = hardwareMap.get(Servo.class, "shoulderLeft");
+        shoulderLeft.setPosition(position);
+        shoulderRight = hardwareMap.get(Servo.class, "shoulderRight");
+        shoulderRight.setDirection(com.qualcomm.robotcore.hardware.Servo.Direction.REVERSE);
+        shoulderRight.setPosition(position);
 
         waitForStart();
         timer.reset();
@@ -39,7 +42,8 @@ public class TestFingers extends LinearOpMode {
             }
 
 
-            fingers.setPosition(position);
+            shoulderLeft.setPosition(position);
+            shoulderRight.setPosition(position);
             last.copy(gamepad1);
             telemetry.addData("time: ", timer.seconds());
             telemetry.addData("position: ", position);

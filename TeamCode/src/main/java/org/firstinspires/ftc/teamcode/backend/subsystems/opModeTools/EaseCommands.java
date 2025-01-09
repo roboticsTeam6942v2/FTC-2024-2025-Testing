@@ -2,8 +2,6 @@ package org.firstinspires.ftc.teamcode.backend.subsystems.opModeTools;
 
 import static java.lang.Math.round;
 
-import androidx.annotation.ColorInt;
-
 import org.firstinspires.ftc.teamcode.backend.subsystems.Constants;
 
 import java.util.HashMap;
@@ -143,7 +141,7 @@ public class EaseCommands {
      * @param b Blue component (0-255)
      * @return The name of the closest basic color
      */
-    public static Colors findClosestColor(@ColorInt int r, @ColorInt int g, @ColorInt int b) {
+    public static Colors findClosestColor( int r, int g, int b) {
         if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255) {
             throw new IllegalArgumentException("RGB values must be between 0 and 255.");
         }
@@ -176,7 +174,7 @@ public class EaseCommands {
      * @param g         The value of green [0-255]
      * @return Similarity
      */
-    public static double calculateColorSimilarity(int[] targetRGB, @ColorInt int r, @ColorInt int g, @ColorInt int b) {
+    public static double calculateColorSimilarity(int[] targetRGB, int r, int g, int b) {
         if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255) {
             throw new IllegalArgumentException("RGB values must be between 0 and 255.");
         }

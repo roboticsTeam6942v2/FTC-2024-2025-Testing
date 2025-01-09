@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.backend.subsystems.sensors;
 
-import androidx.annotation.NonNull;
-
 import com.qualcomm.hardware.rev.RevHubOrientationOnRobot;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.IMU;
@@ -29,7 +27,7 @@ public class Imu extends subsystem {
      * @param logoDirection Logo Direction
      * @param usbDirection  USB Direction
      */
-    public Imu(String name, @NonNull HardwareMap hwMap, RevHubOrientationOnRobot.LogoFacingDirection logoDirection, RevHubOrientationOnRobot.UsbFacingDirection usbDirection, Telemetry telemetry) {
+    public Imu(String name, HardwareMap hwMap, RevHubOrientationOnRobot.LogoFacingDirection logoDirection, RevHubOrientationOnRobot.UsbFacingDirection usbDirection, Telemetry telemetry) {
         super(hwMap, telemetry);
         imu = hwMap.get(IMU.class, name);
         RevHubOrientationOnRobot orientationOnRobot = new RevHubOrientationOnRobot(logoDirection, usbDirection);

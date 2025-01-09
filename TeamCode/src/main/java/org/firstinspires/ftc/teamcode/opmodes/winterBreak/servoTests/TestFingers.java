@@ -1,4 +1,4 @@
-package org.firstinspires.ftc.teamcode.opmodes.winterBreak;
+package org.firstinspires.ftc.teamcode.opmodes.winterBreak.servoTests;
 
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -7,29 +7,33 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.Gamepad;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.firstinspires.ftc.teamcode.opmodes.winterBreak.Constants;
+
 @TeleOp
 @Disabled
-public class TestWrist extends LinearOpMode {
-    Servo wrist;
+public class TestFingers extends LinearOpMode {
+    Servo fingers;
 
-    double position = 0;
+    double position = 1;
     Gamepad last = new Gamepad();
     ElapsedTime timer = new ElapsedTime();
 
     @Override
     public void runOpMode() {
 
-        wrist = hardwareMap.get(Servo.class, "wrist");
-        wrist.setPosition(position);
+        fingers = hardwareMap.get(Servo.class, "fingers");
+        fingers.setPosition(position);
 
         waitForStart();
         timer.reset();
         while (opModeIsActive()) {
             if (gamepad1.dpad_up && !last.dpad_up) {
-                position+=.1;
+//                position+=.05;
+                position = Constants.fingersOpen;
             }
             if (gamepad1.dpad_down && !last.dpad_down) {
-                position-=.1;
+//                position-=.05;
+                position = Constants.fingersClosed;
             }
 
             if (position > 1) {
@@ -39,7 +43,7 @@ public class TestWrist extends LinearOpMode {
             }
 
 
-            wrist.setPosition(position);
+            fingers.setPosition(position);
             last.copy(gamepad1);
             telemetry.addData("time: ", timer.seconds());
             telemetry.addData("position: ", position);

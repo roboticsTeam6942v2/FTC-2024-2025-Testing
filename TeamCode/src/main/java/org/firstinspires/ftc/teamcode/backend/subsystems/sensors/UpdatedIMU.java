@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.backend.subsystems.sensors;
 
-import androidx.annotation.NonNull;
-
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
@@ -33,7 +31,7 @@ public class UpdatedIMU extends subsystem {
      * @param hwMap     The robot's HardwareMap to initialize the IMU.
      * @param telemetry The telemetry instance for logging.
      */
-    public UpdatedIMU(String name, @NonNull HardwareMap hwMap, Telemetry telemetry) {
+    public UpdatedIMU(String name, HardwareMap hwMap, Telemetry telemetry) {
         this(name, hwMap, null, telemetry);
     }
 
@@ -45,7 +43,7 @@ public class UpdatedIMU extends subsystem {
      * @param parameters The custom parameters to configure the IMU, or null for defaults.
      * @param telemetry  The telemetry instance for logging.
      */
-    public UpdatedIMU(String name, @NonNull HardwareMap hwMap, BNO055IMU.Parameters parameters, Telemetry telemetry) {
+    public UpdatedIMU(String name, HardwareMap hwMap, BNO055IMU.Parameters parameters, Telemetry telemetry) {
         super(hwMap, telemetry);
         imu = hwMap.get(BNO055IMU.class, name);
         if (parameters != null) {

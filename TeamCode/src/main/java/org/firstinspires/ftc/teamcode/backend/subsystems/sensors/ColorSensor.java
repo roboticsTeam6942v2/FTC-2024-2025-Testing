@@ -1,8 +1,5 @@
 package org.firstinspires.ftc.teamcode.backend.subsystems.sensors;
 
-import androidx.annotation.ColorInt;
-import androidx.annotation.NonNull;
-
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -25,7 +22,7 @@ public class ColorSensor extends subsystem {
      * @param name  Name of the ColorSensor in the phone
      * @param hwMap HardwareMap object from OpMode
      */
-    public ColorSensor(String name, @NonNull HardwareMap hwMap, Telemetry telemetry) {
+    public ColorSensor(String name, HardwareMap hwMap, Telemetry telemetry) {
         super(hwMap, telemetry);
         colorSensor = hwMap.get(com.qualcomm.robotcore.hardware.ColorSensor.class, name);
     }
@@ -94,7 +91,7 @@ public class ColorSensor extends subsystem {
      * @return Whether or not the value is in the boundary (true or false)
      */
     @Deprecated
-    public boolean redBoundary(@ColorInt int num1, @ColorInt int num2) {
+    public boolean redBoundary(int num1, int num2) {
         return colorSensor.red() > num1 && colorSensor.red() < num2;
     }
 
@@ -106,7 +103,7 @@ public class ColorSensor extends subsystem {
      * @return Whether or not the value is in the boundary (true or false)
      */
     @Deprecated
-    public boolean blueBoundary(@ColorInt int num1, @ColorInt int num2) {
+    public boolean blueBoundary(int num1, int num2) {
         return colorSensor.blue() > num1 && colorSensor.blue() < num2;
     }
 
@@ -118,7 +115,7 @@ public class ColorSensor extends subsystem {
      * @return Whether or not the value is in the boundary (true or false)
      */
     @Deprecated
-    public boolean greenBoundary(@ColorInt int num1, @ColorInt int num2) {
+    public boolean greenBoundary(int num1, int num2) {
         return colorSensor.green() > num1 && colorSensor.green() < num2;
     }
 }

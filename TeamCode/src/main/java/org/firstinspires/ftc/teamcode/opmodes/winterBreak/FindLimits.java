@@ -49,6 +49,7 @@ public class FindLimits extends LinearOpMode {
         shoulderLeft = hardwareMap.get(Servo.class, "shoulderLeft");
         shoulderLeft.setPosition(shoulderPosition);
         shoulderRight = hardwareMap.get(Servo.class, "shoulderRight");
+        shoulderRight.setDirection(com.qualcomm.robotcore.hardware.Servo.Direction.REVERSE);
         shoulderRight.setPosition(shoulderPosition);
         foot = hardwareMap.get(DcMotorEx.class, "foot");
         foot.setDirection(Constants.footDirection);
@@ -78,9 +79,12 @@ public class FindLimits extends LinearOpMode {
             elbow.setPower(1);
         }
 
+        shoulderRight.setPosition(Constants.shoulderDown);
+        shoulderLeft.setPosition(Constants.shoulderDown);
+        waitForStart();
         while (opModeIsActive()) {
 
-//------------------------------------------------------------------- Manual
+//------------------------------------------------------------------- Directional
             if (currentMode == Mode.DIRECTIONAL) {
 
                 // make telemetry and menu
@@ -110,29 +114,26 @@ public class FindLimits extends LinearOpMode {
                 if (gamepad1.a) {
                     if (position == 1) {
                         foot.setPower(.5);
-                    } else {
-                        foot.setPower(0);
                     }
                     if (position == 2) {
                         liftRope.setPower(.5);
-                    } else {
-                        liftRope.setPower(0);
                     }
                     if (position == 3) {
                         liftChain.setPower(.5);
-                    } else {
-                        liftChain.setPower(0);
                     }
                     if (position == 4) {
                         elbow.setPower(.5);
-                    } else {
-                        elbow.setPower(0);
                     }
+                } else {
+                    foot.setPower(0);
+                    elbow.setPower(0);
+                    liftChain.setPower(0);
+                    liftRope.setPower(0);
                 }
 
                 // control motor selection
                 if (!last.dpad_up && gamepad1.dpad_up) {
-                    position++;
+                    position--;
                     if (position > 4) {
                         position = 1;
                     }
@@ -148,6 +149,8 @@ public class FindLimits extends LinearOpMode {
 
 //------------------------------------------------------------------- Manual
             if (currentMode == Mode.MANUAL) {
+
+                telemetry.addData("DO NOT USE, UNFINISHED ", "");
 
                 // make telemetry and menu
                 if (position == 1) {
@@ -251,16 +254,16 @@ public class FindLimits extends LinearOpMode {
                 } else {
                     liftRope.setPower(0);
                     liftChain.setPower(0);
-                }if (footFrozen) {
-                    foot.setTargetPosition(foot.getCurrentPosition());
-                    foot.setPower(1);
-                    foot.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                }if (elbowFrozen) {
+                    elbow.setTargetPosition(foot.getCurrentPosition());
+                    elbow.setPower(1);
+                    elbow.setMode(DcMotor.RunMode.RUN_TO_POSITION);
                 } else {
-                    foot.setPower(0);
+                    elbow.setPower(0);
                 }
             }
 
-            last = gamepad1;
+            last.copy(gamepad1);
             telemetry.update();
         }
 

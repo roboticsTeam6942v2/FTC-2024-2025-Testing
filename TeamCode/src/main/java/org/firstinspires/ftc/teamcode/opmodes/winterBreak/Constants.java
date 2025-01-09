@@ -8,34 +8,36 @@ import java.util.HashMap;
 
 public class Constants {
 
-    final static double SHOULDER_BOOSTER = 8, ELBOW_BOOSTER = 8, FINGER_STEP = .05, WRIST_STEP = .05;
-
     public enum RobotPositions {
         INITIAL, HOVERING_TO_GRAB, GRABBING, LOW_BASKET, HIGH_BASKET
     }
 
-    public static boolean directionIsSetUp = false;
+    public static boolean directionIsSetUp = true;
     public static DcMotorSimple.Direction
-            footDirection = DcMotorSimple.Direction.FORWARD,
-            liftRopeDirection = DcMotorSimple.Direction.FORWARD,
-            liftChainDirection = DcMotorSimple.Direction.FORWARD,
-            elbowDirection = DcMotorSimple.Direction.FORWARD;
+            footDirection = DcMotorSimple.Direction.FORWARD, // goes up
+            liftRopeDirection = DcMotorSimple.Direction.FORWARD, // goes up
+            liftChainDirection = DcMotorSimple.Direction.REVERSE, // goes down
+            elbowDirection = DcMotorSimple.Direction.REVERSE, // goes out
+            BLFRDrivetrainDirection = DcMotorSimple.Direction.FORWARD, // goes up
+            BRFLDrivetrainDirection = DcMotorSimple.Direction.REVERSE; // goes up
 
     public static Integer
             elbowExtend = null,
-            elbowRetract = null,
-            liftLow = null,
+            elbowRetract = 0,
+            liftDown = 0,
             liftHover = null,
             liftMid = null,
             liftHigh = null,
-            footDown = null;
+            footDown = 0;
 
     public static Double
-            wristGrab = null,
-            wristPlace = null,
-            fingersOpen = null,
-            fingersClosed = null,
-            shoulderUp = 1.0,
+            wristGrab = 0.325,
+            wristPlace = 0.2,
+            wristFold = 0.85,
+            wristExtend = 0.0,
+            fingersOpen = 0.75,
+            fingersClosed = 0.45,
+            shoulderUp = 0.0,
             shoulderDown = 0.3;
 
     public static HashMap<RobotPositions, RobotPositionsData> positions = new HashMap<>();
@@ -45,20 +47,23 @@ public class Constants {
         // INITIAL position have been filled in for you as a sample
         // please fill in HOVERING_TO_GRAB, GRABBING, LOW_BASKET, and HIGH_BASKET
         // if you want to make new ones be my guest, youll have to add the name of the position to line 13 then add a new positions.put()
-        positions.put(RobotPositions.INITIAL, new RobotPositionsData(0, null, null));
-        positions.put(RobotPositions.HOVERING_TO_GRAB, new RobotPositionsData(liftHover, wristGrab, shoulderDown));
+        positions.put(RobotPositions.INITIAL, new RobotPositionsData(liftDown, wristFold, elbowRetract));
+        positions.put(RobotPositions.HOVERING_TO_GRAB, new RobotPositionsData(liftHover, wristGrab, elbowExtend));
+        positions.put(RobotPositions.GRABBING, new RobotPositionsData(liftDown, wristGrab, elbowExtend));
+        positions.put(RobotPositions.LOW_BASKET, new RobotPositionsData(liftMid, wristPlace, elbowExtend));
+        positions.put(RobotPositions.HIGH_BASKET, new RobotPositionsData(liftHigh, wristPlace, elbowExtend));
 
     }
 
 
     public static class RobotPositionsData {
-        Integer lift;
-        Double wrist, shoulder;
+        Integer lift, elbow;
+        Double wrist;
 
-        private RobotPositionsData(Integer lift, Double wrist, Double shoulder) {
+        private RobotPositionsData(Integer lift, Double wris, Integer elbow) {
             this.lift = lift;
             this.wrist = wrist;
-            this.shoulder = shoulder;
+            this.elbow = elbow;
         }
     }
 

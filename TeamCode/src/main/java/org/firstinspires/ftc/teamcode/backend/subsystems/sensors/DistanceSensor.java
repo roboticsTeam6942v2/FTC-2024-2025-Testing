@@ -1,7 +1,5 @@
 package org.firstinspires.ftc.teamcode.backend.subsystems.sensors;
 
-import androidx.annotation.NonNull;
-
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
@@ -17,7 +15,7 @@ public class DistanceSensor extends subsystem {
      * @param name  Name of the DistanceSensor in the phone
      * @param hwMap HardwareMap object from OpMode
      */
-    public DistanceSensor(String name, @NonNull HardwareMap hwMap, Telemetry telemetry) {
+    public DistanceSensor(String name, HardwareMap hwMap, Telemetry telemetry) {
         super(hwMap, telemetry);
         distanceSensor = hwMap.get(com.qualcomm.robotcore.hardware.DistanceSensor.class, name);
     }
