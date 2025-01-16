@@ -18,7 +18,7 @@ public class Constants {
             BRFLDrivetrainDirection = DcMotorSimple.Direction.REVERSE; // goes up
 
     public static Integer
-            elbowExtend = 4500,
+            elbowExtend = 4350,
             elbowRetract = 0,
             liftDown = 0,
             liftGrabbing = 300,
@@ -30,9 +30,9 @@ public class Constants {
     public static Double
             wristGrab = 0.325,
             wristPlace = 0.0, // not in use until servo shoulders work, 0.2 will be the 45 deg
-            wristFold = 0.85,
-            fingersOpen = 0.75,
-            fingersClosed = 0.45,
+            wristFold = 0.85,//.75
+            fingersOpen = 0.85,
+            fingersClosed = 0.45,//.45
             shoulderUp = 0.0,
             shoulderDown = 0.3;
 }

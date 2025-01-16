@@ -13,7 +13,7 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 public class TeleOp extends LinearOpMode {
 
     DcMotorEx elbow, backLeft, backRight, frontLeft, frontRight, foot, liftRope, liftChain;
-    Servo fingers, wrist;
+    Servo fingers, wrist; // testing testing 234
 
     double elbowBooster = 400, speedReduction = 0.45, turnDamper = .75;
     int tolerance = 10; // increase until the shaking stops
@@ -76,7 +76,7 @@ public class TeleOp extends LinearOpMode {
         liftRope.setPower(1);
 
         liftChain = hardwareMap.get(DcMotorEx.class, "liftChain");
-        liftChain.setDirection(Constants.liftRopeDirection);
+        liftChain.setDirection(Constants.liftChainDirection);
         liftChain.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
         liftChain.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         liftChain.setZeroPowerBehavior(DcMotor.ZeroPowerBehavior.BRAKE);
@@ -107,10 +107,12 @@ public class TeleOp extends LinearOpMode {
             }
 
             // try to make lift work
+            //
             int position = (int) (liftChain.getCurrentPosition() + (100 * gamepad1.right_trigger) - (100 * gamepad1.left_trigger));
 
-            position = Math.min(6000, position);
+            position = Math.min(6000, position); // set max limit
 
+            // tolerance stops it from stuttering and slowly going down when its up
             if (Math.abs(position - lastTargetPosition) > tolerance) {
                 liftRope.setTargetPosition((int) (position * 1.05));
                 liftChain.setTargetPosition(Math.max(200, position));
@@ -118,6 +120,7 @@ public class TeleOp extends LinearOpMode {
                 lastTargetPosition = position;
             }
 
+            // if you hold back it retracts back to zero for climbing
             if (gamepad1.back) {
                 liftChain.setTargetPosition(0);
                 gamepad1.rumbleBlips(1);
@@ -162,6 +165,7 @@ public class TeleOp extends LinearOpMode {
 
             // control fingers
             boolean current2AButtonState = gamepad2.a;
+            // rising edge
             if (current2AButtonState && !previous2AButtonState) {
                 fingersOpen = !fingersOpen;
             }
